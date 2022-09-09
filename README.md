@@ -4,14 +4,18 @@ FlowTE is a tool with a workflow to find and classify transposable elements (TEs
 It utilizes [Red](https://github.com/BioinformaticsToolsmith/Red) to find genomic repeats and, using the power of convolutional neural networks feature extraction, 6 models to classify sequences as either being a TE or not, and then, the ones classified as TEs to the level of super family.
 
 - [Install](#installation)
-	- [Conda environment](#conda)
-	- [Manually](#depends)
-	
+  - [Conda environment](#conda)
+  - [Manually](#depends)
+
 ## Install <a name="installation"></a>
 
 FlowTE can be installed either by creating a conda environment or manually. The first step is to [download](https://github.com/Tiago-Minuzzi/FlowTE/archive/refs/heads/main.zip) or clone this repo. To clone it run:
 
 `git clone https://github.com/Tiago-Minuzzi/FlowTE`
+
+Decompress the `flowte_models.tar.xz`  in the `models` directory using your favorite application or via command-line using:
+
+`tar xJvf flowte_models.tar.xz`
 
 After that, you can install the dependecies through a conda environment or manually.
 
@@ -43,6 +47,3 @@ If want a conda-free installation, it can be done manually by installing the dep
 For the manual installation, it's suggest to use a Python version management tool such as [Pyenv](https://github.com/pyenv/pyenv) and use it through a virtual environment to avoid depency conflicts. You can run `pip install -r requirements.txt` to install the Python packages needed.
 
 To install Red, you will need to clone [Red's github repository](https://github.com/BioinformaticsToolsmith/Red), change the name of your `C++` compiler inside Red's makefile and [compile the program](https://github.com/BioinformaticsToolsmith/Red/blob/master/src_2.0/HowToCompile.txt).
-
-
-
