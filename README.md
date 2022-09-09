@@ -31,9 +31,11 @@ If want a conda-free installation, it can be done manually by installing the dep
 - scikit-learn=1.0.1
 - scipy=1.4.1
 - tensorflow=2.1.0
-- Red (see on Red's github page)
+- Red
 
+For the manual installation, it's suggest to use a Python version management tool such as [Pyenv](https://github.com/pyenv/pyenv) and use it through a virtual environment to avoid depency conflicts. You can run `pip install -r requirements.txt` to install the Python packages needed.
 
+To install Red, you will need to clone [Red's github repository](https://github.com/BioinformaticsToolsmith/Red), change the name of your `C++` compiler inside Red's makefile and [compile the program](https://github.com/BioinformaticsToolsmith/Red/blob/master/src_2.0/HowToCompile.txt).
 
 
 
