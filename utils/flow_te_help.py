@@ -1,0 +1,31 @@
+import argparse
+
+
+def restricted_float(x):
+    try:
+        x = float(x)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"{x} not a floating-point literal.")
+
+    if not 0.0 < x < 1.0:
+        raise argparse.ArgumentTypeError(f"{x} not in range [0.0, 1.0].")
+    return x
+
+
+parser = argparse.ArgumentParser(prog = "flowTE.py", description = "Find repeats in eukaryotic genomes and classify them using deep learning.")
+parser.add_argument('-f', '--fasta',
+                    help = 'Genome or repeats/TEs fasta file.',
+                    required = True)
+parser.add_argument('-m','--mode',
+                    type=str,
+                    default='genome',
+                    help="Type 'g' for genome mode or 'c' for classifier mode (default = genome).")
+parser.add_argument('-c', '--cutoff',
+                    type = restricted_float,
+                    default = 0.9,
+                    help = "Cutoff value for MITE identification. Value must be between 0 and 1 (default = 0.9).")
+parser.add_argument('-b','--batch_value',
+                    type = int,
+                    default = 4,
+                    help = "Set batch size (Default = 4).")
+args = parser.parse_args()
