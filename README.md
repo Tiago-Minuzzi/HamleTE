@@ -4,14 +4,21 @@ FlowTE is a tool with a workflow to find and classify transposable elements (TEs
 It utilizes [Red](https://github.com/BioinformaticsToolsmith/Red) to find genomic repeats and, using the power of convolutional neural networks feature extraction, 6 models to classify sequences as either being a TE or not, and then, the ones classified as TEs to the level of super family.
 
 - [Installation](#installation)
-	- [Dependencies](#depends)
+	- [Conda](#conda)
+	- [Manually](#depends)
 ## Installation <a name="installation"></a>
 
-FlowTE can be easily installed by creating a conda environment with the following command:
+FlowTE can be installed either by creating a conda environment or manually.
+
+### Conda <a name="conda"></a>
 
 `conda env create -f flowte_env.yml`
 
-### Dependencies <a name="depends"></a>
+Then, you can enter the conda environment running the command:
+
+`conda activate flowte`
+
+### Manually<a name="depends"></a>
 
 If want a conda-free installation, it can be done manually by installing the depencies below:
 
