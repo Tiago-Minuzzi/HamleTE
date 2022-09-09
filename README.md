@@ -3,22 +3,29 @@
 FlowTE is a tool with a workflow to find and classify transposable elements (TEs) in eukaryotic genomes using deep learning.
 It utilizes [Red](https://github.com/BioinformaticsToolsmith/Red) to find genomic repeats and, using the power of convolutional neural networks feature extraction, 6 models to classify sequences as either being a TE or not, and then, the ones classified as TEs to the level of super family.
 
-- [Installation](#installation)
-	- [Conda](#conda)
+- [Install](#installation)
+	- [Conda environment](#conda)
 	- [Manually](#depends)
-## Installation <a name="installation"></a>
+	
+## Install <a name="installation"></a>
 
-FlowTE can be installed either by creating a conda environment or manually.
+FlowTE can be installed either by creating a conda environment or manually. The first step is to [download](https://github.com/Tiago-Minuzzi/FlowTE/archive/refs/heads/main.zip) or clone this repo. To clone it run:
 
-### Conda <a name="conda"></a>
+`git clone https://github.com/Tiago-Minuzzi/FlowTE`
+
+After that, you can install the dependecies through a conda environment or manually.
+
+### Conda environment <a name="conda"></a>
+
+If you don't have conda installed, you can check how to install on [miniconda's webpage](https://docs.conda.io/en/latest/miniconda.html). With conda installed on your system you can easily create a conda environment containing all dependecies by running:
 
 `conda env create -f flowte_env.yml`
 
-Then, you can enter the conda environment running the command:
+Then, you can enter the conda environment with the command:
 
 `conda activate flowte`
 
-### Manually<a name="depends"></a>
+### Manually <a name="depends"></a>
 
 If want a conda-free installation, it can be done manually by installing the depencies below:
 
