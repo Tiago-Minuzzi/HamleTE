@@ -32,7 +32,7 @@ def label_pred_dataframe(fasta_ids, prediction_results):
     label_pred_df['prediction'] = label_pred_df[colunas].idxmax(axis=1)
     return label_pred_df
 
-def label_prediction(in_fasta: str, batch_size_value=4):
+def label_prediction(in_fasta, batch_size_value=4):
     modelo = '../models/te_identifier.hdf5'
     label_model = modelo
     PADVALUE = 30_000
