@@ -3,15 +3,6 @@ import shutil
 import subprocess
 from pathlib import Path
 
-# Input file
-input_fasta = Path(sys.argv[1])
-renamed_fasta = Path(f'{input_fasta.stem}.fa')
-# Temporary directory and Red output directory
-temp_dir = Path('tmp')
-redout_dir = temp_dir/'redout'
-# Output files
-masked_fasta = f'{renamed_fasta.stem}.msk'
-repeats = f'{renamed_fasta.stem}.rpt'
 
 # def location_handler():
 #     # Create temporary directory, if not exists.
@@ -28,6 +19,8 @@ repeats = f'{renamed_fasta.stem}.rpt'
     
 def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
     """Run Red and find repeats"""
+    # temporarily move input fasta and change extensions to 'fa'
+    renamed_fasta = Path(f'{input_fasta.stem}.fa')
 
     # Create temporary directory, if not exists.    
     if not temp_dir.exists():
@@ -49,6 +42,9 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
                              
     # If Red succeeds, move output files out of Red directory 
     if red_sftw.returncode == 0:
+        # Output files
+        masked_fasta = f'{renamed_fasta.stem}.msk'
+        repeats = f'{renamed_fasta.stem}.rpt'
         # move input fasta to original location
         shutil.move(temp_dir/renamed_fasta,input_fasta)
         
@@ -64,7 +60,3 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
         
         # remove redout directory
         redout_dir.rmdir()
-
-
-if __name__ == "__main__":
-    red_repeat_finder()
