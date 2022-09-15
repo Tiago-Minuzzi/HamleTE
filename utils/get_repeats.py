@@ -12,7 +12,7 @@ def repeats_to_fasta(masked_fasta: str, repeats_file: str, repeats_fasta: str) -
         for linha in rpts:
             linha=linha.strip()[1:] # remove '>' from line
             # get sequence name and repeat coordinates
-            fid, coords = linha.split(':')
+            fid, coords = linha.rsplit(':',1)
             sstart, send = coords.split('-')
             sstart, send = int(sstart), int(send)
             # get sequence
