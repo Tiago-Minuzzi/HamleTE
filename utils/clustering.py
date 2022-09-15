@@ -13,5 +13,5 @@ def cluster_sequences(repeats_fasta: str, clustered_fasta: str) -> TextIO:
                             '-T','0']) # Number of threads to use. 0 means all threads.
     
 
-if __name__ == "__main__":
-    cluster_sequences(repeats_fasta, clustered_fasta)
+# if __name__ == "__main__":
+#     cluster_sequences(repeats_fasta, clustered_fasta)
