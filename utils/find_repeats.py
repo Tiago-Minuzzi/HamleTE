@@ -13,8 +13,23 @@ redout_dir = temp_dir/'redout'
 masked_fasta = f'{renamed_fasta.stem}.msk'
 repeats = f'{renamed_fasta.stem}.rpt'
 
-def location_handler():
-    # Create temporary directory, if not exists.
+# def location_handler():
+#     # Create temporary directory, if not exists.
+#     if not temp_dir.exists():
+#         temp_dir.mkdir()
+
+#     # Create Red directory, if not exists.
+#     if not redout_dir.exists():
+#         redout_dir.mkdir()
+
+#     # Move input fasta to temp directory
+#     if input_fasta.exists():
+#         shutil.move(input_fasta, temp_dir/renamed_fasta)
+    
+def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
+    """Run Red and find repeats"""
+
+    # Create temporary directory, if not exists.    
     if not temp_dir.exists():
         temp_dir.mkdir()
 
@@ -25,10 +40,7 @@ def location_handler():
     # Move input fasta to temp directory
     if input_fasta.exists():
         shutil.move(input_fasta, temp_dir/renamed_fasta)
-    
-def red_repeat_finder():
-    """Run Red and find repeats"""
-    location_handler()
+
     # Run Red
     red_sftw = subprocess.run(['Red',
                              '-gnm',temp_dir,
