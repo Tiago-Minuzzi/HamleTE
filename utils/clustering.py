@@ -2,9 +2,6 @@ import subprocess
 from typing import TextIO
 
 
-repeats_fasta = '/home/tiago/Desktop/fastas/trep_dna.fasta'
-clustered_fasta = '/home/tiago/Desktop/teste.fasta'
-
 def cluster_sequences(repeats_fasta: str, clustered_fasta: str) -> TextIO:
     """Run cd-hit-est to cluster most similar predicted TE sequences."""
     cdhit = subprocess.run(['cd-hit-est',
