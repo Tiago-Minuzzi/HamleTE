@@ -45,8 +45,5 @@ cluster_sequences(repeats_fasta_location, clustered_fasta_location)
 
 # Predict TEs from clustered repeats
 print('### STEP 01: TE prediction ###')
-df = label_prediction(clustered_fasta_location)
-print(df)
-saida = step01_te_pred_df
-df.to_csv(saida, index=False, sep='\t')
+label_prediction(clustered_fasta_location, step01_te_pred_df)
 print('Done!')

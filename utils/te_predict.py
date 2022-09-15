@@ -5,7 +5,7 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
-from prediction_utils import fasta_frame, tokenize_sequences
+from utils.prediction_utils import fasta_frame, tokenize_sequences
 from Bio import SeqIO
 from numpy import array
 from numpy import argmax
@@ -32,8 +32,8 @@ def label_pred_dataframe(fasta_ids, prediction_results):
     label_pred_df['prediction'] = label_pred_df[colunas].idxmax(axis=1)
     return label_pred_df
 
-def label_prediction(in_fasta, batch_size_value=4):
-    modelo = '../models/te_identifier.hdf5'
+def label_prediction(in_fasta, out_table, batch_size_value=4):
+    modelo = '/home/tiago/repos/FlowTE/models/te_identifier.hdf5'
     label_model = modelo
     PADVALUE = 30_000
     # Read fasta as dataframe
@@ -49,15 +49,7 @@ def label_prediction(in_fasta, batch_size_value=4):
     pred_values = modelo.predict(padded_seqs, batch_size = batch_size_value, verbose = 1)
     # Predict labels
     results_df = label_pred_dataframe(identifiers, pred_values)
-    return results_df
+    results_df.to_csv(out_table, index=False, sep='\t')
 
 
-if __name__ == '__main__':
-    entrada = sys.argv[1]
-    print('Running...')
-    df = label_prediction(entrada)
-    print(df)
-    saida = sys.argv[2]
-    df.to_csv(saida, index=False, sep='\t')
-    print('Done!')
 
