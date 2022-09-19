@@ -1,7 +1,7 @@
 name: flowte
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
@@ -70,6 +70,7 @@ dependencies:
     - tensorflow-estimator==2.1.0
     - termcolor==1.1.0
     - threadpoolctl==3.1.0
+    - tomli==2.0.1
     - typing-extensions==4.3.0
     - urllib3==1.26.12
     - werkzeug==2.2.2
