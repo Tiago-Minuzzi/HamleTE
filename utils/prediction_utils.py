@@ -5,6 +5,7 @@ import pathlib
 import numpy as np
 import pandas as pd
 from Bio import SeqIO
+from Bio.SeqIO.FastaIO import SimpleFastaParser
 # Hide warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 stderr = sys.stderr
@@ -27,23 +28,14 @@ class InputFile:
         self.pred_results_tsv = self.base_name + '_candidates.tsv'
 
 
-def fasta_frame(fasta_file):
-    # Initialize fasta ids and fasta sequences lists
+def fasta_reader(fasta_file: str):
     fids = []
-    fseq = []
-    with open(fasta_file) as fasta:
-        # Parse fasta file
-        for record in SeqIO.parse(fasta, 'fasta'):
-            fids.append(record.description) # append ids to list
-            fseq.append(str(record.seq).lower()) # append sequences to list
-    # lists to pandas series
-    s1 = pd.Series(fids, name = 'id')
-    s2 = pd.Series(fseq, name = 'sequence')
-    # create dictionary
-    data = {'id': s1, 'sequence': s2}
-    # create dataframe
-    df = pd.concat(data, axis=1)
-    return df
+    fsqs = []
+    with open(fasta_file) as fa:
+        for fid, fsq in SimpleFastaParser(fa):
+            fids.append(fid)
+            fsqs.append(fsq)
+    return fids, fsqs
 
 
 def tokenize_sequences(sequencias):
@@ -54,3 +46,5 @@ def tokenize_sequences(sequencias):
     # tokenize sequences
     x_seq_arrays = tkz_seq.texts_to_sequences(sequencias)
     return x_seq_arrays
+
+
