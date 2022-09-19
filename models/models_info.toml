@@ -1,4 +1,29 @@
-[te_identifier]
+[te_model]
 name = 'TE identifier'
 location = '/home/tiago/repos/FlowTE/models/te_identifier.hdf5'
 labels = ['coding', 'noncod', 'te']
+
+[class_model]
+name = 'TE class identifier'
+location = '/home/tiago/repos/FlowTE/models/te_class.hdf5'
+labels = ['retro', 'dna']
+
+[retro_model]
+name = 'LTR/non-LTR identifier'
+location = '/home/tiago/repos/FlowTE/models/retro.hdf5'
+labels = ['nonLTR', 'LTR']
+
+[dna_model]
+name = 'Class 2 classifier'
+location = '/home/tiago/repos/FlowTE/models/dna_te.hdf5'
+labels = ['hat', 'helitron', 'mutator', 'pif-harbinger', 'tcmar']
+
+[ltr_model]
+name = 'LTR classifier'
+location = '/home/tiago/repos/FlowTE/models/LTR.hdf5'
+labels = ['bel', 'copia', 'gypsy']
+
+[nonltr_model]
+name = 'non-LTR classifier'
+location = '/home/tiago/repos/FlowTE/models/nonLTR.hdf5'
+labels = ['cre', 'line', 'l1', 'penelope', 'rte', 'dirs', 'sine']

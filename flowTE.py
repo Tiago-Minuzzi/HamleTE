@@ -7,9 +7,17 @@ from utils.clustering import cluster_sequences
 from utils.te_predict import Predictor
 
 # Model info TOML
+## load TOML file
 models_toml = open('models/models_info.toml','rb')
 models_info = tomli.load(models_toml)
-model_01 = models_info['te_identifier']
+
+## models info
+model_01 = models_info['te_model']
+model_02 = models_info['class_model']
+model_03 = models_info['retro_model']
+model_04 = models_info['dna_model']
+model_05 = models_info['ltr_model']
+model_06 = models_info['nonltr_model']
 
 # Genome/library in fasta format
 input_fasta = Path(helper.args.fasta)
