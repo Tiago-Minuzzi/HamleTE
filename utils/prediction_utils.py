@@ -23,9 +23,7 @@ class InputFile:
         # file parent directory
         self.in_file_dir = self.in_file.absolute().parent
         # crete directory to store output files
-        self.results_dir = self.in_file_dir / f'MITE_bdeep_results_{self.base_name}'
-        # resulting file from predictions
-        self.pred_results_tsv = self.base_name + '_candidates.tsv'
+        self.results_dir = self.in_file_dir / f'FlowTE_results_{self.base_name}'
 
 
 def fasta_reader(fasta_file: str):
@@ -48,3 +46,13 @@ def tokenize_sequences(sequencias):
     return x_seq_arrays
 
 
+def label_pred_dataframe(fasta_ids, prediction_results, colunas):
+    # Labels
+    prediction_results = prediction_results[:,1:]
+    # Create dataframe
+    label_pred_df = pd.DataFrame(prediction_results, columns = colunas)*100
+    label_pred_df = label_pred_df.round(3)
+    label_pred_df = pd.concat([fasta_ids,label_pred_df],axis=1)
+    # Create label column
+    label_pred_df['prediction'] = label_pred_df[colunas].idxmax(axis=1)
+    return label_pred_df
