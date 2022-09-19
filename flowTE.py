@@ -1,9 +1,15 @@
+import tomli
 from pathlib import Path
 import utils.flow_te_help as helper
 from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
-from utils.te_predict import label_pred_dataframe, label_prediction
+from utils.te_predict import Predictor
+
+# Model info TOML
+models_toml = open('models/models_info.toml','rb')
+models_info = tomli.load(models_toml)
+model_01 = models_info['te_identifier']
 
 # Genome/library in fasta format
 input_fasta = Path(helper.args.fasta)
@@ -48,6 +54,11 @@ if not clustered_fasta_location.exists():
     clustered_fasta_location = input_fasta
     temp_dir.mkdir(exist_ok=True)
 # Predict TEs from clustered repeats
-    print('### Running TE prediction ###')
-    label_prediction(clustered_fasta_location, step01_te_pred_df)
+    print(f'### Running model {model_01["name"]} ###')
+    
+    pred_01 = Predictor(model_01['location'], model_01['labels'])
+    pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df)
+    
     print('Done!')
+
+models_toml.close()

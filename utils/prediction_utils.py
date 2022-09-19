@@ -38,7 +38,7 @@ def fasta_reader(fasta_file: str):
 
 
 def tokenize_sequences(sequencias):
-    '''Transforme nucleotides in tokens in a vector.'''
+    '''Transform nucleotides in tokens in a vector.'''
     # Initialize tokenizer
     tkz_seq = Tokenizer(num_words = None, split = ' ', char_level = True, lower = True)
     # fit fasta sequences to text

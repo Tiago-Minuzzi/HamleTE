@@ -1,0 +1,4 @@
+[te_identifier]
+name = 'TE identifier'
+location = '/home/tiago/repos/FlowTE/models/te_identifier.hdf5'
+labels = ['coding', 'noncod', 'te']
