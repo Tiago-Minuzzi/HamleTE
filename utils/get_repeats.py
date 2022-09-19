@@ -1,9 +1,6 @@
 from pyfaidx import Fasta
 from typing import TextIO
 
-# masked_fasta = Fasta('./tmp/chr1.msk', read_long_names=True)
-# repeats_file = 'tmp/chr1.rpt'
-# repeats_fasta = 'tmp/repeats_chr1.fasta'
 
 def repeats_to_fasta(masked_fasta: str, repeats_file: str, repeats_fasta: str) -> TextIO:
     """ Read repeat coordinates from Red output and save the repeats in a fasta file."""
@@ -22,6 +19,3 @@ def repeats_to_fasta(masked_fasta: str, repeats_file: str, repeats_fasta: str) -
                 # write sequences to file
                 sd.write(record)
                 
-
-# if __name__ == "__main__":
-#     repeats_to_fasta(masked_fasta, repeats_file, repeats_fasta)

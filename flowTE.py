@@ -48,6 +48,6 @@ if not clustered_fasta_location.exists():
     clustered_fasta_location = input_fasta
     temp_dir.mkdir(exist_ok=True)
 # Predict TEs from clustered repeats
-    print('### STEP 01: TE prediction ###')
+    print('### Running TE prediction ###')
     label_prediction(clustered_fasta_location, step01_te_pred_df)
     print('Done!')

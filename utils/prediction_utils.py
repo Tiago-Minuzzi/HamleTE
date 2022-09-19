@@ -27,8 +27,9 @@ class InputFile:
 
 
 def fasta_reader(fasta_file: str):
-    fids = []
-    fsqs = []
+    '''Read fasta file'''
+    fids = [] # fasta identifiers list
+    fsqs = [] # fasta sequences list
     with open(fasta_file) as fa:
         for fid, fsq in SimpleFastaParser(fa):
             fids.append(fid)
@@ -37,6 +38,7 @@ def fasta_reader(fasta_file: str):
 
 
 def tokenize_sequences(sequencias):
+    '''Transforme nucleotides in tokens in a vector.'''
     # Initialize tokenizer
     tkz_seq = Tokenizer(num_words = None, split = ' ', char_level = True, lower = True)
     # fit fasta sequences to text
@@ -47,6 +49,7 @@ def tokenize_sequences(sequencias):
 
 
 def label_pred_dataframe(fasta_ids, prediction_results, colunas):
+    '''Return prediction values as dataframe'''
     # Labels
     prediction_results = prediction_results[:,1:]
     # Create dataframe
@@ -56,3 +59,4 @@ def label_pred_dataframe(fasta_ids, prediction_results, colunas):
     # Create label column
     label_pred_df['prediction'] = label_pred_df[colunas].idxmax(axis=1)
     return label_pred_df
+

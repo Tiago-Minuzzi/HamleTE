@@ -20,7 +20,8 @@ from keras.preprocessing.sequence import pad_sequences
 sys.stderr = stderr
 
 
-def label_prediction(in_fasta, out_table, batch_size_value=4):
+def label_prediction(in_fasta: str, out_table: str, batch_size_value: int = 4):
+    '''Run model to predict classes and return the predictions as a tsv file'''
     modelo = '/home/tiago/repos/FlowTE/models/te_identifier.hdf5'
     label_model = modelo
     PADVALUE = 30_000
