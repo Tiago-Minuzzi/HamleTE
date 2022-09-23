@@ -5,8 +5,8 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
-from utils.prediction_utils import tokenize_sequences, fasta_reader, label_pred_dataframe
-from Bio import SeqIO
+from utils.prediction_utils import tokenize_sequences, batch_iterator, label_pred_dataframe
+from Bio.SeqIO.FastaIO import SimpleFastaParser
 from numpy import array
 from numpy import argmax
 from dataclasses import dataclass
@@ -30,19 +30,27 @@ class Predictor:
         modelo = self.location
         colunas = self.labels
         PADVALUE = 30_000
-        # Read fasta file
-        identifiers, sequences = fasta_reader(in_fasta)
-        # Tokenize sequences
-        tokenized_seqs = tokenize_sequences(sequences)
-        # Pad sequences
-        padded_seqs = pad_sequences(tokenized_seqs, padding='post', maxlen = PADVALUE)
         # Load model
         modelo = load_model(modelo)
-        pred_values = modelo.predict(padded_seqs,
-                                    batch_size = batch_size_value,
-                                    verbose = 1)
-        # Predict labels
-        identifiers = pd.Series(identifiers)
-        results_df = label_pred_dataframe(identifiers, pred_values, colunas)
-        results_df.to_csv(out_table, index=False, sep='\t')
+        predictions = []
+        with open(in_fasta) as fa:
+            for record in batch_iterator(SimpleFastaParser(fa), 50):
+                identifiers = []
+                sequences = []
+                for fid, fsq in record:
+                    identifiers.append(fid)
+                    sequences.append(fsq)
+                # Tokenize sequences
+                tokenized_seqs = tokenize_sequences(sequences)
+                # Pad sequences
+                padded_seqs = pad_sequences(tokenized_seqs, padding='post', maxlen = PADVALUE)
+                pred_values = modelo.predict(padded_seqs,
+                                            batch_size = batch_size_value,
+                                            verbose = 1)
+                # Predict labels
+                identifiers = pd.Series(identifiers)
+                results_df = label_pred_dataframe(identifiers, pred_values, colunas)
+                predictions.append(results_df)
+        predictions = pd.concat(predictions)
+        predictions.to_csv(out_table, index=False, sep='\t')
 

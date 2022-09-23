@@ -37,6 +37,15 @@ def fasta_reader(fasta_file: str):
     return fids, fsqs
 
 
+def batch_iterator(iterator, size):
+    batch = []
+    for entry in iterator:
+        batch.append(entry)
+        if len(batch) == size:
+            yield batch
+            batch = []
+
+
 def tokenize_sequences(sequencias):
     '''Transform nucleotides in tokens in a vector.'''
     # Initialize tokenizer
