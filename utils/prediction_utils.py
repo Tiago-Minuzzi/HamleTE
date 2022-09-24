@@ -44,6 +44,8 @@ def batch_iterator(iterator, size):
         if len(batch) == size:
             yield batch
             batch = []
+    else:
+        yield batch
 
 
 def tokenize_sequences(sequencias):
