@@ -58,15 +58,16 @@ if helper.args.mode == 'g':
 # Cluster sequences using cd-hit-est
     cluster_sequences(repeats_fasta_location, clustered_fasta_location)
 
-if not clustered_fasta_location.exists():
+elif helper.args.mode == 'c':
     clustered_fasta_location = input_fasta
     temp_dir.mkdir(exist_ok=True)
+    
 # Predict TEs from clustered repeats
-    print(f'### Running model {model_01["name"]} ###')
-    
-    pred_01 = Predictor(model_01['location'], model_01['labels'])
-    pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df)
-    
-    print('Done!')
+print(f'### Running model {model_01["name"]} ###')
+
+pred_01 = Predictor(model_01['location'], model_01['labels'])
+pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df)
+
+print('Done!')
 
 models_toml.close()

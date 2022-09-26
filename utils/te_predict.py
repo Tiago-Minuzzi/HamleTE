@@ -48,7 +48,7 @@ class Predictor:
                                             batch_size = batch_size_value,
                                             verbose = 1)
                 # Predict labels
-                identifiers = pd.Series(identifiers)
+                identifiers = pd.Series(identifiers, name='id')
                 results_df = label_pred_dataframe(identifiers, pred_values, colunas)
                 predictions.append(results_df)
         predictions = pd.concat(predictions)
