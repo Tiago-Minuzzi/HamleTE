@@ -1,12 +1,12 @@
 [te_model]
 name = 'TE identifier'
 location = '/home/tiago/repos/FlowTE/models/te_identifier.hdf5'
-labels = ['coding', 'noncod', 'te']
+labels = ['coding', 'noncod', 'TE']
 
 [class_model]
 name = 'TE class identifier'
 location = '/home/tiago/repos/FlowTE/models/te_class.hdf5'
-labels = ['retro', 'dna']
+labels = ['Retro', 'DNA']
 
 [retro_model]
 name = 'LTR/non-LTR identifier'

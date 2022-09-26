@@ -4,7 +4,7 @@ import utils.flow_te_help as helper
 from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
-from utils.te_predict import Predictor
+from utils.te_predict import Predictor, get_seq_from_pred
 
 # Model info TOML
 ## load TOML file
@@ -47,6 +47,7 @@ clustered_fasta_location = temp_dir / clustered_fasta
 
 ## TE prediction dataframe
 step01_te_pred_df = temp_dir / f'{base_name}_te_prediction.tsv'
+step01_te_fasta = temp_dir / f'{base_name}_TE.fasta'
 
 if helper.args.mode == 'g':
 # Find repeats using Red
@@ -67,6 +68,9 @@ print(f'### Running model {model_01["name"]} ###')
 
 pred_01 = Predictor(model_01['location'], model_01['labels'])
 pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df)
+
+# Get sequences
+get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta)
 
 print('Done!')
 

@@ -4,7 +4,6 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
-from Bio import SeqIO
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 # Hide warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -59,7 +58,7 @@ def tokenize_sequences(sequencias):
     return x_seq_arrays
 
 
-def label_pred_dataframe(fasta_ids, prediction_results, colunas):
+def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame:
     '''Return prediction values as dataframe'''
     # Labels
     prediction_results = prediction_results[:,1:]

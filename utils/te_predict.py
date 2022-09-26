@@ -9,6 +9,7 @@ from utils.prediction_utils import tokenize_sequences, batch_iterator, label_pre
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 from numpy import array
 from numpy import argmax
+from pathlib import Path
 from dataclasses import dataclass
 # Hide warning messages
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -54,3 +55,14 @@ class Predictor:
         predictions = pd.concat(predictions)
         predictions.to_csv(out_table, index=False, sep='\t')
 
+
+def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fasta: str) -> None:
+    
+    df = pd.read_table(pred_table)
+    label_ids = df.loc[df['prediction']==label]['id'].to_list()
+    reference_fasta = Path(reference_fasta)
+    with open(reference_fasta) as fa, open(out_fasta,'w') as sd:
+        for fid, fsq in SimpleFastaParser(fa):
+                if fid in label_ids:
+                    record = f'>{fid}\n{fsq}\n'
+                    sd.write(record)
