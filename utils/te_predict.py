@@ -25,7 +25,7 @@ class Predictor:
     location: str
     labels: list
 
-    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 4):
+    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 50):
         '''Run model to predict classes and return the predictions as a tsv file'''
         modelo = self.location
         colunas = self.labels
@@ -34,7 +34,7 @@ class Predictor:
         modelo = load_model(modelo)
         predictions = []
         with open(in_fasta) as fa:
-            for record in batch_iterator(SimpleFastaParser(fa), 50):
+            for record in batch_iterator(SimpleFastaParser(fa), batch_size_value):
                 identifiers = []
                 sequences = []
                 for fid, fsq in record:
