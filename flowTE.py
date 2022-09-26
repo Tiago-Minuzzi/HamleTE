@@ -46,8 +46,12 @@ clustered_fasta = f'{base_name}_clustered.fasta'
 clustered_fasta_location = temp_dir / clustered_fasta
 
 ## TE prediction dataframe
-step01_te_pred_df = temp_dir / f'{base_name}_te_prediction.tsv'
+step01_te_pred_df = temp_dir / f'{base_name}_TE_prediction.tsv'
 step01_te_fasta = temp_dir / f'{base_name}_TE.fasta'
+
+## Class prediction
+step02_te_pred_df = temp_dir / f'{base_name}_CLASS_prediction.tsv'
+step02_te_fasta = temp_dir / f'{base_name}_CLASS.fasta'
 
 if helper.args.mode == 'g':
 # Find repeats using Red
@@ -68,10 +72,15 @@ print(f'### Running model {model_01["name"]} ###')
 
 pred_01 = Predictor(model_01['location'], model_01['labels'])
 pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df)
-
-# Get sequences
+## Get sequences
 get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta)
 
-print('Done!')
+# Predict TE class
+print(f'### Running model {model_02["name"]} ###')
+pred_02 = Predictor(model_02['location'], model_02['labels'])
+pred_02.label_prediction(step01_te_fasta, step02_te_pred_df)
+# get_seq_from_pred(step02_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta)
+
+print('### DONE! ###')
 
 models_toml.close()
