@@ -1,5 +1,6 @@
 import tomli
 from pathlib import Path
+import multiprocessing
 import utils.flow_te_help as helper
 from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
@@ -52,6 +53,9 @@ step01_te_fasta = temp_dir / f'{base_name}_TE.fasta'
 ## Class prediction
 step02_te_pred_df = temp_dir / f'{base_name}_CLASS_prediction.tsv'
 step02_te_fasta = temp_dir / f'{base_name}_CLASS.fasta'
+pred_retro_fasta = temp_dir / f'{base_name}_RETRO.fasta'
+pred_dna_fasta = temp_dir / f'{base_name}_DNA.fasta'
+
 
 if helper.args.mode == 'g':
 # Find repeats using Red
@@ -79,7 +83,12 @@ get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_f
 print(f'### Running model {model_02["name"]} ###')
 pred_02 = Predictor(model_02['location'], model_02['labels'])
 pred_02.label_prediction(step01_te_fasta, step02_te_pred_df)
-# get_seq_from_pred(step02_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta)
+
+retro_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'Retro', step01_te_fasta, pred_retro_fasta])
+dna_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'DNA', step01_te_fasta, pred_dna_fasta])
+
+retro_mp.start()
+dna_mp.start()
 
 print('### DONE! ###')
 

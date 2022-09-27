@@ -61,6 +61,7 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
     df = pd.read_table(pred_table)
     label_ids = df.loc[df['prediction']==label]['id'].to_list()
     reference_fasta = Path(reference_fasta)
+    print(f'    Retrieving {label} sequences...')
     with open(reference_fasta) as fa, open(out_fasta,'w') as sd:
         for fid, fsq in SimpleFastaParser(fa):
                 if fid in label_ids:
