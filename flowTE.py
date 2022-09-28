@@ -56,6 +56,12 @@ step02_te_fasta = temp_dir / f'{base_name}_CLASS.fasta'
 pred_retro_fasta = temp_dir / f'{base_name}_RETRO.fasta'
 pred_dna_fasta = temp_dir / f'{base_name}_DNA.fasta'
 
+## Retro LTR/non-LTR prediction
+step03_te_pred_df = temp_dir / f'{base_name}_RETRO_SORD_prediction.tsv'
+
+## DNA TE prediction
+step04_te_pred_df = temp_dir / f'{base_name}_DNA_LABEL_prediction.tsv'
+
 
 if helper.args.mode == 'g':
 # Find repeats using Red
@@ -89,6 +95,17 @@ dna_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_d
 
 retro_mp.start()
 dna_mp.start()
+
+# Predict LTR/non-LTR
+print(f'### Running model {model_03["name"]} ###')
+pred_03 = Predictor(model_03['location'], model_03['labels'])
+pred_03.label_prediction(pred_retro_fasta, step03_te_pred_df)
+
+# Predict DNA TE label
+print(f'### Running model {model_04["name"]} ###')
+pred_04 = Predictor(model_04['location'], model_04['labels'])
+pred_04.label_prediction(pred_dna_fasta, step04_te_pred_df)
+
 
 print('### DONE! ###')
 
