@@ -1,12 +1,14 @@
-import sys
-from typing import TextIO
+import pandas as pd
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 
 
-def get_selected_sequences(in_fasta: str, in_ids_file: str, out_fasta: str) -> TextIO:
-    with open(in_fasta) as fa, open(in_ids_file) as fids, open(out_fasta,'w') as sd:
-        fids = [ i.strip() for i in fids.readlines() ]
+def get_selected_sequences(in_fasta: str, prediction_table: str, out_fasta: str) -> None:
+    df = pd.read_table(prediction_table)
+    fids = df[['id','prediction']].values.tolist()
+    print(f'    Retrieving sequences in {in_fasta}')
+    with open(in_fasta) as fa, open(out_fasta,'w') as sd:
         for fid, fsq in SimpleFastaParser(fa):
-            if fid in fids:
-                record = f'>{fid}\n{fsq}\n'
-                sd.write(record)
+            for i in fids:
+                if fid == i[0]:
+                    record = f'>{fid}|{i[1]}\n{fsq}\n'
+                    sd.write(record)
