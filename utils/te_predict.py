@@ -5,7 +5,7 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
-from utils.prediction_utils import tokenize_sequences, batch_iterator, label_pred_dataframe
+from utils.prediction_utils import tokenize_sequences, batch_iterator, label_pred_dataframe, replace_nnt
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 from numpy import array
 from numpy import argmax
@@ -39,6 +39,7 @@ class Predictor:
                 identifiers = []
                 sequences = []
                 for fid, fsq in record:
+                    fsq = replace_nnt(fsq)
                     identifiers.append(fid)
                     sequences.append(fsq)
                 # Tokenize sequences

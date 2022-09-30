@@ -47,6 +47,15 @@ def batch_iterator(iterator, size):
     yield batch
 
 
+def replace_nnt(sequence: str) -> str:
+    not_nt = 'bdefhijklmopqrsuvwxyz'
+    sequence = sequence.lower()
+    for nnt in not_nt:
+        if nnt in sequence:
+            sequence = sequence.replace(nnt,'n')
+    return sequence
+    
+
 def tokenize_sequences(sequencias):
     '''Transform nucleotides in tokens in a vector.'''
     # Initialize tokenizer
