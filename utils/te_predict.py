@@ -48,7 +48,7 @@ class Predictor:
                 padded_seqs = pad_sequences(tokenized_seqs, padding='post', maxlen = PADVALUE)
                 pred_values = modelo.predict(padded_seqs,
                                             batch_size = batch_size_value,
-                                            verbose = 1)
+                                            verbose = 0)
                 # Predict labels
                 identifiers = pd.Series(identifiers, name='id')
                 results_df = label_pred_dataframe(identifiers, pred_values, colunas)

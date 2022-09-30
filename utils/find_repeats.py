@@ -26,7 +26,7 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
                              '-gnm',temp_dir,
                              '-msk',redout_dir,
                              '-rpt',redout_dir])
-                             
+
     # If Red succeeds, move output files out of Red directory 
     if red_sftw.returncode == 0:
         # Output files
@@ -46,4 +46,8 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
         shutil.move(repeats_location,repeats_new_location)
         
         # remove redout directory
+        redout_dir.rmdir()
+
+    elif red_sftw.returncode != 0:
+        shutil.move(temp_dir/renamed_fasta,input_fasta)
         redout_dir.rmdir()

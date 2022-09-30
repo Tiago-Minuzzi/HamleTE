@@ -1,3 +1,4 @@
+import time
 import tomli
 import shutil
 import multiprocessing
@@ -9,6 +10,9 @@ from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
 from utils.te_predict import Predictor, get_seq_from_pred
 from utils.get_fasta import get_selected_sequences
+
+# Get date and time 
+time_label = time.strftime('%y%m%d%H%M%S')
 
 # Model info TOML
 ## load TOML file
@@ -142,7 +146,7 @@ pred_06.label_prediction(pred_nonltr_fasta, step06_te_pred_df)
 get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
 
 # Concatenate final fastas
-with open(f'{base_name}_FINAL.fasta','wb') as wfd:
+with open(f'{base_name}_{time_label}_FINAL.fasta','wb') as wfd:
     for f in [ltr_final_fasta, nonltr_final_fasta, dna_final_fasta]:
         with open(f,'rb') as fd:
             shutil.copyfileobj(fd, wfd)
@@ -155,7 +159,7 @@ for ft in [step05_te_pred_df, step06_te_pred_df, step04_te_pred_df]:
     df = df[['id','prediction','accuracy']]
     final_dfs.append(df)
 final_dfs = pd.concat(final_dfs)
-final_dfs.to_csv(f'{base_name}_FINAL.tsv', index=False, sep='\t')
+final_dfs.to_csv(f'{base_name}_{time_label}_FINAL.tsv', index=False, sep='\t')
 
 print('### DONE! ###')
 
