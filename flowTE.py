@@ -148,16 +148,18 @@ get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
 # Concatenate final fastas
 with open(f'{base_name}_{time_label}_FINAL.fasta','wb') as wfd:
     for f in [ltr_final_fasta, nonltr_final_fasta, dna_final_fasta]:
-        with open(f,'rb') as fd:
-            shutil.copyfileobj(fd, wfd)
+        if f.exists():
+            with open(f,'rb') as fd:
+                shutil.copyfileobj(fd, wfd)
 
 # Concatenate final predictions
 final_dfs = []
 for ft in [step05_te_pred_df, step06_te_pred_df, step04_te_pred_df]:
-    df = pd.read_table(ft)
-    df['accuracy'] = df.select_dtypes('float').max(axis=1)
-    df = df[['id','prediction','accuracy']]
-    final_dfs.append(df)
+    if ft.exists():
+        df = pd.read_table(ft)
+        df['accuracy'] = df.select_dtypes('float').max(axis=1)
+        df = df[['id','prediction','accuracy']]
+        final_dfs.append(df)
 final_dfs = pd.concat(final_dfs)
 final_dfs.to_csv(f'{base_name}_{time_label}_FINAL.tsv', index=False, sep='\t')
 
