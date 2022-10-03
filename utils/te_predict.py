@@ -46,7 +46,7 @@ class Predictor:
                 # Pad sequences
                 padded_seqs = pad_sequences(sequences, padding='post', maxlen = PADVALUE)
                 pred_values = modelo.predict(padded_seqs,
-                                            batch_size = batch_size_value if batch_size_value <= MAX_PRED_BATCH else MAX_PRED_BATCH,
+                                            batch_size = MAX_PRED_BATCH,
                                             verbose = 1)
                 # Predict labels
                 identifiers = pd.Series(identifiers, name='id')
