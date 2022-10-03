@@ -58,13 +58,14 @@ class Predictor:
 
 
 def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fasta: str) -> None:
-    df = pd.read_table(pred_table)
-    label_ids = df.loc[df['prediction']==label]['id'].to_list()
-    reference_fasta = Path(reference_fasta)
-    if label_ids:
-        print(f'    Retrieving {label} sequences...')
-        with open(reference_fasta) as fa, open(out_fasta,'w') as sd:
-            for fid, fsq in SimpleFastaParser(fa):
-                    if fid in label_ids:
-                        record = f'>{fid}|{label}\n{fsq}\n'
-                        sd.write(record)
+    if pred_table.exists():
+        df = pd.read_table(pred_table)
+        label_ids = df.loc[df['prediction']==label]['id'].to_list()
+        reference_fasta = Path(reference_fasta)
+        if label_ids:
+            print(f'    Retrieving {label} sequences...')
+            with open(reference_fasta) as fa, open(out_fasta,'w') as sd:
+                for fid, fsq in SimpleFastaParser(fa):
+                        if fid in label_ids:
+                            record = f'>{fid}|{label}\n{fsq}\n'
+                            sd.write(record)

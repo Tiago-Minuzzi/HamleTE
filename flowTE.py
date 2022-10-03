@@ -105,64 +105,66 @@ pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df)
 ## Get sequences
 get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta)
 
-# Predict TE class
-print(f'### Running model {model_02["name"]} ###')
-pred_02 = Predictor(model_02['location'], model_02['labels'])
-pred_02.label_prediction(step01_te_fasta, step02_te_pred_df)
+if step01_te_fasta.exists():
+    # Predict TE class
+    print(f'### Running model {model_02["name"]} ###')
+    pred_02 = Predictor(model_02['location'], model_02['labels'])
+    pred_02.label_prediction(step01_te_fasta, step02_te_pred_df)
 
-retro_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'Retro', step01_te_fasta, pred_retro_fasta])
-dna_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'DNA', step01_te_fasta, pred_dna_fasta])
+    retro_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'Retro', step01_te_fasta, pred_retro_fasta])
+    dna_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'DNA', step01_te_fasta, pred_dna_fasta])
 
-retro_mp.start()
-dna_mp.start()
+    retro_mp.start()
+    dna_mp.start()
 
-# Predict LTR/non-LTR
-print(f'### Running model {model_03["name"]} ###')
-pred_03 = Predictor(model_03['location'], model_03['labels'])
-pred_03.label_prediction(pred_retro_fasta, step03_te_pred_df)
+    # Predict LTR/non-LTR
+    print(f'### Running model {model_03["name"]} ###')
+    pred_03 = Predictor(model_03['location'], model_03['labels'])
+    pred_03.label_prediction(pred_retro_fasta, step03_te_pred_df)
 
-ltr_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step03_te_pred_df, 'LTR', pred_retro_fasta, pred_ltr_fasta])
-nonltr_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step03_te_pred_df, 'nonLTR', pred_retro_fasta, pred_nonltr_fasta])
+    ltr_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step03_te_pred_df, 'LTR', pred_retro_fasta, pred_ltr_fasta])
+    nonltr_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step03_te_pred_df, 'nonLTR', pred_retro_fasta, pred_nonltr_fasta])
 
-ltr_mp.start()
-nonltr_mp.start()
+    ltr_mp.start()
+    nonltr_mp.start()
 
-# Predict DNA TE label
-print(f'### Running model {model_04["name"]} ###')
-pred_04 = Predictor(model_04['location'], model_04['labels'])
-pred_04.label_prediction(pred_dna_fasta, step04_te_pred_df)
-get_selected_sequences(pred_dna_fasta, step04_te_pred_df, dna_final_fasta)
+    # Predict DNA TE label
+    print(f'### Running model {model_04["name"]} ###')
+    pred_04 = Predictor(model_04['location'], model_04['labels'])
+    pred_04.label_prediction(pred_dna_fasta, step04_te_pred_df)
+    get_selected_sequences(pred_dna_fasta, step04_te_pred_df, dna_final_fasta)
 
-# Predict LTR label
-print(f'### Running model {model_05["name"]} ###')
-pred_05 = Predictor(model_05['location'], model_05['labels'])
-pred_05.label_prediction(pred_ltr_fasta, step05_te_pred_df)
-get_selected_sequences(pred_ltr_fasta, step05_te_pred_df, ltr_final_fasta)
+    # Predict LTR label
+    print(f'### Running model {model_05["name"]} ###')
+    pred_05 = Predictor(model_05['location'], model_05['labels'])
+    pred_05.label_prediction(pred_ltr_fasta, step05_te_pred_df)
+    get_selected_sequences(pred_ltr_fasta, step05_te_pred_df, ltr_final_fasta)
 
-# Predict nonLTR label
-print(f'### Running model {model_06["name"]} ###')
-pred_06 = Predictor(model_06['location'], model_06['labels'])
-pred_06.label_prediction(pred_nonltr_fasta, step06_te_pred_df)
-get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
+    # Predict nonLTR label
+    print(f'### Running model {model_06["name"]} ###')
+    pred_06 = Predictor(model_06['location'], model_06['labels'])
+    pred_06.label_prediction(pred_nonltr_fasta, step06_te_pred_df)
+    get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
 
-# Concatenate final fastas
-with open(f'{base_name}_{time_label}_FINAL.fasta','wb') as wfd:
-    for f in [ltr_final_fasta, nonltr_final_fasta, dna_final_fasta]:
-        if f.exists():
-            with open(f,'rb') as fd:
-                shutil.copyfileobj(fd, wfd)
+    # Concatenate final fastas
+    with open(f'{base_name}_{time_label}_FINAL.fasta','wb') as wfd:
+        for f in [ltr_final_fasta, nonltr_final_fasta, dna_final_fasta]:
+            if f.exists():
+                with open(f,'rb') as fd:
+                    shutil.copyfileobj(fd, wfd)
 
-# Concatenate final predictions
-final_dfs = []
-for ft in [step05_te_pred_df, step06_te_pred_df, step04_te_pred_df]:
-    if ft.exists():
-        df = pd.read_table(ft)
-        df['accuracy'] = df.select_dtypes('float').max(axis=1)
-        df = df[['id','prediction','accuracy']]
-        final_dfs.append(df)
-final_dfs = pd.concat(final_dfs)
-final_dfs.to_csv(f'{base_name}_{time_label}_FINAL.tsv', index=False, sep='\t')
+    # Concatenate final predictions
+    final_dfs = []
+    for ft in [step05_te_pred_df, step06_te_pred_df, step04_te_pred_df]:
+        if ft.exists():
+            df = pd.read_table(ft)
+            df['accuracy'] = df.select_dtypes('float').max(axis=1)
+            df = df[['id','prediction','accuracy']]
+            final_dfs.append(df)
+    final_dfs = pd.concat(final_dfs)
+    final_dfs.to_csv(f'{base_name}_{time_label}_FINAL.tsv', index=False, sep='\t')
 
-print('### DONE! ###')
-
+    print('### DONE! ###')
+else:
+    print('>>> No TEs found.')
 models_toml.close()
