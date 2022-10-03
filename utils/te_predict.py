@@ -5,7 +5,7 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
-from utils.prediction_utils import tokenize_sequences, batch_iterator, label_pred_dataframe, replace_nnt
+from utils.prediction_utils import batch_iterator, label_pred_dataframe
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 from numpy import array
 from numpy import argmax
@@ -16,7 +16,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 stderr = sys.stderr
 sys.stderr = open(os.devnull, 'w')
 import tensorflow as tf
-from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.models import load_model
 from keras.preprocessing.sequence import pad_sequences
 sys.stderr = stderr
@@ -35,18 +34,17 @@ class Predictor:
         # Load model
         modelo = load_model(modelo)
         predictions = []
+        nt_to_token = { 'a':1, 't':2, 'g':3, 'c':4 }
         with open(in_fasta) as fa:
             for record in batch_iterator(SimpleFastaParser(fa), batch_size_value):
                 identifiers = []
                 sequences = []
                 for fid, fsq in record:
-                    fsq = replace_nnt(fsq)
                     identifiers.append(fid)
-                    sequences.append(fsq)
-                # Tokenize sequences
-                tokenized_seqs = tokenize_sequences(sequences)
+                    # Tokenize sequences
+                    sequences.append([ nt_to_token[nt] if nt in nt_to_token.keys() else 5 for nt in fsq.lower() ])
                 # Pad sequences
-                padded_seqs = pad_sequences(tokenized_seqs, padding='post', maxlen = PADVALUE)
+                padded_seqs = pad_sequences(sequences, padding='post', maxlen = PADVALUE)
                 pred_values = modelo.predict(padded_seqs,
                                             batch_size = batch_size_value if batch_size_value <= MAX_PRED_BATCH else MAX_PRED_BATCH,
                                             verbose = 1)
