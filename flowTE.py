@@ -81,7 +81,9 @@ ltr_final_fasta = temp_dir / f'{base_name}_LTR_FINAL.fasta'
 step06_te_pred_df = temp_dir / f'{base_name}_nonLTR_FINAL.tsv'
 nonltr_final_fasta = temp_dir / f'{base_name}_nonLTR_FINAL.fasta'
 
-## Final fasta and table
+if not input_fasta.exists():
+    print('>>> ERROR: File not found')
+    exit(1)
 
 if helper.args.mode == 'g':
 # Find repeats using Red
