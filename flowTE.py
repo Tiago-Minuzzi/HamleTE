@@ -14,9 +14,12 @@ from utils.get_fasta import get_selected_sequences
 # Get date and time 
 time_label = time.strftime('%y%m%d%H%M%S')
 
+# Get FlowTE directory
+flowte_dir = Path(__file__).parent
+
 # Model info TOML
 ## load TOML file
-models_toml = open('models/models_info.toml','rb')
+models_toml = open(flowte_dir/'models/models_info.toml','rb')
 models_info = tomli.load(models_toml)
 
 ## models info
