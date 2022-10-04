@@ -45,7 +45,7 @@ class Predictor:
                         # Tokenize sequences
                         sequences.append([ nt_to_token[nt] if nt in nt_to_token.keys() else 5 for nt in fsq.lower() ])
                     # Pad sequences
-                    padded_seqs = pad_sequences(sequences, padding='post', maxlen = PADVALUE)
+                    padded_seqs = pad_sequences(sequences, padding='post', maxlen = PADVALUE, truncating='post', dtype='uint8')
                     pred_values = modelo.predict(padded_seqs,
                                                 batch_size = batch_size_value if batch_size_value <= MAX_PRED_BATCH else MAX_PRED_BATCH,
                                                 verbose = 1)
