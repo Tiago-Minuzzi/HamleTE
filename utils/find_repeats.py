@@ -6,7 +6,7 @@ from pathlib import Path
     
 def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
     """Run Red and find repeats"""
-    # temporarily move input fasta and change extensions to 'fa'
+    # Change extensions to 'fa'
     renamed_fasta = Path(f'{input_fasta.stem}.fa')
 
     # Create temporary directory, if not exists.    
@@ -19,7 +19,8 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
 
     # Move input fasta to temp directory
     if input_fasta.exists():
-        shutil.move(input_fasta, temp_dir/renamed_fasta)
+        fasta_link = temp_dir/renamed_fasta
+        fasta_link.symlink_to(input_fasta.absolute())
 
     # Run Red
     red_sftw = subprocess.run(['Red',
@@ -32,8 +33,6 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
         # Output files
         masked_fasta = f'{renamed_fasta.stem}.msk'
         repeats = f'{renamed_fasta.stem}.rpt'
-        # move input fasta to original location
-        shutil.move(temp_dir/renamed_fasta,input_fasta)
         
         # move masked fasta to tmp folder
         masked_fasta_location = redout_dir / masked_fasta
@@ -49,5 +48,4 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
         redout_dir.rmdir()
 
     elif red_sftw.returncode != 0:
-        shutil.move(temp_dir/renamed_fasta,input_fasta)
         redout_dir.rmdir()
