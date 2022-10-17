@@ -72,7 +72,7 @@ def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame
     # Labels
     prediction_results = prediction_results[:,1:]
     # Create dataframe
-    label_pred_df = pd.DataFrame(prediction_results, columns = colunas)*100
+    label_pred_df = pd.DataFrame(prediction_results, columns = colunas)
     label_pred_df = label_pred_df.round(3)
     label_pred_df = pd.concat([fasta_ids,label_pred_df],axis=1)
     # Create label column

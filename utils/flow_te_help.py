@@ -25,8 +25,8 @@ parser.add_argument('-m','--mode',
 
 parser.add_argument('-c', '--cutoff',
                     type = restricted_float,
-                    default = 0.9,
-                    help = "Cutoff value for MITE identification. Value must be between 0 and 1 (default = 0.9).")
+                    default = None,
+                    help = "Cutoff value for TE identification. Value must be between 0 and 1 (default = 0.9).")
 
 parser.add_argument('-b','--batch_value',
                     type = int,

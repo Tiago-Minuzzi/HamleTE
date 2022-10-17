@@ -30,6 +30,9 @@ model_04 = models_info['dna_model']
 model_05 = models_info['ltr_model']
 model_06 = models_info['nonltr_model']
 
+# cutoff values
+te_cutoff = helper.args.cutoff
+
 # Genome/library in fasta format
 input_fasta = Path(helper.args.fasta)
 base_name = input_fasta.stem
@@ -108,7 +111,7 @@ print(f'### Running model {model_01["name"]} ###')
 pred_01 = Predictor(model_01['location'], model_01['labels'])
 pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df)
 ## Get sequences
-get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta)
+get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta, cut_value=te_cutoff)
 
 if step01_te_fasta.exists():
     # Predict TE class

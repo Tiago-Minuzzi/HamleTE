@@ -57,9 +57,11 @@ class Predictor:
             predictions.to_csv(out_table, index=False, sep='\t')
 
 
-def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fasta: str) -> None:
+def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fasta: str, cut_value=None) -> None:
     if pred_table.exists():
         df = pd.read_table(pred_table)
+        if cut_value:
+            df = df.loc[df[label] >= cut_value]
         label_ids = df.loc[df['prediction']==label]['id'].to_list()
         reference_fasta = Path(reference_fasta)
         if label_ids:
