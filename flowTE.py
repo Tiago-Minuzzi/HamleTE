@@ -1,7 +1,6 @@
 import time
 import tomli
 import shutil
-import multiprocessing
 import pandas as pd
 import utils.flow_te_help as helper
 from pathlib import Path
@@ -119,22 +118,16 @@ if step01_te_fasta.exists():
     pred_02 = Predictor(model_02['location'], model_02['labels'])
     pred_02.label_prediction(step01_te_fasta, step02_te_pred_df)
 
-    retro_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'Retro', step01_te_fasta, pred_retro_fasta])
-    dna_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step02_te_pred_df, 'DNA', step01_te_fasta, pred_dna_fasta])
-
-    retro_mp.start()
-    dna_mp.start()
+    get_seq_from_pred(step02_te_pred_df, 'Retro', step01_te_fasta, pred_retro_fasta, cut_value=te_cutoff)
+    get_seq_from_pred(step02_te_pred_df, 'DNA', step01_te_fasta, pred_dna_fasta, cut_value=te_cutoff)
 
     # Predict LTR/non-LTR
     print(f'### Running model {model_03["name"]} ###')
     pred_03 = Predictor(model_03['location'], model_03['labels'])
     pred_03.label_prediction(pred_retro_fasta, step03_te_pred_df)
-
-    ltr_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step03_te_pred_df, 'LTR', pred_retro_fasta, pred_ltr_fasta])
-    nonltr_mp = multiprocessing.Process(target=get_seq_from_pred,args=[step03_te_pred_df, 'nonLTR', pred_retro_fasta, pred_nonltr_fasta])
-
-    ltr_mp.start()
-    nonltr_mp.start()
+    
+    get_seq_from_pred(step03_te_pred_df, 'LTR', pred_retro_fasta, pred_ltr_fasta, cut_value=te_cutoff)
+    get_seq_from_pred(step03_te_pred_df, 'nonLTR', pred_retro_fasta, pred_nonltr_fasta, cut_value=te_cutoff)
 
     # Predict DNA TE label
     print(f'### Running model {model_04["name"]} ###')
