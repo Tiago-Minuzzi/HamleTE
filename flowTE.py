@@ -86,6 +86,10 @@ ltr_final_fasta = temp_dir / f'{base_name}_LTR_FINAL.fasta'
 step06_te_pred_df = temp_dir / f'{base_name}_nonLTR_FINAL.tsv'
 nonltr_final_fasta = temp_dir / f'{base_name}_nonLTR_FINAL.fasta'
 
+## Final files
+final_prediction_table = Path(f'{base_name}_{time_label}_FINAL.tsv')
+final_prediction_fasta = Path(f'{base_name}_{time_label}_FINAL.fasta')
+
 if not input_fasta.exists():
     print('>>> ERROR: File not found')
     exit(1)
@@ -148,7 +152,7 @@ if step01_te_fasta.exists():
     get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
 
     # Concatenate final fastas
-    with open(f'{base_name}_{time_label}_FINAL.fasta','wb') as wfd:
+    with open(final_prediction_fasta,'wb') as wfd:
         for f in [ltr_final_fasta, nonltr_final_fasta, dna_final_fasta]:
             if f.exists():
                 with open(f,'rb') as fd:
@@ -163,7 +167,7 @@ if step01_te_fasta.exists():
             df = df[['id','prediction','accuracy']]
             final_dfs.append(df)
     final_dfs = pd.concat(final_dfs)
-    final_dfs.to_csv(f'{base_name}_{time_label}_FINAL.tsv', index=False, sep='\t')
+    final_dfs.to_csv(final_prediction_table, index=False, sep='\t')
 
     print('### DONE! ###')
 else:
