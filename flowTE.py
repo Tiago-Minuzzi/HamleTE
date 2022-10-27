@@ -169,6 +169,9 @@ if step01_te_fasta.exists():
     final_dfs = pd.concat(final_dfs)
     final_dfs.to_csv(final_prediction_table, index=False, sep='\t')
 
+    if final_prediction_table.exists() and final_prediction_fasta.exists():
+        shutil.rmtree(temp_dir)
+
     print('### DONE! ###')
 else:
     print('>>> No TEs found.')
