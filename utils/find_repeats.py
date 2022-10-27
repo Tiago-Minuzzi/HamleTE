@@ -44,8 +44,8 @@ def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str) -> None:
         repeats_new_location = temp_dir / repeats
         shutil.move(repeats_location,repeats_new_location)
         
-        # remove redout directory
-        redout_dir.rmdir()
-
     elif red_sftw.returncode != 0:
-        redout_dir.rmdir()
+        print(f'Red execution error: {red_sftw.returncode}')
+
+    fasta_link.unlink()
+    redout_dir.rmdir()
