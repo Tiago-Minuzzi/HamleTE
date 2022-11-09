@@ -1,3 +1,4 @@
+import re
 from pyfaidx import Fasta
 from typing import TextIO
 
@@ -15,6 +16,7 @@ def repeats_to_fasta(masked_fasta: str, repeats_file: str, repeats_fasta: str) -
             # get sequence
             if 50 <= (send - sstart) <= 30_000: # filter sequences by length
                 fsq = masked_fasta[fid][sstart:send].seq
+                linha = re.sub(r'\s.*(:\d+-\d+)',r'\1',linha) # remove characters from white space to coordinates
                 record = f'>{linha}\n{fsq}\n'
                 # write sequences to file
                 sd.write(record)
