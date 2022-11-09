@@ -28,6 +28,11 @@ parser.add_argument('-c', '--cutoff',
                     default = None,
                     help = "Cutoff value for TE identification. Value must be between 0 and 1 (default = 0.9).")
 
+parser.add_argument('-k', '--label_cutoff',
+                    type = restricted_float,
+                    default = None,
+                    help = "Cutoff value for TE superfamily classification. Value must be between 0 and 1 (default = 0.9).")
+
 parser.add_argument('-b','--batch_value',
                     type = int,
                     default = 4,

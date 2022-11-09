@@ -57,6 +57,13 @@ class Predictor:
             predictions.to_csv(out_table, index=False, sep='\t')
 
 
+    def filter(self, pred_table: str, cut_value: int = None):
+        filter_table = pd.read_table(pred_table)
+        if cut_value:
+            filter_table['prediction'] = np.where(filter_table.select_dtypes('float').max(axis=1)<cut_value,'unknown',filter_table.select_dtypes('float').idxmax(axis=1))
+        filter_table.to_csv(pred_table,index=False,sep='\t')
+
+
 def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fasta: str, cut_value=None) -> None:
     if pred_table.exists():
         df = pd.read_table(pred_table)

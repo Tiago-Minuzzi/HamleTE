@@ -31,6 +31,7 @@ model_06 = models_info['nonltr_model']
 
 # cutoff values
 te_cutoff = helper.args.cutoff
+sfam_cutoff = helper.args.label_cutoff
 
 # Genome/library in fasta format
 input_fasta = Path(helper.args.fasta)
@@ -137,18 +138,21 @@ if step01_te_fasta.exists():
     print(f'### Running model {model_04["name"]} ###')
     pred_04 = Predictor(model_04['location'], model_04['labels'])
     pred_04.label_prediction(pred_dna_fasta, step04_te_pred_df)
+    pred_04.filter(step04_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_dna_fasta, step04_te_pred_df, dna_final_fasta)
 
     # Predict LTR label
     print(f'### Running model {model_05["name"]} ###')
     pred_05 = Predictor(model_05['location'], model_05['labels'])
     pred_05.label_prediction(pred_ltr_fasta, step05_te_pred_df)
+    pred_05.filter(step05_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_ltr_fasta, step05_te_pred_df, ltr_final_fasta)
 
     # Predict nonLTR label
     print(f'### Running model {model_06["name"]} ###')
     pred_06 = Predictor(model_06['location'], model_06['labels'])
     pred_06.label_prediction(pred_nonltr_fasta, step06_te_pred_df)
+    pred_06.filter(step06_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
 
     # Concatenate final fastas
