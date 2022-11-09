@@ -63,7 +63,7 @@ class Predictor:
     def filter(self, pred_table: str, cut_value: int = None):
         filter_table = pd.read_table(pred_table)
         if cut_value:
-            filter_table['prediction'] = np.where(filter_table.select_dtypes('float').max(axis=1)<cut_value,
+            filter_table['prediction'] = np.where(filter_table.select_dtypes('float').max(axis=1) < cut_value,
                                                  'Unknown',
                                                   filter_table.select_dtypes('float').idxmax(axis=1))
         filter_table.to_csv(pred_table,index=False,sep='\t')

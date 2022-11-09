@@ -12,6 +12,7 @@ from utils.get_fasta import get_selected_sequences
 
 # Get date and time 
 time_label = time.strftime('%y%m%d%H%M%S')
+flowte_start = time.perf_counter()
 
 # Get FlowTE directory
 flowte_dir = Path(__file__).parent
@@ -122,7 +123,7 @@ get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_f
 
 if step01_te_fasta.exists():
     # Predict TE class
-    print(f'### Running model {model_02["name"]} ###')
+    print(f'\n### Running model {model_02["name"]} ###')
     pred_02 = Predictor(model_02['location'], model_02['labels'])
     pred_02.label_prediction(step01_te_fasta, step02_te_pred_df, batch_size_value = batch_value)
 
@@ -130,7 +131,7 @@ if step01_te_fasta.exists():
     get_seq_from_pred(step02_te_pred_df, 'DNA', step01_te_fasta, pred_dna_fasta, cut_value=te_cutoff)
 
     # Predict LTR/non-LTR
-    print(f'### Running model {model_03["name"]} ###')
+    print(f'\n### Running model {model_03["name"]} ###')
     pred_03 = Predictor(model_03['location'], model_03['labels'])
     pred_03.label_prediction(pred_retro_fasta, step03_te_pred_df, batch_size_value = batch_value)
     
@@ -138,21 +139,21 @@ if step01_te_fasta.exists():
     get_seq_from_pred(step03_te_pred_df, 'nonLTR', pred_retro_fasta, pred_nonltr_fasta, cut_value=te_cutoff)
 
     # Predict DNA TE label
-    print(f'### Running model {model_04["name"]} ###')
+    print(f'\n### Running model {model_04["name"]} ###')
     pred_04 = Predictor(model_04['location'], model_04['labels'])
     pred_04.label_prediction(pred_dna_fasta, step04_te_pred_df, batch_size_value = batch_value)
     pred_04.filter(step04_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_dna_fasta, step04_te_pred_df, dna_final_fasta)
 
     # Predict LTR label
-    print(f'### Running model {model_05["name"]} ###')
+    print(f'\n### Running model {model_05["name"]} ###')
     pred_05 = Predictor(model_05['location'], model_05['labels'])
     pred_05.label_prediction(pred_ltr_fasta, step05_te_pred_df, batch_size_value = batch_value)
     pred_05.filter(step05_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_ltr_fasta, step05_te_pred_df, ltr_final_fasta)
 
     # Predict nonLTR label
-    print(f'### Running model {model_06["name"]} ###')
+    print(f'\n### Running model {model_06["name"]} ###')
     pred_06 = Predictor(model_06['location'], model_06['labels'])
     pred_06.label_prediction(pred_nonltr_fasta, step06_te_pred_df, batch_size_value = batch_value)
     pred_06.filter(step06_te_pred_df,cut_value=sfam_cutoff)
@@ -180,7 +181,9 @@ if step01_te_fasta.exists():
     if final_prediction_table.exists() and final_prediction_fasta.exists():
         shutil.rmtree(temp_dir)
 
-    print('### DONE! ###')
+    flowte_end = time.perf_counter()
+    flowte_total = round(flowte_end - flowte_start,2)
+    print(f'\n### Finished in {flowte_total} seconds. ###')
 else:
     print('>>> No TEs found.')
 models_toml.close()
