@@ -182,8 +182,8 @@ if step01_te_fasta.exists():
         shutil.rmtree(temp_dir)
 
     flowte_end = time.perf_counter()
-    flowte_total = round(flowte_end - flowte_start,2)
-    print(f'\n### Finished in {flowte_total} seconds. ###')
+    flowte_total = flowte_end - flowte_start
+    print(f'\n>>> FlowTE {"classifier" if helper.args.mode=="c" else "genome"} mode finished in {flowte_total:.2f} seconds.')
 else:
     print('>>> No TEs found.')
 models_toml.close()
