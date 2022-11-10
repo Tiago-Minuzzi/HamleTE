@@ -171,6 +171,10 @@ if step01_te_fasta.exists():
             df = pd.read_table(ft)
             df['accuracy'] = df.select_dtypes('float').max(axis=1)
             df = df[['id','prediction','accuracy']]
+            prev_pred = df['id'].str.split('|').to_list() # get previous prediction label
+            df['id'] = df['id'].str.split('|',expand=True)[0]
+            prev_pred = pd.Series([ i[-1] for i in prev_pred ])
+            df['prediction'] = prev_pred + '|' + df['prediction'] # concatenate previous and last prediction
             final_dfs.append(df)
     final_dfs = pd.concat(final_dfs)
     final_dfs.to_csv(final_prediction_table, index=False, sep='\t')
