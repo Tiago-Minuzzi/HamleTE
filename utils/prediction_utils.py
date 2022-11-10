@@ -13,18 +13,6 @@ from keras.preprocessing.text import Tokenizer
 sys.stderr = stderr
 
 
-class InputFile:
-    def __init__(self,in_file):
-        # file path
-        self.in_file = pathlib.Path(in_file)
-        # file stem
-        self.base_name = self.in_file.stem
-        # file parent directory
-        self.in_file_dir = self.in_file.absolute().parent
-        # crete directory to store output files
-        self.results_dir = self.in_file_dir / f'FlowTE_results_{self.base_name}'
-
-
 def fasta_reader(fasta_file: str):
     '''Read fasta file'''
     fids = [] # fasta identifiers list

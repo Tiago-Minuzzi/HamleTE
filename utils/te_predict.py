@@ -25,7 +25,7 @@ class Predictor:
     location: str
     labels: list
 
-    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int):
+    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 32):
         '''Run model to predict classes and return the predictions as a tsv file'''
         modelo = self.location
         colunas = self.labels
@@ -50,8 +50,8 @@ class Predictor:
                                                 truncating='post', 
                                                 dtype='uint8')
                     pred_values = modelo.predict(padded_seqs,
-                                                batch_size = batch_size_value if batch_size_value <= MAX_PRED_BATCH else MAX_PRED_BATCH,
-                                                verbose = 1)
+                                                 batch_size = batch_size_value if batch_size_value <= MAX_PRED_BATCH else MAX_PRED_BATCH,
+                                                 verbose = 1)
                     # Predict labels
                     identifiers = pd.Series(identifiers, name='id')
                     results_df = label_pred_dataframe(identifiers, pred_values, colunas)
