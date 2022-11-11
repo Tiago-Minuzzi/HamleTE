@@ -43,4 +43,8 @@ parser.add_argument('-o','--output_dir',
                     default = '.',
                     help = "Set output directory to save results.")
 
+parser.add_argument('--nobar',
+                    action='store_true',
+                    help = "Disable progress bar.")
+
 args = parser.parse_args()

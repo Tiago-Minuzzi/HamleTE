@@ -27,7 +27,7 @@ class Predictor:
     location: str
     labels: list
 
-    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 32):
+    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 32, no_bar: bool = False):
         '''Run model to predict classes and return the predictions as a tsv file'''
         modelo = self.location
         colunas = self.labels
@@ -38,9 +38,9 @@ class Predictor:
         if in_fasta.exists():
             n_seqs = len([ i for i in open(in_fasta) if i.startswith('>') ])
             total_batches = ceil(n_seqs / batch_size_value)
-            print(f'    - {n_seqs} sequences divided in {total_batches} batches')
+            print(f'    - Predicting on {n_seqs} sequences divided in {total_batches} batch(es)')
             with open(in_fasta) as fa:
-                for record in tqdm(batch_iterator(SimpleFastaParser(fa), batch_size_value), desc="    - Prediction", total=total_batches, unit='', ascii=' ='):
+                for record in tqdm(batch_iterator(SimpleFastaParser(fa), batch_size_value), desc="    - Status", total=total_batches, unit='', ascii=' =',disable=no_bar):
                     identifiers = []
                     sequences = []
                     for fid, fsq in record:
@@ -52,10 +52,10 @@ class Predictor:
                                                 maxlen = PADVALUE, 
                                                 truncating='post', 
                                                 dtype='uint8')
+                    # Predict labels
                     pred_values = modelo.predict(padded_seqs,
                                                  batch_size = batch_size_value,
                                                  verbose = 0)
-                    # Predict labels
                     identifiers = pd.Series(identifiers, name='id')
                     results_df = label_pred_dataframe(identifiers, pred_values, colunas)
                     predictions.append(results_df)
