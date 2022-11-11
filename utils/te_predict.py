@@ -7,6 +7,8 @@ import numpy as np
 import pandas as pd
 from utils.prediction_utils import batch_iterator, label_pred_dataframe
 from Bio.SeqIO.FastaIO import SimpleFastaParser
+from math import ceil
+from tqdm import tqdm
 from numpy import array
 from numpy import argmax
 from pathlib import Path
@@ -30,14 +32,15 @@ class Predictor:
         modelo = self.location
         colunas = self.labels
         PADVALUE = 30_000
-        # MAX_PRED_BATCH = 500
-        # Load model
         modelo = load_model(modelo)
         predictions = []
         nt_to_token = { 'a':1, 't':2, 'g':3, 'c':4 }
         if in_fasta.exists():
+            n_seqs = len([ i for i in open(in_fasta) if i.startswith('>') ])
+            total_batches = ceil(n_seqs / batch_size_value)
+            print(f'    - {n_seqs} sequences divided in {total_batches} batches')
             with open(in_fasta) as fa:
-                for record in batch_iterator(SimpleFastaParser(fa), batch_size_value):
+                for record in tqdm(batch_iterator(SimpleFastaParser(fa), batch_size_value), desc="    - Prediction", total=total_batches, unit='', ascii=' ='):
                     identifiers = []
                     sequences = []
                     for fid, fsq in record:
@@ -51,7 +54,7 @@ class Predictor:
                                                 dtype='uint8')
                     pred_values = modelo.predict(padded_seqs,
                                                  batch_size = batch_size_value,
-                                                 verbose = 1)
+                                                 verbose = 0)
                     # Predict labels
                     identifiers = pd.Series(identifiers, name='id')
                     results_df = label_pred_dataframe(identifiers, pred_values, colunas)
@@ -77,7 +80,7 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
         label_ids = df.loc[df['prediction']==label]['id'].to_list()
         reference_fasta = Path(reference_fasta)
         if label_ids:
-            print(f'    Retrieving {label} sequences...')
+            print(f'    - Retrieving {label} sequences...')
             with open(reference_fasta) as fa, open(out_fasta,'w') as sd:
                 for fid, fsq in SimpleFastaParser(fa):
                         if fid in label_ids:

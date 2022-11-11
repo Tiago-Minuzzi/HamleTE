@@ -7,7 +7,7 @@ def get_selected_sequences(in_fasta: str, prediction_table: str, out_fasta: str)
         df = pd.read_table(prediction_table)
         sf_labels = ', '.join(df['prediction'].unique().tolist())
         fids = df[['id','prediction']].values.tolist()
-        print(f'    Retrieving sequences for {sf_labels}')
+        print(f'    - Retrieving sequences for {sf_labels}')
         with open(in_fasta) as fa, open(out_fasta,'w') as sd:
             for fid, fsq in SimpleFastaParser(fa):
                 for i in fids:

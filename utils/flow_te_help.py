@@ -35,6 +35,7 @@ parser.add_argument('-k', '--label_cutoff',
 
 parser.add_argument('-b','--batch_value',
                     type = int,
+                    default = 32,
                     help = "Set batch size (Default = 32, max = 250).")
 
 parser.add_argument('-o','--output_dir',
