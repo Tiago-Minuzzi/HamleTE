@@ -33,10 +33,9 @@ parser.add_argument('-k', '--label_cutoff',
                     default = None,
                     help = "Cutoff value for TE superfamily classification. Value must be between 0 and 1.")
 
-# parser.add_argument('-b','--batch_value',
-#                     type = int,
-#                     default = 32,
-#                     help = "Set batch size (Default = 32).")
+parser.add_argument('-b','--batch_value',
+                    type = int,
+                    help = "Set batch size (Default = 32, max = 250).")
 
 parser.add_argument('-o','--output_dir',
                     type = str,

@@ -30,7 +30,7 @@ class Predictor:
         modelo = self.location
         colunas = self.labels
         PADVALUE = 30_000
-        MAX_PRED_BATCH = 500
+        # MAX_PRED_BATCH = 500
         # Load model
         modelo = load_model(modelo)
         predictions = []
@@ -50,7 +50,7 @@ class Predictor:
                                                 truncating='post', 
                                                 dtype='uint8')
                     pred_values = modelo.predict(padded_seqs,
-                                                 batch_size = batch_size_value if batch_size_value <= MAX_PRED_BATCH else MAX_PRED_BATCH,
+                                                 batch_size = batch_size_value,
                                                  verbose = 1)
                     # Predict labels
                     identifiers = pd.Series(identifiers, name='id')
