@@ -30,6 +30,9 @@ model_04 = models_info['dna_model']
 model_05 = models_info['ltr_model']
 model_06 = models_info['nonltr_model']
 
+# k-mer length
+kmer_length = helper.args.len_kmer
+
 # cutoff values
 te_cutoff = helper.args.cutoff
 sfam_cutoff = helper.args.label_cutoff
@@ -110,7 +113,8 @@ if not input_fasta.exists():
 
 if helper.args.mode == 'g':
 # Find repeats using Red
-    red_repeat_finder(input_fasta, temp_dir, redout_dir)
+    print(f"\n### Starting repeat detector ###")
+    red_repeat_finder(input_fasta, temp_dir, redout_dir, klen=kmer_length)
 
 # Get masked repeats
     repeats_to_fasta(masked_fasta_location, repeats_location, repeats_fasta_location)
@@ -123,7 +127,7 @@ elif helper.args.mode == 'c':
     temp_dir.mkdir(exist_ok=True)
     
 # Predict TEs from clustered repeats
-print(f'### Running model {model_01["name"]} ###')
+print(f'\n### Running model {model_01["name"]} ###')
 pred_01 = Predictor(model_01['location'], model_01['labels'])
 pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
 

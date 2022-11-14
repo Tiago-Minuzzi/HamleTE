@@ -21,7 +21,7 @@ parser.add_argument('-f', '--fasta',
 parser.add_argument('-m','--mode',
                     type = str,
                     default = 'g',
-                    help = "Type (without quotation marks) 'g' for genome mode or 'c' for classifier mode (default = g).")
+                    help = "Type (without quotation marks) 'g' for genome mode or 'c' for classifier mode. Default = g.")
 
 parser.add_argument('-c', '--cutoff',
                     type = restricted_float,
@@ -36,12 +36,17 @@ parser.add_argument('-k', '--label_cutoff',
 parser.add_argument('-b','--batch_value',
                     type = int,
                     default = 32,
-                    help = "Set batch size (Default = 32, max = 250).")
+                    help = "Set batch size. Default = 32, max = 250.")
 
 parser.add_argument('-o','--output_dir',
                     type = str,
                     default = '.',
                     help = "Set output directory to save results.")
+
+parser.add_argument('-l','--len_kmer',
+                    type = int,
+                    default = 13,
+                    help = "Length of k-mer to find repeats in genomes. Default = 13.")
 
 parser.add_argument('--nobar',
                     action='store_true',
