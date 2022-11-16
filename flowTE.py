@@ -102,9 +102,9 @@ step06_te_pred_df = temp_dir / f'{base_name}_nonLTR_FINAL.tsv'
 nonltr_final_fasta = temp_dir / f'{base_name}_nonLTR_FINAL.fasta'
 
 ## Final files
-final_prediction_table = output_directory / f'{base_name}_{time_label}_FINAL.tsv'
-final_prediction_fasta = output_directory / f'{base_name}_{time_label}_FINAL.fasta'
-final_prediction_counts = output_directory / f'{base_name}_{time_label}_COUNT_FINAL.tsv'
+final_prediction_table = output_directory / f'FlowTE_{base_name}_{time_label}_PRD.tsv'
+final_prediction_fasta = output_directory / f'FlowTE_{base_name}_{time_label}_SQS.fasta'
+final_prediction_counts = output_directory / f'FlowTE_{base_name}_{time_label}_CNT.tsv'
 
 ### ------//------ ###
 
