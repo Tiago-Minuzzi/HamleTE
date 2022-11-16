@@ -38,7 +38,7 @@ class Predictor:
         if in_fasta.exists():
             n_seqs = len([ i for i in open(in_fasta) if i.startswith('>') ])
             total_batches = ceil(n_seqs / batch_size_value)
-            print(f'    - Predicting on {n_seqs} sequences divided in {total_batches} batch(es)')
+            print(f'    - Predicting on {n_seqs} sequences divided in {total_batches} batch(es).')
             with open(in_fasta) as fa:
                 for record in tqdm(batch_iterator(SimpleFastaParser(fa), batch_size_value), desc="    - Status", total=total_batches, unit='', ascii=' =',disable=no_bar):
                     identifiers = []

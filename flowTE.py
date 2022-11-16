@@ -42,8 +42,9 @@ MAX_PRED_BATCH = 250
 batch_value = helper.args.batch_value
 batch_value = batch_value if batch_value <= MAX_PRED_BATCH else MAX_PRED_BATCH
 
-# Disable progress bar
-progress_bar = helper.args.nobar
+# Other command-line arguments
+progress_bar = helper.args.nobar # disable progress bar
+clustering = helper.args.noclust # disable clustering
 
 # Genome/library in fasta format
 input_fasta = Path(helper.args.fasta)
@@ -120,8 +121,11 @@ if helper.args.mode == 'g':
     repeats_to_fasta(masked_fasta_location, repeats_location, repeats_fasta_location)
 
 # Cluster sequences using cd-hit-est
-    cluster_sequences(repeats_fasta_location, clustered_fasta_location)
-
+    if clustering:
+        cluster_sequences(repeats_fasta_location, clustered_fasta_location)
+    else:
+        clustered_fasta_location = repeats_fasta_location
+        
 elif helper.args.mode == 'c':
     clustered_fasta_location = input_fasta
     temp_dir.mkdir(exist_ok=True)
