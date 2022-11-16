@@ -86,3 +86,20 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
                         if fid in label_ids:
                             record = f'>{fid}|{label}\n{fsq}\n'
                             sd.write(record)
+
+
+def prediction_processing(dataframe):
+    df = pd.read_table(dataframe)
+    df['accuracy'] = df.select_dtypes('float').max(axis=1)
+    df = df[['id','prediction','accuracy']]
+    prev_pred = df['id'].str.split('|').to_list() # get previous prediction label
+    df['id'] = df['id'].str.split('|',expand=True)[0]
+    prev_pred = pd.Series([ i[-1] for i in prev_pred ])
+    df['prediction'] = prev_pred + '|' + df['prediction'] # concatenate previous and last prediction
+    return df
+
+
+def te_count(dataframe):
+    df = pd.read_table(dataframe)
+    counts = df['prediction'].value_counts().rename_axis('prediction').reset_index(name='count')
+    return counts

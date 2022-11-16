@@ -7,9 +7,8 @@ from pathlib import Path
 from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
-from utils.te_predict import Predictor, get_seq_from_pred
+from utils.te_predict import Predictor, get_seq_from_pred, prediction_processing, te_count
 from utils.get_fasta import get_selected_sequences
-from utils.prediction_utils import te_count
 
 # Get date and time 
 time_label = time.strftime('%y%m%d%H%M%S')
@@ -182,13 +181,7 @@ if step01_te_fasta.exists():
     final_dfs = []
     for ft in [step05_te_pred_df, step06_te_pred_df, step04_te_pred_df]:
         if ft.exists():
-            df = pd.read_table(ft)
-            df['accuracy'] = df.select_dtypes('float').max(axis=1)
-            df = df[['id','prediction','accuracy']]
-            prev_pred = df['id'].str.split('|').to_list() # get previous prediction label
-            df['id'] = df['id'].str.split('|',expand=True)[0]
-            prev_pred = pd.Series([ i[-1] for i in prev_pred ])
-            df['prediction'] = prev_pred + '|' + df['prediction'] # concatenate previous and last prediction
+            df = prediction_processing(ft)
             final_dfs.append(df)
     final_dfs = pd.concat(final_dfs)
     final_dfs.to_csv(final_prediction_table, index=False, sep='\t')

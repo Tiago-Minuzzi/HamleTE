@@ -67,8 +67,3 @@ def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame
     label_pred_df['prediction'] = label_pred_df[colunas].idxmax(axis=1)
     return label_pred_df
 
-
-def te_count(dataframe):
-    df = pd.read_table(dataframe)
-    counts = df['prediction'].value_counts().rename_axis('prediction').reset_index(name='count')
-    return counts
