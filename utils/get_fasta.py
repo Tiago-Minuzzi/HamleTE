@@ -3,6 +3,7 @@ from Bio.SeqIO.FastaIO import SimpleFastaParser
 
 
 def get_selected_sequences(in_fasta: str, prediction_table: str, out_fasta: str) -> None:
+    '''Get predicted sequences.'''
     if prediction_table.exists():
         df = pd.read_table(prediction_table)
         sf_labels = ', '.join(df['prediction'].unique().tolist())

@@ -193,9 +193,10 @@ if step01_te_fasta.exists():
                 with open(f,'rb') as fd:
                     shutil.copyfileobj(fd, wfd)
 
-    # Remove temporary directory
     if final_prediction_table.exists() and final_prediction_fasta.exists():
+        # Remove temporary directory
         shutil.rmtree(temp_dir)
+        # Create prediction count table
         counts = te_count(final_prediction_table)
         counts.to_csv(final_prediction_counts, index=False, sep='\t')
 

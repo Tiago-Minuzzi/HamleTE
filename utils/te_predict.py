@@ -27,8 +27,8 @@ class Predictor:
     location: str
     labels: list
 
-    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 32, no_bar: bool = False):
-        '''Run model to predict classes and return the predictions as a tsv file'''
+    def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 32, no_bar: bool = False) -> None:
+        '''Run model to predict classes and return the predictions as a tsv file.'''
         modelo = self.location
         colunas = self.labels
         PADVALUE = 30_000
@@ -63,7 +63,8 @@ class Predictor:
             predictions.to_csv(out_table, index=False, sep='\t')
 
 
-    def filter(self, pred_table: str, cut_value: int = None):
+    def filter(self, pred_table: str, cut_value: int = None) -> None:
+        '''If cutoff value is set, predictions below it are classified as unknown.'''
         filter_table = pd.read_table(pred_table)
         if cut_value:
             filter_table['prediction'] = np.where(filter_table.select_dtypes('float').max(axis=1) < cut_value,
@@ -73,6 +74,7 @@ class Predictor:
 
 
 def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fasta: str, cut_value=None) -> None:
+    '''Get sequences exact predicted label.'''
     if pred_table.exists():
         df = pd.read_table(pred_table)
         if cut_value:
@@ -88,7 +90,8 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
                             sd.write(record)
 
 
-def prediction_processing(dataframe):
+def prediction_processing(dataframe: pd.DataFrame) -> pd.DataFrame:
+    '''Format final prediction dataframes.'''
     df = pd.read_table(dataframe)
     df['accuracy'] = df.select_dtypes('float').max(axis=1)
     df = df[['id','prediction','accuracy']]
@@ -99,7 +102,8 @@ def prediction_processing(dataframe):
     return df
 
 
-def te_count(dataframe):
+def te_count(dataframe: pd.DataFrame) -> pd.DataFrame:
+    '''Return dataframe with counts for each label.'''
     df = pd.read_table(dataframe)
     counts = df['prediction'].value_counts().rename_axis('prediction').reset_index(name='count')
     return counts

@@ -14,7 +14,7 @@ sys.stderr = stderr
 
 
 def fasta_reader(fasta_file: str):
-    '''Read fasta file'''
+    '''Read fasta file.'''
     fids = [] # fasta identifiers list
     fsqs = [] # fasta sequences list
     with open(fasta_file) as fa:
@@ -25,6 +25,7 @@ def fasta_reader(fasta_file: str):
 
 
 def batch_iterator(iterator, size):
+    '''Split large files in batches.'''
     batch = []
     for entry in iterator:
         batch.append(entry)
@@ -36,6 +37,7 @@ def batch_iterator(iterator, size):
 
 
 def replace_nnt(sequence: str) -> str:
+    '''Replace invalid nucleotides on sequence.'''
     not_nt = 'bdefhijklmopqrsuvwxyz'
     sequence = sequence.lower()
     for nnt in not_nt:
@@ -56,7 +58,7 @@ def tokenize_sequences(sequencias):
 
 
 def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame:
-    '''Return prediction values as dataframe'''
+    '''Return prediction values as dataframe.'''
     # Labels
     prediction_results = prediction_results[:,1:]
     # Create dataframe
