@@ -9,6 +9,7 @@ from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
 from utils.te_predict import Predictor, get_seq_from_pred
 from utils.get_fasta import get_selected_sequences
+from utils.prediction_utils import te_count
 
 # Get date and time 
 time_label = time.strftime('%y%m%d%H%M%S')
@@ -104,6 +105,7 @@ nonltr_final_fasta = temp_dir / f'{base_name}_nonLTR_FINAL.fasta'
 ## Final files
 final_prediction_table = output_directory / f'{base_name}_{time_label}_FINAL.tsv'
 final_prediction_fasta = output_directory / f'{base_name}_{time_label}_FINAL.fasta'
+final_prediction_counts = output_directory / f'{base_name}_{time_label}_COUNT_FINAL.tsv'
 
 ### ------//------ ###
 
@@ -201,6 +203,8 @@ if step01_te_fasta.exists():
     # Remove temporary directory
     if final_prediction_table.exists() and final_prediction_fasta.exists():
         shutil.rmtree(temp_dir)
+        counts = te_count(final_prediction_table)
+        counts.to_csv(final_prediction_counts, index=False, sep='\t')
 
     flowte_end = time.perf_counter()
     flowte_total = flowte_end - flowte_start # compute total run time
