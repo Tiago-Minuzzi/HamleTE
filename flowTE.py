@@ -133,7 +133,7 @@ elif helper.args.mode == 'c':
     
 # Predict TEs from clustered repeats
 print(f'\n### Running model {model_01["name"]} ###')
-pred_01 = Predictor(model_01['location'], model_01['labels'])
+pred_01 = Predictor(flowte_dir / model_01['location'], model_01['labels'])
 pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
 
 get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta, cut_value=te_cutoff)
@@ -141,7 +141,7 @@ get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_f
 if step01_te_fasta.exists():
     # Predict TE class
     print(f'\n### Running model {model_02["name"]} ###')
-    pred_02 = Predictor(model_02['location'], model_02['labels'])
+    pred_02 = Predictor(flowte_dir / model_02['location'], model_02['labels'])
     pred_02.label_prediction(step01_te_fasta, step02_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
 
     get_seq_from_pred(step02_te_pred_df, 'Retro', step01_te_fasta, pred_retro_fasta, cut_value=te_cutoff)
@@ -149,7 +149,7 @@ if step01_te_fasta.exists():
 
     # Predict LTR/non-LTR
     print(f'\n### Running model {model_03["name"]} ###')
-    pred_03 = Predictor(model_03['location'], model_03['labels'])
+    pred_03 = Predictor(flowte_dir / model_03['location'], model_03['labels'])
     pred_03.label_prediction(pred_retro_fasta, step03_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     
     get_seq_from_pred(step03_te_pred_df, 'LTR', pred_retro_fasta, pred_ltr_fasta, cut_value=te_cutoff)
@@ -157,21 +157,21 @@ if step01_te_fasta.exists():
 
     # Predict DNA TE label
     print(f'\n### Running model {model_04["name"]} ###')
-    pred_04 = Predictor(model_04['location'], model_04['labels'])
+    pred_04 = Predictor(flowte_dir / model_04['location'], model_04['labels'])
     pred_04.label_prediction(pred_dna_fasta, step04_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     pred_04.filter(step04_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_dna_fasta, step04_te_pred_df, dna_final_fasta)
 
     # Predict LTR label
     print(f'\n### Running model {model_05["name"]} ###')
-    pred_05 = Predictor(model_05['location'], model_05['labels'])
+    pred_05 = Predictor(flowte_dir / model_05['location'], model_05['labels'])
     pred_05.label_prediction(pred_ltr_fasta, step05_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     pred_05.filter(step05_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_ltr_fasta, step05_te_pred_df, ltr_final_fasta)
 
     # Predict nonLTR label
     print(f'\n### Running model {model_06["name"]} ###')
-    pred_06 = Predictor(model_06['location'], model_06['labels'])
+    pred_06 = Predictor(flowte_dir / model_06['location'], model_06['labels'])
     pred_06.label_prediction(pred_nonltr_fasta, step06_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     pred_06.filter(step06_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
