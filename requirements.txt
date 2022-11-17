@@ -9,3 +9,4 @@ scikit-learn==1.0.1
 scipy==1.4.1
 tensorflow==2.1.0
 tomli==2.0.1
+tqdm==4.64.1
