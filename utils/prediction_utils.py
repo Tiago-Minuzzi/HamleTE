@@ -32,8 +32,8 @@ def batch_iterator(iterator, size):
         if len(batch) == size:
             yield batch
             batch = []
-    # else:
-    yield batch
+    if batch:
+        yield batch
 
 
 def replace_nnt(sequence: str) -> str:
