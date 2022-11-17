@@ -176,6 +176,9 @@ if step01_te_fasta.exists():
     pred_06.filter(step06_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
 
+    if not output_directory.exists():
+        print(f'\n### Creating directory {output_directory}')
+        output_directory.mkdir()
 
     # Concatenate final predictions
     final_dfs = []
