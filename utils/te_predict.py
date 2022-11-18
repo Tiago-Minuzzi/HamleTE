@@ -81,13 +81,14 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
             df = df.loc[df[label] >= cut_value]
         label_ids = df.loc[df['prediction']==label]['id'].to_list()
         reference_fasta = Path(reference_fasta)
+        fd = pd.DataFrame({ fid:fsq for fid,fsq in SimpleFastaParser(open(reference_fasta)) },index=[0]).T.rename_axis('id').reset_index()
+        fd = fd.loc[fd['id'].isin(label_ids)].to_records(index=False)
         if label_ids:
             print(f'    - Retrieving {label} sequences...')
-            with open(reference_fasta) as fa, open(out_fasta,'w') as sd:
-                for fid, fsq in SimpleFastaParser(fa):
-                        if fid in label_ids:
-                            record = f'>{fid}|{label}\n{fsq}\n'
-                            sd.write(record)
+            with open(out_fasta,'w') as sd:
+                for fid, fsq in fd:
+                    record = f'>{fid}|{label}\n{fsq}\n'
+                    sd.write(record)
 
 
 def prediction_processing(dataframe: pd.DataFrame) -> pd.DataFrame:
