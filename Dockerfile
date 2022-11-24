@@ -3,6 +3,12 @@ FROM debian:11
 WORKDIR /FLOWTE
 
 COPY . flowte/
+ADD models/* /FLOWTE/flowte/models/
+
+RUN chmod +x /FLOWTE/flowte/flowTE.py
+
+ENV FLOWTE_DIR /FLOWTE/flowte
+ENV PATH $FLOWTE_DIR:$PATH
 
 RUN apt update && apt install -y make build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
