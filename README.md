@@ -30,7 +30,7 @@ Then, you can enter the conda environment with the command:
 
 `conda activate flowte`
 
-### Docker <a name="docker"><\a>
+### Docker <a name="docker"></a>
 
 To run FlowTE using a docker container, first build the image using the Dockerfile. Inside FlowTE's directory run:
 
