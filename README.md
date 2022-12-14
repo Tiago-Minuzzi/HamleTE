@@ -64,7 +64,7 @@ To install Red, clone [Red's github repository](https://github.com/Bioinformatic
 
 ## Usage <a name="usage"></a>
 
-The `genome` mode is the default, which is used to find TE's in genomes or transcriptomes. If you have a set of sequences/TE library that you just want to classify, you can use the `classifier` mode by changing the mode flag. Below are options available.
+The `genome` mode is the default, which is used to find TE's in genomes or transcriptomes. If you have a set of sequences/TE library that you just want to classify, you can use the `classifier` mode by changing the mode flag. Below are the available options.
 
 ```
 usage: flowTE.py [-h] -f FASTA [-m MODE] [-c CUTOFF] [-k LABEL_CUTOFF]
@@ -99,7 +99,7 @@ optional arguments:
 
 ### Basic usage <a name="basic"></a>
 
-After activating FlowTE's conda environment, for genomes your transcriptomes, you can simply run:
+After activating FlowTE's conda environment, for genomes or transcriptomes, you can simply run:
 
 `python3 flowTE.py -f genome.fasta`
 
