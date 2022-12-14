@@ -5,6 +5,7 @@ It utilizes [Red](https://github.com/BioinformaticsToolsmith/Red) to find genomi
 
 - [Install](#installation)
   - [Conda environment](#conda)
+  - [Docker](#docker)
   - [Manually](#depends)
 
 ## Install <a name="installation"></a>
@@ -29,6 +30,12 @@ Then, you can enter the conda environment with the command:
 
 `conda activate flowte`
 
+### Docker <a name="docker"><\a>
+
+To run FlowTE using a docker container, first build the image using the Dockerfile. Inside FlowTE's directory run:
+
+`docker build -t flowte .`
+
 ### Manually <a name="depends"></a>
 
 If want a conda-free installation, it can be done manually by installing the depencies below:
@@ -42,6 +49,7 @@ If want a conda-free installation, it can be done manually by installing the dep
 - scikit-learn=1.0.1
 - scipy=1.4.1
 - tensorflow=2.1.0
+- cd-hit-est=4.8.1
 - Red
 
 For the manual installation, it's suggest to use a Python version management tool such as [Pyenv](https://github.com/pyenv/pyenv) and use it through a virtual environment to avoid depency conflicts. You can run `pip install -r requirements.txt` to install the Python packages needed.
