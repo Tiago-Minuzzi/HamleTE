@@ -32,36 +32,41 @@ class Predictor:
         modelo = self.location
         colunas = self.labels
         PADVALUE = 30_000
-        modelo = load_model(modelo)
-        predictions = []
-        nt_to_token = { 'a':1, 't':2, 'g':3, 'c':4 }
-        if in_fasta.exists():
-            n_seqs = len([ i for i in open(in_fasta) if i.startswith('>') ])
-            total_batches = ceil(n_seqs / batch_size_value)
-            print(f'    - Predicting on {n_seqs} sequences divided in {total_batches} batch(es).')
-            with open(in_fasta) as fa:
-                for record in tqdm(batch_iterator(SimpleFastaParser(fa), batch_size_value), desc="    - Status", total=total_batches, unit='', ascii=' =',disable=no_bar):
-                    identifiers = []
-                    sequences = []
-                    for fid, fsq in record:
-                        identifiers.append(fid)
-                        # Tokenize sequences
-                        sequences.append([ nt_to_token[nt] if nt in nt_to_token.keys() else 5 for nt in fsq.lower() ])
-                    # Pad sequences
-                    padded_seqs = pad_sequences(sequences, padding='post',
-                                                maxlen = PADVALUE, 
-                                                truncating='post', 
-                                                dtype='uint8')
-                    # Predict labels
-                    pred_values = modelo.predict(padded_seqs,
-                                                 batch_size = batch_size_value,
-                                                 verbose = 0)
-                    identifiers = pd.Series(identifiers, name='id')
-                    results_df = label_pred_dataframe(identifiers, pred_values, colunas)
-                    predictions.append(results_df)
-            predictions = pd.concat(predictions)
-            predictions.to_csv(out_table, index=False, sep='\t')
-
+        try:
+            modelo = load_model(modelo)
+            predictions = []
+            nt_to_token = { 'a':1, 't':2, 'g':3, 'c':4 }
+            if in_fasta.exists():
+                n_seqs = len([ i for i in open(in_fasta) if i.startswith('>') ])
+                total_batches = ceil(n_seqs / batch_size_value)
+                print(f'    - Predicting on {n_seqs} sequences divided in {total_batches} batch(es).')
+                with open(in_fasta) as fa:
+                    for record in tqdm(batch_iterator(SimpleFastaParser(fa), batch_size_value), desc="    - Status", total=total_batches, unit='', ascii=' =',disable=no_bar):
+                        identifiers = []
+                        sequences = []
+                        for fid, fsq in record:
+                            identifiers.append(fid)
+                            # Tokenize sequences
+                            sequences.append([ nt_to_token[nt] if nt in nt_to_token.keys() else 5 for nt in fsq.lower() ])
+                        # Pad sequences
+                        padded_seqs = pad_sequences(sequences, padding='post',
+                                                    maxlen = PADVALUE, 
+                                                    truncating='post', 
+                                                    dtype='uint8')
+                        # Predict labels
+                        pred_values = modelo.predict(padded_seqs,
+                                                    batch_size = batch_size_value,
+                                                    verbose = 0)
+                        identifiers = pd.Series(identifiers, name='id')
+                        results_df = label_pred_dataframe(identifiers, pred_values, colunas)
+                        predictions.append(results_df)
+                predictions = pd.concat(predictions)
+                predictions.to_csv(out_table, index=False, sep='\t')
+        except OSError as eos:
+            print(eos)
+            print("  - Please, make sure the you've extracted the models in the 'models' directory.")
+            print("  - Read the 'README.md' file for more information.",end='\n\n')
+            exit(1)
 
     def filter(self, pred_table: str, cut_value: int = None) -> None:
         '''If cutoff value is set, predictions below it are classified as unknown.'''
