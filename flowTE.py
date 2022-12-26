@@ -59,54 +59,57 @@ redout_dir = temp_dir/'redout'
 output_directory = Path(helper.args.output_dir)
 
 # Output files
+## Output prefix
+flowte_prefix = f'FlowTE_{base_name}_{time_label}'
+
 ## Red masked genome
-masked_fasta = f'{base_name}.msk'
+masked_fasta = 'tmp.msk'
 masked_fasta_location = temp_dir / masked_fasta
 
 ## Red repeat coordinates
-repeats = f'{base_name}.rpt'
+repeats = 'tmp.rpt'
 repeats_location = temp_dir / repeats
 
 ## Repeats to fasta file
-repeats_fasta = f'{base_name}_repeats.fasta'
+repeats_fasta = 'tmp_repeats.fasta'
 repeats_fasta_location = temp_dir / repeats_fasta
 
 ## Clustered fasta
-clustered_fasta = f'{base_name}_clustered.fasta'
+clustered_fasta = 'tmp_clustered.fasta'
 clustered_fasta_location = temp_dir / clustered_fasta
 
 ## TE prediction dataframe
-step01_te_pred_df = temp_dir / f'{base_name}_TE.tsv'
-step01_te_fasta = temp_dir / f'{base_name}_TE.fasta'
+step01_te_pred_df = temp_dir / 'tmp_TE.tsv'
+step01_te_fasta = temp_dir / 'tmp_TE.fasta'
 
 ## Class prediction
-step02_te_pred_df = temp_dir / f'{base_name}_CLASS.tsv'
-step02_te_fasta = temp_dir / f'{base_name}_CLASS.fasta'
-pred_retro_fasta = temp_dir / f'{base_name}_RETRO.fasta'
-pred_dna_fasta = temp_dir / f'{base_name}_DNA.fasta'
+step02_te_pred_df = temp_dir / 'tmp_CLASS.tsv'
+step02_te_fasta = temp_dir / 'tmp_CLASS.fasta'
+pred_retro_fasta = temp_dir / 'tmp_RETRO.fasta'
+pred_dna_fasta = temp_dir / 'tmp_DNA.fasta'
 
 ## Retro LTR/non-LTR prediction
-step03_te_pred_df = temp_dir / f'{base_name}_RETRO_SORD.tsv'
-pred_retro_fasta = temp_dir / f'{base_name}_RETRO_SORD.fasta'
-pred_ltr_fasta = temp_dir / f'{base_name}_RETRO_LTR.fasta'
-pred_nonltr_fasta = temp_dir / f'{base_name}_RETRO_nonLTR.fasta'
+step03_te_pred_df = temp_dir / 'tmp_RETRO_SORD.tsv'
+pred_retro_fasta = temp_dir / 'tmp_RETRO_SORD.fasta'
+pred_ltr_fasta = temp_dir / 'tmp_RETRO_LTR.fasta'
+pred_nonltr_fasta = temp_dir / 'tmp_RETRO_nonLTR.fasta'
 
 ## DNA TE prediction
-step04_te_pred_df = temp_dir / f'{base_name}_DNA_FINAL.tsv'
-dna_final_fasta = temp_dir / f'{base_name}_DNA_FINAL.fasta'
+step04_te_pred_df = temp_dir / 'tmp_DNA_FINAL.tsv'
+dna_final_fasta = temp_dir / 'tmp_DNA_FINAL.fasta'
 
 ## Retro non-LTR prediction
-step05_te_pred_df = temp_dir / f'{base_name}_LTR_FINAL.tsv'
-ltr_final_fasta = temp_dir / f'{base_name}_LTR_FINAL.fasta'
+step05_te_pred_df = temp_dir / 'tmp_LTR_FINAL.tsv'
+ltr_final_fasta = temp_dir / 'tmp_LTR_FINAL.fasta'
 
 ## Retro non-LTR prediction
-step06_te_pred_df = temp_dir / f'{base_name}_nonLTR_FINAL.tsv'
-nonltr_final_fasta = temp_dir / f'{base_name}_nonLTR_FINAL.fasta'
+step06_te_pred_df = temp_dir / 'tmp_nonLTR_FINAL.tsv'
+nonltr_final_fasta = temp_dir / 'tmp_nonLTR_FINAL.fasta'
 
 ## Final files
-final_prediction_table = output_directory / f'FlowTE_{base_name}_{time_label}_PRD.tsv'
-final_prediction_fasta = output_directory / f'FlowTE_{base_name}_{time_label}_SQS.fasta'
-final_prediction_counts = output_directory / f'FlowTE_{base_name}_{time_label}_CNT.tsv'
+final_prediction_table = output_directory / f'{flowte_prefix}_PRD.tsv'
+final_prediction_fasta = output_directory / f'{flowte_prefix}_SQS.fasta'
+final_prediction_counts = output_directory / f'{flowte_prefix}_CNT.tsv'
 
 ### ------//------ ###
 
