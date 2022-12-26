@@ -63,11 +63,11 @@ output_directory = Path(helper.args.output_dir)
 flowte_prefix = f'FlowTE_{base_name}_{time_label}'
 
 ## Red masked genome
-masked_fasta = 'tmp.msk'
+masked_fasta = f'{base_name}.msk'
 masked_fasta_location = temp_dir / masked_fasta
 
 ## Red repeat coordinates
-repeats = 'tmp.rpt'
+repeats = f'{base_name}.rpt'
 repeats_location = temp_dir / repeats
 
 ## Repeats to fasta file
