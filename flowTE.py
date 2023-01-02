@@ -47,6 +47,7 @@ batch_value = batch_value if batch_value <= MAX_PRED_BATCH else MAX_PRED_BATCH
 # Other command-line arguments
 progress_bar = helper.args.nobar # disable progress bar
 clustering = helper.args.noclust # disable clustering
+mode = helper.args.mode
 
 # Genome/library in fasta format
 input_fasta = Path(helper.args.fasta)
@@ -118,7 +119,7 @@ if not input_fasta.exists():
     print('>>> ERROR: File not found')
     exit(1)
 
-if helper.args.mode == 'g':
+if mode == 'g':
 # Find repeats using Red
     print(f"\n### Starting repeat detector ###")
     red_repeat_finder(input_fasta, temp_dir, redout_dir, klen=kmer_length)
@@ -132,7 +133,7 @@ if helper.args.mode == 'g':
     else:
         clustered_fasta_location = repeats_fasta_location
         
-elif helper.args.mode == 'c':
+elif mode == 'c':
     clustered_fasta_location = input_fasta
     temp_dir.mkdir(exist_ok=True)
     
@@ -210,7 +211,7 @@ if step01_te_fasta.exists():
 
     flowte_end = time.perf_counter()
     flowte_total = flowte_end - flowte_start # compute total run time
-    print(f'\n>>> FlowTE {"classifier" if helper.args.mode=="c" else "genome"} mode finished in {flowte_total:.2f} seconds.')
+    print(f'\n>>> FlowTE {"classifier" if mode=="c" else "genome"} mode finished in {flowte_total:.2f} seconds.')
 else:
     print('>>> No TEs found.')
 models_toml.close()
