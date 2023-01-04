@@ -12,7 +12,7 @@ def restricted_float(x):
     return x
 
 
-parser = argparse.ArgumentParser(prog = "flowTE.py", description = "Find repeats in eukaryotic genomes and classify them using deep learning.")
+parser = argparse.ArgumentParser(prog = "hamleTE.py", description = "Find repeats in eukaryotic genomes and classify them using deep learning.")
 
 parser.add_argument('-f', '--fasta',
                     help = 'Genome or repeats/TEs fasta file.',

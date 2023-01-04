@@ -1,6 +1,6 @@
-# FlowTE
+# HamleTE
 
-FlowTE is a tool with a workflow to find and classify transposable elements (TEs) in eukaryotic genomes using deep learning.
+HamleTE is a tool with a workflow to find and classify transposable elements (TEs) in eukaryotic genomes using deep learning.
 It utilizes [Red](https://github.com/BioinformaticsToolsmith/Red) to find genomic repeats and, using the power of convolutional neural networks feature extraction, 6 models to classify sequences as either being a TE or not, and then, the ones classified as TEs to the level of super family.
 
 - [Install](#installation)
@@ -14,13 +14,13 @@ It utilizes [Red](https://github.com/BioinformaticsToolsmith/Red) to find genomi
 
 ## Install <a name="installation"></a>
 
-FlowTE can be installed either by creating a conda environment or manually. The first step is to [download](https://github.com/Tiago-Minuzzi/FlowTE/archive/refs/heads/main.zip) or clone this repo. To clone it run:
+HamleTE can be installed either by creating a conda environment or manually. The first step is to [download](https://github.com/Tiago-Minuzzi/HamleTE/archive/refs/heads/main.zip) or clone this repo. To clone it run:
 
-`git clone https://github.com/Tiago-Minuzzi/FlowTE`
+`git clone https://github.com/Tiago-Minuzzi/HamleTE`
 
-Decompress the `flowte_models.tar.xz`  in the `models` directory using your favorite application or via command-line using:
+Decompress the `hamlete_models.tar.xz`  in the `models` directory using your favorite application or via command-line using:
 
-`tar xJvf flowte_models.tar.xz`
+`tar xJvf hamlete_models.tar.xz`
 
 After that, you can install the dependecies through a conda environment or manually.
 
@@ -28,17 +28,17 @@ After that, you can install the dependecies through a conda environment or manua
 
 If you don't have conda installed, you can check how to install on [miniconda's webpage](https://docs.conda.io/en/latest/miniconda.html). With conda installed on your system you can easily create a conda environment containing all dependecies by running:
 
-`conda env create -f flowte_env.yml`
+`conda env create -f hamlete_env.yml`
 
 Then, you can enter the conda environment with the command:
 
-`conda activate flowte`
+`conda activate hamlete`
 
 ### Docker <a name="docker"></a>
 
-To run FlowTE using a docker container, first build the image using the Dockerfile. Inside FlowTE's directory run:
+To run HamleTE using a docker container, first build the image using the Dockerfile. Inside HamleTE's directory run:
 
-`docker build -t flowte .`
+`docker build -t hamlete .`
 
 ### Manually <a name="depends"></a>
 
@@ -67,7 +67,7 @@ To install Red, clone [Red's github repository](https://github.com/Bioinformatic
 The `genome` mode is the default, which is used to find TE's in genomes or transcriptomes. If you have a set of sequences/TE library that you just want to classify, you can use the `classifier` mode by changing the mode flag. Below are the available options.
 
 ```
-usage: flowTE.py [-h] -f FASTA [-m MODE] [-c CUTOFF] [-k LABEL_CUTOFF]
+usage: hamleTE.py [-h] -f FASTA [-m MODE] [-c CUTOFF] [-k LABEL_CUTOFF]
                  [-b BATCH_VALUE] [-o OUTPUT_DIR] [-l LEN_KMER] [--noclust]
                  [--nobar]
 
@@ -99,16 +99,16 @@ optional arguments:
 
 ### Basic usage <a name="basic"></a>
 
-After activating FlowTE's conda environment, for genomes or transcriptomes, you can simply run:
+After activating HamleTE's conda environment, for genomes or transcriptomes, you can simply run:
 
-`python3 flowTE.py -f genome.fasta`
+`python3 hamleTE.py -f genome.fasta`
 
 To use the classifier mode change the mode flag as follows:
 
-`python3 flowTE.py -m c -f my_TE_set.fasta`
+`python3 hamleTE.py -m c -f my_TE_set.fasta`
 
 ### Docker container <a name="udocker"></a>
 
 To run the docker container version, mount the directory containing your fasta files inside the container using the `-v` flag.
 
-`docker run -v /path/to/my/directory:/mnt -it flowte flowTE.py -f /mnt/genome.fasta -o /mnt/out_flow`
+`docker run -v /path/to/my/directory:/mnt -it hamlete hamleTE.py -f /mnt/genome.fasta -o /mnt/out_flow`

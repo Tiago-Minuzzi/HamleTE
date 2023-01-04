@@ -1,4 +1,4 @@
-name: flowte
+name: hamlete
 channels:
   - bioconda
   - conda-forge

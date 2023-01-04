@@ -4,7 +4,7 @@ import time
 import tomli
 import shutil
 import pandas as pd
-import utils.flow_te_help as helper
+import utils.hamlete_help as helper
 from pathlib import Path
 from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
@@ -14,14 +14,14 @@ from utils.get_fasta import get_selected_sequences
 
 # Get date and time 
 time_label = time.strftime('%y%m%d%H%M%S')
-flowte_start = time.perf_counter()
+hamlete_start = time.perf_counter()
 
-# Get FlowTE directory
-flowte_dir = Path(__file__).parent
+# Get HamleTE directory
+hamlete_dir = Path(__file__).parent
 
 # Model info TOML
 ## load TOML file
-models_toml = open(flowte_dir/'models/models_info.toml','rb')
+models_toml = open(hamlete_dir/'models/models_info.toml','rb')
 models_info = tomli.load(models_toml)
 
 ## models info
@@ -61,7 +61,7 @@ output_directory = Path(helper.args.output_dir)
 
 # Output files
 ## Output prefix
-flowte_prefix = f'FlowTE_{base_name}_{time_label}'
+hamlete_prefix = f'HamleTE_{base_name}_{time_label}'
 
 ## Red masked genome
 masked_fasta = f'{base_name}.msk'
@@ -108,9 +108,9 @@ step06_te_pred_df = temp_dir / 'tmp_nonLTR_FINAL.tsv'
 nonltr_final_fasta = temp_dir / 'tmp_nonLTR_FINAL.fasta'
 
 ## Final files
-final_prediction_table = output_directory / f'{flowte_prefix}_PRD.tsv'
-final_prediction_fasta = output_directory / f'{flowte_prefix}_SQS.fasta'
-final_prediction_counts = output_directory / f'{flowte_prefix}_CNT.tsv'
+final_prediction_table = output_directory / f'{hamlete_prefix}_PRD.tsv'
+final_prediction_fasta = output_directory / f'{hamlete_prefix}_SQS.fasta'
+final_prediction_counts = output_directory / f'{hamlete_prefix}_CNT.tsv'
 
 ### ------//------ ###
 
@@ -139,7 +139,7 @@ elif mode == 'c':
     
 # Predict TEs from clustered repeats
 print(f'\n### Running model {model_01["name"]} ###')
-pred_01 = Predictor(flowte_dir / model_01['location'], model_01['labels'])
+pred_01 = Predictor(hamlete_dir / model_01['location'], model_01['labels'])
 pred_01.label_prediction(clustered_fasta_location, step01_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
 
 get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_fasta, cut_value=te_cutoff)
@@ -147,7 +147,7 @@ get_seq_from_pred(step01_te_pred_df, 'TE', clustered_fasta_location, step01_te_f
 if step01_te_fasta.exists():
     # Predict TE class
     print(f'\n### Running model {model_02["name"]} ###')
-    pred_02 = Predictor(flowte_dir / model_02['location'], model_02['labels'])
+    pred_02 = Predictor(hamlete_dir / model_02['location'], model_02['labels'])
     pred_02.label_prediction(step01_te_fasta, step02_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
 
     get_seq_from_pred(step02_te_pred_df, 'Retro', step01_te_fasta, pred_retro_fasta, cut_value=te_cutoff)
@@ -155,7 +155,7 @@ if step01_te_fasta.exists():
 
     # Predict LTR/non-LTR
     print(f'\n### Running model {model_03["name"]} ###')
-    pred_03 = Predictor(flowte_dir / model_03['location'], model_03['labels'])
+    pred_03 = Predictor(hamlete_dir / model_03['location'], model_03['labels'])
     pred_03.label_prediction(pred_retro_fasta, step03_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     
     get_seq_from_pred(step03_te_pred_df, 'LTR', pred_retro_fasta, pred_ltr_fasta, cut_value=te_cutoff)
@@ -163,21 +163,21 @@ if step01_te_fasta.exists():
 
     # Predict DNA TE label
     print(f'\n### Running model {model_04["name"]} ###')
-    pred_04 = Predictor(flowte_dir / model_04['location'], model_04['labels'])
+    pred_04 = Predictor(hamlete_dir / model_04['location'], model_04['labels'])
     pred_04.label_prediction(pred_dna_fasta, step04_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     pred_04.filter(step04_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_dna_fasta, step04_te_pred_df, dna_final_fasta)
 
     # Predict LTR label
     print(f'\n### Running model {model_05["name"]} ###')
-    pred_05 = Predictor(flowte_dir / model_05['location'], model_05['labels'])
+    pred_05 = Predictor(hamlete_dir / model_05['location'], model_05['labels'])
     pred_05.label_prediction(pred_ltr_fasta, step05_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     pred_05.filter(step05_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_ltr_fasta, step05_te_pred_df, ltr_final_fasta)
 
     # Predict nonLTR label
     print(f'\n### Running model {model_06["name"]} ###')
-    pred_06 = Predictor(flowte_dir / model_06['location'], model_06['labels'])
+    pred_06 = Predictor(hamlete_dir / model_06['location'], model_06['labels'])
     pred_06.label_prediction(pred_nonltr_fasta, step06_te_pred_df, batch_size_value=batch_value, no_bar=progress_bar)
     pred_06.filter(step06_te_pred_df,cut_value=sfam_cutoff)
     get_selected_sequences(pred_nonltr_fasta, step06_te_pred_df, nonltr_final_fasta)
@@ -209,9 +209,9 @@ if step01_te_fasta.exists():
         counts = te_count(final_prediction_table)
         counts.to_csv(final_prediction_counts, index=False, sep='\t')
 
-    flowte_end = time.perf_counter()
-    flowte_total = flowte_end - flowte_start # compute total run time
-    print(f'\n>>> FlowTE {"classifier" if mode=="c" else "genome"} mode finished in {flowte_total:.2f} seconds.')
+    hamlete_end = time.perf_counter()
+    hamlete_total = hamlete_end - hamlete_start # compute total run time
+    print(f'\n>>> HamleTE {"classifier" if mode=="c" else "genome"} mode finished in {hamlete_total:.2f} seconds.')
 else:
     print('>>> No TEs found.')
 models_toml.close()
