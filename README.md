@@ -1,5 +1,4 @@
-# HamleTE <img title="HamleTE" src="https://github.com/Tiago-Minuzzi/HamleTE/blob/dev/img/hamleTE.png" width="200" height="200" align="right">
-
+# HamleTE
 
 ## Table of contents
 
@@ -15,6 +14,7 @@
   
   - [Basic usage](#basic)
   - [Docker container](#udocker)
+<img title="HamleTE" src="https://github.com/Tiago-Minuzzi/HamleTE/blob/dev/img/hamleTE.png" width="200" height="200" align="right">
 
 ## Introduction<a name="intro"></a>
 
