@@ -1,4 +1,5 @@
-# HamleTE
+# HamleTE <img title="HamleTE" src="/home/tiago/repos/HamleTE/img/hamleTE.png" width="200" height="200" align="right">
+
 
 ## Table of contents
 
