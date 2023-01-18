@@ -54,7 +54,7 @@ To run HamleTE using a docker container, first build the image using the Dockerf
 
 If want a conda-free installation, it can be done manually by installing the depencies below:
 
-- Python=3.7.12
+- Python=3.7
 - biopython=1.79
 - h5py=2.10.0
 - Keras=2.3.1
@@ -64,7 +64,10 @@ If want a conda-free installation, it can be done manually by installing the dep
 - scipy=1.4.1
 - tensorflow=2.1.0
 - cd-hit-est=4.8.1
-- Red
+- tomli=2.0.1
+- tqdm=4.64.1
+- protobuf=3.20.0
+- Red=2.0
 
 For the manual installation, it's suggest to use a Python version management tool such as [Pyenv](https://github.com/pyenv/pyenv) and use it through a virtual environment to avoid depency conflicts. You can run `pip install -r requirements.txt` to install the Python packages needed.
 
