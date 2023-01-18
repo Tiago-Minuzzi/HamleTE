@@ -1,4 +1,4 @@
-# HamleTE
+# HamleTE: a deep learning powered tool to find and classify transposable elements
 
 ## Table of contents
 
