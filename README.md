@@ -131,5 +131,6 @@ To run the docker container version, mount the directory containing your fasta f
 
 ## To-do
 
-[ ] Return non-TE table
-[ ] Add gpu-support
+- [ ] Return non-TE table
+
+- [ ] Add GPU support
