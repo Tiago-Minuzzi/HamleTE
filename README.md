@@ -126,3 +126,10 @@ To use the classifier mode change the mode flag as follows:
 To run the docker container version, mount the directory containing your fasta files inside the container using the `-v` flag.
 
 `docker run -v /path/to/my/directory:/mnt -it hamlete hamleTE.py -f /mnt/genome.fasta -o /mnt/out_flow`
+
+---
+
+## To-do
+
+[ ] Return non-TE table
+[ ] Add gpu-support
