@@ -133,4 +133,6 @@ To run the docker container version, mount the directory containing your fasta f
 
 - [ ] Return non-TE table
 
+- [ ] Return the probability value for the Class/Order
+
 - [ ] Add GPU support
