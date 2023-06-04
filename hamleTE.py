@@ -119,7 +119,7 @@ if not input_fasta.exists():
     print('>>> ERROR: File not found')
     exit(1)
 
-if mode == 'g':
+if mode == 'a':
 # Find repeats using Red
     print(f"\n### Starting repeat detector ###")
     red_repeat_finder(input_fasta, temp_dir, redout_dir, klen=kmer_length)
@@ -211,7 +211,7 @@ if step01_te_fasta.exists():
 
     hamlete_end = time.perf_counter()
     hamlete_total = hamlete_end - hamlete_start # compute total run time
-    print(f'\n>>> HamleTE {"classifier" if mode=="c" else "genome"} mode finished in {hamlete_total:.2f} seconds.')
+    print(f'\n>>> HamleTE {"classifier" if mode=="c" else "annotation"} mode finished in {hamlete_total:.2f} seconds.')
 else:
     print('>>> No TEs found.')
 models_toml.close()
