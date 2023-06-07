@@ -193,6 +193,9 @@ if step01_te_fasta.exists():
             df = prediction_processing(ft)
             final_dfs.append(df)
     final_dfs = pd.concat(final_dfs)
+    if mode=="a":
+        final_dfs[['id','start-end']]=final_dfs['id'].str.split(':',expand=True)
+        final_dfs = final_dfs[['id','start-end','prediction','accuracy']]
     final_dfs.to_csv(final_prediction_table, index=False, sep='\t')
 
     # Concatenate final fastas
