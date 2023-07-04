@@ -47,7 +47,7 @@ class Predictor:
                         for fid, fsq in record:
                             identifiers.append(fid)
                             # Tokenize sequences
-                            sequences.append([ nt_to_token[nt] if nt in nt_to_token.keys() else 5 for nt in fsq.lower() ])
+                            sequences.append([ nt_to_token.get(nt,5) for nt in fsq.lower() ])
                         # Pad sequences
                         padded_seqs = pad_sequences(sequences, padding='post',
                                                     maxlen = PADVALUE, 
