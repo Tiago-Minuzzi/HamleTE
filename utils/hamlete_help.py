@@ -48,6 +48,11 @@ parser.add_argument('-l','--len_kmer',
                     default = 13,
                     help = "Length of k-mer to find repeats in genomes. Default = 13.")
 
+parser.add_argument('--min_len',
+                    type = int,
+                    default = 50,
+                    help = "Minimum repeat sequence length. Default = 50")
+
 parser.add_argument('--noclust',
                     action='store_false',
                     help = "Do not cluster repeats. Results on more repeats to be classified as TEs.")

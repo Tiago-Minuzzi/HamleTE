@@ -35,6 +35,9 @@ model_06 = models_info['nonltr_model']
 # k-mer length
 kmer_length = helper.args.len_kmer
 
+# minimum repeat sequence length
+repeat_length = helper.args.min_len
+
 # cutoff values
 te_cutoff = helper.args.cutoff
 sfam_cutoff = helper.args.label_cutoff
@@ -120,14 +123,14 @@ if not input_fasta.exists():
     exit(1)
 
 if mode == 'a':
-# Find repeats using Red
-    print(f"\n### Starting repeat detector ###")
+    # Find repeats using Red
+    print("\n### Starting repeat detector ###")
     red_repeat_finder(input_fasta, temp_dir, redout_dir, klen=kmer_length)
 
-# Get masked repeats
-    repeats_to_fasta(masked_fasta_location, repeats_location, repeats_fasta_location)
+    # Get masked repeats
+    repeats_to_fasta(masked_fasta_location, repeats_location, repeats_fasta_location, repeat_length)
 
-# Cluster sequences using cd-hit-est
+    # Cluster sequences using cd-hit-est
     if clustering:
         cluster_sequences(repeats_fasta_location, clustered_fasta_location)
     else:
