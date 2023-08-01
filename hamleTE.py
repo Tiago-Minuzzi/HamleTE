@@ -10,9 +10,10 @@ from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
 from utils.te_predict import Predictor, get_seq_from_pred, prediction_processing, te_count
+from utils.te_predict import concat_pred_tables, concat_fastas
 from utils.get_fasta import get_selected_sequences
 
-# Get date and time 
+# Get date and time
 time_label = time.strftime('%y%m%d%H%M%S')
 hamlete_start = time.perf_counter()
 
@@ -21,7 +22,7 @@ hamlete_dir = Path(__file__).parent
 
 # Model info TOML
 ## load TOML file
-models_toml = open(hamlete_dir/'models/models_info.toml','rb')
+models_toml = open(hamlete_dir/'models/models_info.toml', 'rb')
 models_info = tomli.load(models_toml)
 
 ## models info
@@ -48,8 +49,8 @@ batch_value = helper.args.batch_value
 batch_value = batch_value if batch_value <= MAX_PRED_BATCH else MAX_PRED_BATCH
 
 # Other command-line arguments
-progress_bar = helper.args.nobar # disable progress bar
-clustering = helper.args.noclust # disable clustering
+progress_bar = helper.args.nobar  # disable progress bar
+clustering = helper.args.noclust  # disable clustering
 mode = helper.args.mode
 
 # Genome/library in fasta format
@@ -190,23 +191,17 @@ if step01_te_fasta.exists():
         output_directory.mkdir()
 
     # Concatenate final predictions
-    final_dfs = []
-    for ft in [step05_te_pred_df, step06_te_pred_df, step04_te_pred_df]:
-        if ft.exists():
-            df = prediction_processing(ft)
-            final_dfs.append(df)
-    final_dfs = pd.concat(final_dfs)
-    if mode=="a":
-        final_dfs[['id','start-end']]=final_dfs['id'].str.split(':',expand=True)
-        final_dfs = final_dfs[['id','start-end','prediction','accuracy']]
-    final_dfs.to_csv(final_prediction_table, index=False, sep='\t')
+    concat_pred_tables(final_prediction_table,
+                       step05_te_pred_df,
+                       step06_te_pred_df,
+                       step04_te_pred_df,
+                       mode)
 
     # Concatenate final fastas
-    with open(final_prediction_fasta,'wb') as wfd:
-        for f in [ltr_final_fasta, nonltr_final_fasta, dna_final_fasta]:
-            if f.exists():
-                with open(f,'rb') as fd:
-                    shutil.copyfileobj(fd, wfd)
+    concat_fastas(final_prediction_fasta,
+                  ltr_final_fasta,
+                  nonltr_final_fasta,
+                  dna_final_fasta)
 
     if final_prediction_table.exists() and final_prediction_fasta.exists():
         # Remove temporary directory
@@ -216,7 +211,7 @@ if step01_te_fasta.exists():
         counts.to_csv(final_prediction_counts, index=False, sep='\t')
 
     hamlete_end = time.perf_counter()
-    hamlete_total = hamlete_end - hamlete_start # compute total run time
+    hamlete_total = hamlete_end - hamlete_start  # compute total run time
     print(f'\n>>> HamleTE {"classifier" if mode=="c" else "annotation"} mode finished in {hamlete_total:.2f} seconds.')
 else:
     print('>>> No TEs found.')

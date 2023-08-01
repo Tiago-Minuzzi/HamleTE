@@ -2,6 +2,7 @@
 
 import os
 import sys
+import shutil
 import pathlib
 import numpy as np
 import pandas as pd
@@ -113,3 +114,26 @@ def te_count(dataframe: pd.DataFrame) -> pd.DataFrame:
     df = pd.read_table(dataframe)
     counts = df['prediction'].value_counts().rename_axis('prediction').reset_index(name='count')
     return counts
+
+
+def concat_pred_tables(dfs, stp05, stp06, stp04, mod):
+    """Concatenate final prediction tables in one"""
+    final_dfs = []
+    for ft in [stp05, stp06, stp04]:
+        if ft.exists():
+            df = prediction_processing(ft)
+            final_dfs.append(df)
+    final_dfs = pd.concat(final_dfs)
+    if mod == "a":
+        final_dfs[['id', 'start-end']] = final_dfs['id'].str.split(':', expand=True)
+        final_dfs = final_dfs[['id', 'start-end', 'prediction', 'accuracy']]
+    final_dfs.to_csv(dfs, index=False, sep='\t')
+
+
+def concat_fastas(final_fasta, ltr, nonltr, dna):
+    """Concatenate final fastas files in one representing the TE library"""
+    with open(final_fasta, 'wb') as wfd:
+        for f in [ltr, nonltr, dna]:
+            if f.exists():
+                with open(f, 'rb') as fd:
+                    shutil.copyfileobj(fd, wfd)
