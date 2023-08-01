@@ -14,7 +14,12 @@
   
   - [Basic usage](#basic)
   - [Docker container](#udocker)
-<img title="HamleTE" src="https://github.com/Tiago-Minuzzi/HamleTE/blob/dev/img/hamleTE.png" width="200" height="200" align="right">
+    
+- [Output example](#output)
+    - [Annotaion mode](#annot)
+    - [Classification mode](#class)
+
+    <img title="HamleTE" src="https://github.com/Tiago-Minuzzi/HamleTE/blob/dev/img/hamleTE.png" width="200" height="200" align="right">
 
 ## Introduction<a name="intro"></a>
 
@@ -106,6 +111,7 @@ optional arguments:
   -l LEN_KMER, --len_kmer LEN_KMER
                         Length of k-mer to find repeats in genomes. Default =
                         13.
+  --min_len MIN_LEN     Minimum repeat sequence length. Default = 50.
   --noclust             Do not cluster repeats. Results on more repeats to be
                         classified as TEs.
   --nobar               Disable progress bar.
@@ -127,27 +133,27 @@ To run the docker container version, mount the directory containing your fasta f
 
 `docker run -v /path/to/my/directory:/mnt -it hamlete hamleTE.py -f /mnt/genome.fasta -o /mnt/out_flow`
 
-## Example output
+## Example output <a name="output"></a>
 
-### Annotation mode
+### Annotation mode <a name="annot"></a>
 
-| id | start-end | prediction | accuracy |
-| -- | --------- | ---------- | ---------|
-| chrom_0100472 | 531-1258 | DNA\|Mutator | 0.983 |
-| chrom_0079084 | 3410-4583 | nonLTR\|LINE | 0.828 |
-| chrom_0330414 | 4081-4836 | LTR\|Gypsy | 0.897 |
-| chrom_0089582 | 1-175 | DNA\|hAT | 0.895 |
-| chrom_0071622 | 4394-4493 | LTR\|Copia | 0.907 |
+| id            | start-end | prediction   | accuracy |
+| ------------- | --------- | ------------ | -------- |
+| chrom_0100472 | 531-1258  | DNA\|Mutator | 0.983    |
+| chrom_0079084 | 3410-4583 | nonLTR\|LINE | 0.828    |
+| chrom_0330414 | 4081-4836 | LTR\|Gypsy   | 0.897    |
+| chrom_0089582 | 1-175     | DNA\|hAT     | 0.895    |
+| chrom_0071622 | 4394-4493 | LTR\|Copia   | 0.907    |
 
-### Classification mode
+### Classification mode <a name="class"></a>
 
-| id | prediction | accuracy |
-| -- | ---------- | -------- |
-| seq_1 | nonLTR\|DIRS | 0.808 |
-| seq_2 | LTR\|Bel-Pao | 0.943 |
-| seq_3 | DNA\|Helitron | 0.835 |
-| seq_4 | nonLTR\|SINE | 0.843 |
-| seq_5 | LTR\|Copia |  0.705 |
+| id    | prediction    | accuracy |
+| ----- | ------------- | -------- |
+| seq_1 | nonLTR\|DIRS  | 0.808    |
+| seq_2 | LTR\|Bel-Pao  | 0.943    |
+| seq_3 | DNA\|Helitron | 0.835    |
+| seq_4 | nonLTR\|SINE  | 0.843    |
+| seq_5 | LTR\|Copia    | 0.705    |
 
 ---
 

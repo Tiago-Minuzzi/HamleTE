@@ -51,7 +51,7 @@ parser.add_argument('-l','--len_kmer',
 parser.add_argument('--min_len',
                     type = int,
                     default = 50,
-                    help = "Minimum repeat sequence length. Default = 50")
+                    help = "Minimum repeat sequence length. Default = 50.")
 
 parser.add_argument('--noclust',
                     action='store_false',
