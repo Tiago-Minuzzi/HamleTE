@@ -36,7 +36,7 @@ class Predictor:
         try:
             modelo = load_model(modelo)
             predictions = []
-            nt_to_token = { 'a':1, 't':2, 'g':3, 'c':4 }
+            nt_to_token = { 'a' : 1, 't' : 2, 'g' : 3, 'c' : 4 }
             if in_fasta.exists():
                 n_seqs = len([ i for i in open(in_fasta) if i.startswith('>') ])
                 total_batches = ceil(n_seqs / batch_size_value)
@@ -74,16 +74,35 @@ class Predictor:
         filter_table = pd.read_table(pred_table)
         if cut_value:
             filter_table['prediction'] = np.where(filter_table.select_dtypes('float').max(axis=1) < cut_value,
-                                                 'Unknown',
+                                                  'Unknown',
                                                   filter_table.select_dtypes('float').idxmax(axis=1))
         filter_table.to_csv(pred_table,index=False,sep='\t')
 
 
-def get_nonTE(te_pred_table, out_nonTE):
-    df = pd.read_table(te_pred_table)
-    df.loc[df['prediction'] != 'TE'].to_csv(out_nonTE,
-                                            index=False,
-                                            sep="\t")
+def table_filter(df: pd.DataFrame) -> pd.DataFrame:
+    """Filter columns of full prediction table resulting on id,
+    prediction and accuracy columns only."""
+
+    df['accuracy'] = df.select_dtypes('float').max(axis=1)
+    df = df[['id', 'prediction', 'accuracy']]
+    df['id'] = df['id'].str.split('|').str[0]
+    return df
+
+
+def get_TE_table(te_pred_table, class_pred_table, ret_table, out_table, cut_value=None) -> None:
+    """Get TE predicted sequences and class predictions
+    and merge to further create final table."""
+
+    df = table_filter(pd.read_table(te_pred_table))
+    df = df.loc[df['prediction'] == 'TE']
+    te_class = table_filter(pd.read_table(class_pred_table))
+    ret = table_filter(pd.read_table(ret_table))
+    merged = df.merge(te_class, on='id', suffixes=['_1', '_2']).merge(ret, on='id', how='outer').fillna(te_class)
+
+    if cut_value:
+        merged = merged.loc[merged['accuracy'] >= cut_value]
+
+    merged.to_csv(out_table, sep='\t', index=False)
 
 
 def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fasta: str, cut_value=None) -> None:
@@ -104,36 +123,31 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
                     sd.write(record)
 
 
-def prediction_processing(dataframe: pd.DataFrame) -> pd.DataFrame:
-    '''Format final prediction dataframes.'''
-    df = pd.read_table(dataframe)
-    df['accuracy'] = df.select_dtypes('float').max(axis=1)
-    df = df[['id','prediction','accuracy']]
-    prev_pred = df['id'].str.split('|').to_list() # get previous prediction label
-    df['id'] = df['id'].str.split('|',expand=True)[0]
-    prev_pred = pd.Series([ i[-1] for i in prev_pred ])
-    df['prediction'] = prev_pred + '|' + df['prediction'] # concatenate previous and last prediction
-    return df
-
-
 def te_count(dataframe: pd.DataFrame) -> pd.DataFrame:
     '''Return dataframe with counts for each label.'''
     df = pd.read_table(dataframe)
-    counts = df['prediction'].value_counts().rename_axis('prediction').reset_index(name='count')
+    counts = df[['prediction_3', 'prediction_final']].value_counts().reset_index(name='count')
+    counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
+    counts = counts.loc[:,['id', 'count']]
+
     return counts
 
 
-def concat_pred_tables(dfs, stp05, stp06, stp04, mod):
+def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod):
     """Concatenate final prediction tables in one"""
     final_dfs = []
+    merg = pd.read_table(merged_0102)
     for ft in [stp05, stp06, stp04]:
         if ft.exists():
-            df = prediction_processing(ft)
+            df = table_filter(pd.read_table(ft))
             final_dfs.append(df)
     final_dfs = pd.concat(final_dfs)
+    final_dfs = merg.merge(final_dfs, on='id', suffixes=['_3', '_final'])
+
     if mod == "a":
         final_dfs[['id', 'start-end']] = final_dfs['id'].str.split(':', expand=True)
         final_dfs = final_dfs[['id', 'start-end', 'prediction', 'accuracy']]
+
     final_dfs.to_csv(dfs, index=False, sep='\t')
 
 

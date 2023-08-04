@@ -9,8 +9,8 @@ from pathlib import Path
 from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
-from utils.te_predict import Predictor, get_seq_from_pred, prediction_processing, te_count
-from utils.te_predict import get_nonTE, concat_pred_tables, concat_fastas
+from utils.te_predict import Predictor, get_seq_from_pred, te_count
+from utils.te_predict import get_TE_table, concat_pred_tables, concat_fastas
 from utils.get_fasta import get_selected_sequences
 
 # Get date and time
@@ -86,6 +86,7 @@ clustered_fasta_location = temp_dir / clustered_fasta
 # TE prediction dataframe
 step01_te_pred_df = temp_dir / 'tmp_TE.tsv'
 step01_te_fasta = temp_dir / 'tmp_TE.fasta'
+tmp_te_table = temp_dir / 'tmp_TE_TABLE.tsv'
 
 # Class prediction
 step02_te_pred_df = temp_dir / 'tmp_CLASS.tsv'
@@ -115,7 +116,6 @@ nonltr_final_fasta = temp_dir / 'tmp_nonLTR_FINAL.fasta'
 final_prediction_table = output_directory / f'{hamlete_prefix}_PRD.tsv'
 final_prediction_fasta = output_directory / f'{hamlete_prefix}_SQS.fasta'
 final_prediction_counts = output_directory / f'{hamlete_prefix}_CNT.tsv'
-final_nonte_table = output_directory / f'{hamlete_prefix}_nTE.tsv'
 
 # -----------//-----------
 
@@ -154,10 +154,6 @@ pred_01.label_prediction(clustered_fasta_location,
                          step01_te_pred_df,
                          batch_size_value=batch_value,
                          no_bar=progress_bar)
-
-# Non-TE table
-get_nonTE(step01_te_pred_df,
-          final_nonte_table)
 
 get_seq_from_pred(step01_te_pred_df,
                   'TE',
@@ -242,8 +238,16 @@ if step01_te_fasta.exists():
         print(f'\n### Creating directory {output_directory}')
         output_directory.mkdir()
 
+    # Get TE and class predictions
+    get_TE_table(step01_te_pred_df,
+                 step02_te_pred_df,
+                 step03_te_pred_df,
+                 tmp_te_table,
+                 cut_value=te_cutoff)
+
     # Concatenate final predictions
     concat_pred_tables(final_prediction_table,
+                       tmp_te_table,
                        step05_te_pred_df,
                        step06_te_pred_df,
                        step04_te_pred_df,
