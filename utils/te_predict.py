@@ -22,6 +22,8 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from keras.preprocessing.sequence import pad_sequences
 sys.stderr = stderr
+pd.options.mode.chained_assignment = None  # default='warn'
+
 
 @dataclass
 class Predictor:
@@ -128,7 +130,7 @@ def te_count(dataframe: pd.DataFrame) -> pd.DataFrame:
     df = pd.read_table(dataframe)
     counts = df[['prediction_3', 'prediction_final']].value_counts().reset_index(name='count')
     counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
-    counts = counts.loc[:,['id', 'count']]
+    counts = counts.loc[:, ['id', 'count']]
 
     return counts
 
