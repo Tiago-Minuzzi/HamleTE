@@ -150,6 +150,7 @@ def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod):
         final_dfs[['id', 'start-end']] = final_dfs['id'].str.split(':', expand=True)
         start_end_col = final_dfs.pop('start-end')
         final_dfs.insert(1, 'start-end', start_end_col)
+        final_dfs.insert(2, 'length', -(final_dfs['start-end'].map(eval)-1))
 
     final_dfs.to_csv(dfs, index=False, sep='\t')
 
