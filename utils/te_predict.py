@@ -148,7 +148,8 @@ def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod):
 
     if mod == "a":
         final_dfs[['id', 'start-end']] = final_dfs['id'].str.split(':', expand=True)
-        final_dfs = final_dfs[['id', 'start-end', 'prediction', 'accuracy']]
+        start_end_col = final_dfs.pop('start-end')
+        final_dfs.insert(1, 'start-end', start_end_col)
 
     final_dfs.to_csv(dfs, index=False, sep='\t')
 
