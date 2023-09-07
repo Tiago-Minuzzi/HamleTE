@@ -1,13 +1,17 @@
 import sys
 import shutil
 import subprocess
+from math import ceil
 from pathlib import Path
 
 
-def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str, klen=13, ord_=6) -> None:
+def red_repeat_finder(input_fasta: str, temp_dir: str, redout_dir: str, klen=13) -> None:
     """Run Red and find repeats"""
     # Change extensions to 'fa'
     renamed_fasta = Path(f'{input_fasta.stem}.fa')
+
+    # order level of Markov chain
+    ord_ = ceil((klen/2)-1)  # higher value, higher the accuracy. May cause overfitting and increases computational complexity
 
     # Create temporary directory, if not exists.
     if not temp_dir.exists():
