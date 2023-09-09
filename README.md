@@ -40,9 +40,11 @@ Decompress the `hamlete_models.tar.xz`  in the `models` directory using your fav
 
 After that, you can install the dependecies through a conda environment or manually.
 
+Here is a video tutorial to install HamleTE: [Installation video](https://youtu.be/atULrCs3Pow).
+
 ### Conda environment <a name="conda"></a>
 
-If you don't have conda installed, you can check how to install on [miniconda's webpage](https://docs.conda.io/en/latest/miniconda.html). With conda installed on your system you can easily create a conda environment containing all dependecies by running:
+If you don't have conda installed, you can check how to install on [miniconda's webpage](https://docs.conda.io/en/latest/miniconda.html) or you can watch the installation tutorial for Linux here: [Video tutorial link](https://youtu.be/KI3yrW6VJIc). With conda installed on your system you can easily create a conda environment containing all dependecies by running:
 
 `conda env create -f hamlete_env.yml`
 
@@ -83,7 +85,7 @@ To install Red, clone [Red's github repository](https://github.com/Bioinformatic
 
 ## Usage <a name="usage"></a>
 
-The `genome` mode is the default, which is used to find TE's in genomes or transcriptomes. If you have a set of sequences/TE library that you just want to classify, you can use the `classifier` mode by changing the mode flag. Below are the available options.
+The `annotation` mode is the default, which is used to find TE's in genomes or transcriptomes. If you have a set of sequences/TE library that you just want to classify, you can use the `classifier` mode by changing the mode flag. Below are the available options.
 
 ```
 usage: hamleTE.py [-h] -f FASTA [-m MODE] [-c CUTOFF] [-k LABEL_CUTOFF]
@@ -96,11 +98,11 @@ optional arguments:
   -h, --help            show this help message and exit
   -f FASTA, --fasta FASTA
                         Genome or repeats/TEs fasta file.
-  -m MODE, --mode MODE  Type (without quotation marks) 'g' for genome mode or
-                        'c' for classifier mode. Default = g.
+  -m MODE, --mode MODE  Type (without quotation marks) 'a' for annotation mode or
+                        'c' for classifier mode. Default = a.
   -c CUTOFF, --cutoff CUTOFF
                         Cutoff value for TE identification. Value must be
-                        between 0 and 1.
+                        between 0 and 1. Default = 0.5.
   -k LABEL_CUTOFF, --label_cutoff LABEL_CUTOFF
                         Cutoff value for TE superfamily classification. Value
                         must be between 0 and 1.
@@ -111,7 +113,7 @@ optional arguments:
   -l LEN_KMER, --len_kmer LEN_KMER
                         Length of k-mer to find repeats in genomes. Default =
                         13.
-  --min_len MIN_LEN     Minimum repeat sequence length. Default = 50.
+  --min_len MIN_LEN     Minimum repeat sequence length. Default = 50.
   --noclust             Do not cluster repeats. Results on more repeats to be
                         classified as TEs.
   --nobar               Disable progress bar.
@@ -123,9 +125,13 @@ After activating HamleTE's conda environment, for genomes or transcriptomes, you
 
 `python3 hamleTE.py -f genome.fasta`
 
+Video tutorial: [Running annotation mode](https://youtu.be/Ubl5oaI-HBw).
+
 To use the classifier mode change the mode flag as follows:
 
 `python3 hamleTE.py -m c -f my_TE_set.fasta`
+
+Video tutorial: [Running classification mode](https://youtu.be/sEqVi2mauu8).
 
 ### Docker container <a name="udocker"></a>
 
@@ -159,8 +165,8 @@ To run the docker container version, mount the directory containing your fasta f
 
 ## To-do
 
-- [ x ] Return non-TE table
+- [x] Return non-TE table
 
-- [ ] Return the probability value for the Class/Order
+- [x] Return the probability value for the Class/Order
 
 - [ ] Add GPU support
