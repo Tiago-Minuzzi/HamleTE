@@ -143,23 +143,21 @@ To run the docker container version, mount the directory containing your fasta f
 
 ### Annotation mode <a name="annot"></a>
 
-| id            | start-end | prediction   | accuracy |
-| ------------- | --------- | ------------ | -------- |
-| chrom_0100472 | 531-1258  | DNA\|Mutator | 0.983    |
-| chrom_0079084 | 3410-4583 | nonLTR\|LINE | 0.828    |
-| chrom_0330414 | 4081-4836 | LTR\|Gypsy   | 0.897    |
-| chrom_0089582 | 1-175     | DNA\|hAT     | 0.895    |
-| chrom_0071622 | 4394-4493 | LTR\|Copia   | 0.907    |
+| id | start-end | length | prediction_1 | accuracy_1 | prediction_2 | accuracy_2 | prediction_3 | accuracy_3 | prediction_final | accuracy_final |
+| ------------- | --------- | ------ | ------------ | -------- | ------------ | -------- | ------------ | -------- | ------------ | -------- | 
+| chrom1 | 4852-4968 | 117 | TE | 0.999 | Retro | 0.998 | LTR | 1.0 | Gypsy | 0.809 |
+| chrom2 | 88-1423 | 1336 | TE | 0.907 | Retro | 0.956 | nonLTR | 1.0 | LINE | 0.841 |
+| chrom3 | 1-1906 | 1906 | TE | 0.983 | DNA | 0.994 | DNA | 0.994 | Tc1-Mariner | 0.952 |
+| chrom4 | 1-1579 | 1579 | TE | 0.941 | DNA | 0.966 | DNA | 0.966 | Helitron | 0.979 |
 
 ### Classification mode <a name="class"></a>
 
-| id    | prediction    | accuracy |
-| ----- | ------------- | -------- |
-| seq_1 | nonLTR\|DIRS  | 0.808    |
-| seq_2 | LTR\|Bel-Pao  | 0.943    |
-| seq_3 | DNA\|Helitron | 0.835    |
-| seq_4 | nonLTR\|SINE  | 0.843    |
-| seq_5 | LTR\|Copia    | 0.705    |
+| id | prediction_1 | accuracy_1 | prediction_2 | accuracy_2 | prediction_3 | accuracy_3 | prediction_final | accuracy_final |
+| ------------- | ------------ | -------- | ------------ | -------- | ------------ | -------- | ------------ | -------- |
+| Seq_430 | TE | 1.0 | Retro | 0.582 | LTR | 0.516 | Gypsy | 0.999 |
+| Seq_835 | TE | 0.792 | DNA | 0.89 | DNA | 0.89 | Tc1-Mariner | 1.0 |
+| Seq_328 | TE | 0.966 | Retro | 1.0 | LTR | 1.0 | Copia | 0.705 |
+| Seq_102 | TE | 0.99 | Retro | 0.9 | nonLTR | 1.0 | LINE | 0.966|
 
 ---
 
