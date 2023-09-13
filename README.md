@@ -144,7 +144,7 @@ To run the docker container version, mount the directory containing your fasta f
 ### Annotation mode <a name="annot"></a>
 
 | id | start-end | length | prediction_1 | accuracy_1 | prediction_2 | accuracy_2 | prediction_3 | accuracy_3 | prediction_final | accuracy_final |
-| ------------- | --------- | ------ | ------------ | -------- | ------------ | -------- | ------------ | -------- | ------------ | -------- | 
+| :-------------: | :---------: | :------: | :------------: | :--------: | :------------: | :--------: | :------------: | :--------: | :------------: | :--------: | 
 | chrom1 | 4852-4968 | 117 | TE | 0.999 | Retro | 0.998 | LTR | 1.0 | Gypsy | 0.809 |
 | chrom2 | 88-1423 | 1336 | TE | 0.907 | Retro | 0.956 | nonLTR | 1.0 | LINE | 0.841 |
 | chrom3 | 1-1906 | 1906 | TE | 0.983 | DNA | 0.994 | DNA | 0.994 | Tc1-Mariner | 0.952 |
@@ -153,7 +153,7 @@ To run the docker container version, mount the directory containing your fasta f
 ### Classification mode <a name="class"></a>
 
 | id | prediction_1 | accuracy_1 | prediction_2 | accuracy_2 | prediction_3 | accuracy_3 | prediction_final | accuracy_final |
-| ------------- | ------------ | -------- | ------------ | -------- | ------------ | -------- | ------------ | -------- |
+| :-------------: | :------------: | :--------: | :------------: | :--------: | :------------: | :--------: | :------------: | :--------: |
 | Seq_430 | TE | 1.0 | Retro | 0.582 | LTR | 0.516 | Gypsy | 0.999 |
 | Seq_835 | TE | 0.792 | DNA | 0.89 | DNA | 0.89 | Tc1-Mariner | 1.0 |
 | Seq_328 | TE | 0.966 | Retro | 1.0 | LTR | 1.0 | Copia | 0.705 |
