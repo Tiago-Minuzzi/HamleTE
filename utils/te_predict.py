@@ -147,8 +147,9 @@ def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod):
     final_dfs = merg.merge(final_dfs, on='id', suffixes=['_3', '_final'])
 
     if mod == "a":
-        final_dfs[['id', 'start-end']] = final_dfs['id'].str.split(':', expand=True)
-        start_end_col = final_dfs.pop('start-end')
+        fids = final_dfs['id'].str.rsplit(':', n=1).str[0]
+        start_end_col = final_dfs['id'].str.rsplit(':', n=1).str[1]
+        final_dfs['id'] = fids
         final_dfs.insert(1, 'start-end', start_end_col)
         final_dfs.insert(2, 'length', -(final_dfs['start-end'].map(eval)-1))
 
