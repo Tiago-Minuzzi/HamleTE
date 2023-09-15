@@ -135,7 +135,7 @@ def te_count(dataframe: pd.DataFrame) -> pd.DataFrame:
     return counts
 
 
-def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod):
+def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod) -> None:
     """Concatenate final prediction tables in one"""
     final_dfs = []
     merg = pd.read_table(merged_0102)
@@ -156,7 +156,7 @@ def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod):
     final_dfs.to_csv(dfs, index=False, sep='\t')
 
 
-def concat_fastas(final_fasta, ltr, nonltr, dna):
+def concat_fastas(final_fasta, ltr, nonltr, dna) -> None:
     """Concatenate final fastas files in one representing the TE library"""
     with open(final_fasta, 'wb') as wfd:
         for f in [ltr, nonltr, dna]:
