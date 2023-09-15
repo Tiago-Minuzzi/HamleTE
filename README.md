@@ -167,6 +167,8 @@ To run the docker container version, mount the directory containing your fasta f
 
 - [x] Return the probability value for the Class/Order
 
+- [ ] Add model for Class II subclass classification
+-
 - [ ] Return log file
 
 - [ ] Add GPU support
