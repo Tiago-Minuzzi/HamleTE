@@ -121,7 +121,7 @@ optional arguments:
 
 ### Basic usage <a name="basic"></a>
 
-After activating HamleTE's conda environment, for genomes or transcriptomes, you can simply run:
+After activating HamleTE's conda environment (using `conda activate hamlete`), for genomes or transcriptomes, you can simply run:
 
 `python3 hamleTE.py -f genome.fasta`
 
