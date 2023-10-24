@@ -21,7 +21,7 @@
 
 - [Questions, issues and requests](#issues)
 
-- [Updates](#updates)
+- [Updating](#updates)
 
     <img title="HamleTE" src="https://github.com/Tiago-Minuzzi/HamleTE/blob/dev/img/hamleTE.png" width="200" height="200" align="right">
 
@@ -181,7 +181,7 @@ To run the docker container version, mount the directory containing your fasta f
 
 If you have any questions about the usage, issues found during usage or feature requests, please, feel free to open an issue on the [issues section](https://github.com/Tiago-Minuzzi/HamleTE/issues) of HameleTE's github page.
 
-## Updates <a name="updates"></a>
+## Updating <a name="updates"></a>
 
 If you don't have the latest features, run the following command from the command-line inside HamleTE's folder on your machine:
 
