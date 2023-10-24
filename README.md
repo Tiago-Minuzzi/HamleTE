@@ -19,6 +19,8 @@
     - [Annotaion mode](#annot)
     - [Classification mode](#class)
 
+- [Questions, issues and requests](#issues)
+
     <img title="HamleTE" src="https://github.com/Tiago-Minuzzi/HamleTE/blob/dev/img/hamleTE.png" width="200" height="200" align="right">
 
 ## Introduction<a name="intro"></a>
@@ -158,6 +160,10 @@ To run the docker container version, mount the directory containing your fasta f
 | Seq_835 | TE | 0.792 | DNA | 0.89 | DNA | 0.89 | Tc1-Mariner | 1.0 |
 | Seq_328 | TE | 0.966 | Retro | 1.0 | LTR | 1.0 | Copia | 0.705 |
 | Seq_102 | TE | 0.99 | Retro | 0.9 | nonLTR | 1.0 | LINE | 0.966|
+
+## Questions, issues and requests <a name="issues"></a>
+
+If you have any questions about the usage, issues found during usage or feature requests, please, feel free to open an issue on the [issues section](https://github.com/Tiago-Minuzzi/HamleTE/issues) of HameleTE's github page.
 
 ---
 
