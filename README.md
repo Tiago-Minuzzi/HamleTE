@@ -1,4 +1,4 @@
-# HamleTE: a deep learning powered tool to find and classify transposable elements
+# HamleTE: a deep learning powered tool to annotate and classify transposable elements
 
 ## Table of contents
 
@@ -18,6 +18,7 @@
 - [Output example](#output)
     - [Annotaion mode](#annot)
     - [Classification mode](#class)
+    - [Count table](#counts)
 
 - [Questions, issues and requests](#issues)
 
@@ -157,7 +158,7 @@ To run the docker container version, mount the directory containing your fasta f
 
 `docker run -v /path/to/my/directory:/mnt -it hamlete hamleTE.py -f /mnt/genome.fasta -o /mnt/out_flow`
 
-## Example output <a name="output"></a>
+## Output example <a name="output"></a>
 
 ### Annotation mode <a name="annot"></a>
 
@@ -176,6 +177,17 @@ To run the docker container version, mount the directory containing your fasta f
 | Seq_835 | TE | 0.792 | DNA | 0.89 | DNA | 0.89 | Tc1-Mariner | 1.0 |
 | Seq_328 | TE | 0.966 | Retro | 1.0 | LTR | 1.0 | Copia | 0.705 |
 | Seq_102 | TE | 0.99 | Retro | 0.9 | nonLTR | 1.0 | LINE | 0.966|
+
+### Count table <a name="counts"></a>
+
+The file ending with `CNT.tsv` contains the total count of TE groups and the total count of bases for each group.
+
+| id | count | base_count |
+| :---: | :---: | :---: |
+| LTR\|Gypsy | 166 | 414936 |
+| nonLTR\|LINE | 106 | 318573 |
+| DNA\|Helitron | 97 | 280230 |
+| nonLTR\|Penelope | 51 | 75123 |
 
 ## Questions, issues and requests <a name="issues"></a>
 
