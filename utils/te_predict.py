@@ -129,8 +129,10 @@ def te_count(dataframe: pd.DataFrame) -> pd.DataFrame:
     '''Return dataframe with counts for each label.'''
     df = pd.read_table(dataframe)
     counts = df[['prediction_3', 'prediction_final']].value_counts().reset_index(name='count')
+    bases = df.groupby('prediction_final')['length'].sum().reset_index(name='base_count')
+    counts = pd.merge(counts, bases, on='prediction_final')
     counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
-    counts = counts.loc[:, ['id', 'count']]
+    counts = counts.loc[:, ['id', 'count', 'base_count']]
 
     return counts
 
