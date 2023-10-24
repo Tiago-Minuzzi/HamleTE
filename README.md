@@ -21,7 +21,23 @@
 
 - [Questions, issues and requests](#issues)
 
+- [Updates](#updates)
+
     <img title="HamleTE" src="https://github.com/Tiago-Minuzzi/HamleTE/blob/dev/img/hamleTE.png" width="200" height="200" align="right">
+
+## Latest updates
+
+```
+- 2023-10-24: Total base counts by TE group added to CNT table.
+
+- 2023-10-24: Function to replace non "ACTGN" bases optimized.
+
+- 2023-09-08: Video tutorials for installation and usage.
+
+- 2023-08-04: Default cutoff value set to 0.5.
+
+- 2023-08-04: Prediction table containing the accuracy for all classification levels.
+```
 
 ## Introduction<a name="intro"></a>
 
@@ -34,7 +50,7 @@ It uses [Red](https://github.com/BioinformaticsToolsmith/Red) to find genomic re
 
 HamleTE can be installed either by creating a conda environment or manually. The first step is to [download](https://github.com/Tiago-Minuzzi/HamleTE/archive/refs/heads/main.zip) or clone this repo. To clone it run:
 
-`git clone https://github.com/Tiago-Minuzzi/HamleTE`
+`git clone --depth 1 https://github.com/Tiago-Minuzzi/HamleTE`
 
 Decompress the `hamlete_models.tar.xz`  in the `models` directory using your favorite application or via command-line using:
 
@@ -164,6 +180,12 @@ To run the docker container version, mount the directory containing your fasta f
 ## Questions, issues and requests <a name="issues"></a>
 
 If you have any questions about the usage, issues found during usage or feature requests, please, feel free to open an issue on the [issues section](https://github.com/Tiago-Minuzzi/HamleTE/issues) of HameleTE's github page.
+
+## Updates <a name="updates"></a>
+
+If you don't have the latest features, run the following command from the command-line inside HamleTE's folder on your machine:
+
+`git pull`
 
 ---
 
