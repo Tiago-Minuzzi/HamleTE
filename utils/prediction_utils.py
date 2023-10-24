@@ -39,11 +39,8 @@ def batch_iterator(iterator, size):
 def replace_nnt(sequence: str) -> str:
     '''Replace invalid nucleotides on sequence.'''
     not_nt = 'bdefhijklmopqrsuvwxyz'
-    sequence = sequence.lower()
-    for nnt in not_nt:
-        if nnt in sequence:
-            sequence = sequence.replace(nnt,'n')
-    return sequence
+    translation_table = str.maketrans(not_nt, 'n' * len(not_nt))
+    return sequence.lower().translate(translation_table)
     
 
 def tokenize_sequences(sequencias):
