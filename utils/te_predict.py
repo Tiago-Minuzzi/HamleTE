@@ -125,14 +125,18 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
                     sd.write(record)
 
 
-def te_count(dataframe: pd.DataFrame) -> pd.DataFrame:
+def te_count(dataframe: pd.DataFrame, mod: str) -> pd.DataFrame:
     '''Return dataframe with counts for each label.'''
     df = pd.read_table(dataframe)
     counts = df[['prediction_3', 'prediction_final']].value_counts().reset_index(name='count')
-    bases = df.groupby('prediction_final')['length'].sum().reset_index(name='base_count')
-    counts = pd.merge(counts, bases, on='prediction_final')
-    counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
-    counts = counts.loc[:, ['id', 'count', 'base_count']]
+    if mod == "a":
+        bases = df.groupby('prediction_final')['length'].sum().reset_index(name='base_count')
+        counts = pd.merge(counts, bases, on='prediction_final')
+        counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
+        counts = counts.loc[:, ['id', 'count', 'base_count']]
+    else:
+        counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
+        counts = counts.loc[:, ['id', 'count']]
 
     return counts
 

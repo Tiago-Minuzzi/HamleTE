@@ -263,7 +263,7 @@ if step01_te_fasta.exists():
         # Remove temporary directory
         shutil.rmtree(temp_dir)
         # Create prediction count table
-        counts = te_count(final_prediction_table)
+        counts = te_count(final_prediction_table, mode)
         counts.to_csv(final_prediction_counts, index=False, sep='\t')
 
     hamlete_end = time.perf_counter()
