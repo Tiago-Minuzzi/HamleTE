@@ -180,7 +180,7 @@ To run the docker container version, mount the directory containing your fasta f
 
 ### Count table <a name="counts"></a>
 
-The file ending with `CNT.tsv` contains the total count of TE groups and the total count of bases for each group.
+The file ending with `CNT.tsv` contains the total count of TE groups and the total count of bases for each group in the annotation mode.
 
 | id | count | base_count |
 | :---: | :---: | :---: |
