@@ -1,3 +1,8 @@
+### \*\*\*Attention***
+HamleTE is going through a retraining to reduce biases and false positives.
+
+We hope to release an improved version soon.
+
 # HamleTE: a deep learning powered tool to annotate and classify transposable elements
 
 ## Table of contents
