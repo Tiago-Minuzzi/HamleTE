@@ -7,10 +7,10 @@ import pandas as pd
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 # Hide warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-stderr = sys.stderr
-sys.stderr = open(os.devnull, 'w')
+stderr      = sys.stderr
+sys.stderr  = open(os.devnull, 'w')
 from keras.preprocessing.text import Tokenizer
-sys.stderr = stderr
+sys.stderr  = stderr
 
 
 def fasta_reader(fasta_file: str):
@@ -38,15 +38,18 @@ def batch_iterator(iterator, size):
 
 def replace_nnt(sequence: str) -> str:
     '''Replace invalid nucleotides on sequence.'''
-    not_nt = 'bdefhijklmopqrsuvwxyz'
-    translation_table = str.maketrans(not_nt, 'n' * len(not_nt))
+    not_nt              = 'bdefhijklmopqrsuvwxyz'
+    translation_table   = str.maketrans(not_nt, 'n' * len(not_nt))
     return sequence.lower().translate(translation_table)
     
 
 def tokenize_sequences(sequencias):
     '''Transform nucleotides in tokens in a vector.'''
     # Initialize tokenizer
-    tkz_seq = Tokenizer(num_words = None, split = ' ', char_level = True, lower = True)
+    tkz_seq = Tokenizer(num_words   = None,
+                        split       = ' ',
+                        char_level  = True,
+                        lower       = True)
     # fit fasta sequences to text
     tkz_seq.fit_on_texts(sequencias)
     # tokenize sequences
@@ -57,11 +60,12 @@ def tokenize_sequences(sequencias):
 def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame:
     '''Return prediction values as dataframe.'''
     # Labels
-    prediction_results = prediction_results[:,1:]
+    prediction_results  = prediction_results[:,1:]
     # Create dataframe
-    label_pred_df = pd.DataFrame(prediction_results, columns = colunas)
-    label_pred_df = label_pred_df.round(3)
-    label_pred_df = pd.concat([fasta_ids,label_pred_df],axis=1)
+    label_pred_df   = pd.DataFrame(prediction_results,
+                                   columns = colunas)
+    label_pred_df   = label_pred_df.round(3)
+    label_pred_df   = pd.concat([fasta_ids, label_pred_df],axis=1)
     # Create label column
     label_pred_df['prediction'] = label_pred_df[colunas].idxmax(axis=1)
     return label_pred_df

@@ -62,7 +62,7 @@ class Predictor:
                                                     batch_size  = batch_size_value,
                                                     verbose     = 0)
                         identifiers = pd.Series(identifiers, name='id')
-                        results_df = label_pred_dataframe(identifiers, pred_values, colunas)
+                        results_df  = label_pred_dataframe(identifiers, pred_values, colunas)
                         predictions.append(results_df)
                 predictions = pd.concat(predictions)
                 predictions.to_csv(out_table, index=False, sep='\t')
