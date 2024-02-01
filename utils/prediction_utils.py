@@ -36,27 +36,6 @@ def batch_iterator(iterator, size):
         yield batch
 
 
-def replace_nnt(sequence: str) -> str:
-    '''Replace invalid nucleotides on sequence.'''
-    not_nt              = 'bdefhijklmopqrsuvwxyz'
-    translation_table   = str.maketrans(not_nt, 'n' * len(not_nt))
-    return sequence.lower().translate(translation_table)
-    
-
-def tokenize_sequences(sequencias):
-    '''Transform nucleotides in tokens in a vector.'''
-    # Initialize tokenizer
-    tkz_seq = Tokenizer(num_words   = None,
-                        split       = ' ',
-                        char_level  = True,
-                        lower       = True)
-    # fit fasta sequences to text
-    tkz_seq.fit_on_texts(sequencias)
-    # tokenize sequences
-    x_seq_arrays = tkz_seq.texts_to_sequences(sequencias)
-    return x_seq_arrays
-
-
 def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame:
     '''Return prediction values as dataframe.'''
     # Create dataframe
