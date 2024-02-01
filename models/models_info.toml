@@ -16,7 +16,7 @@ labels = ['LTR', 'nonLTR']
 [dna_model]
 name = 'Class 2 classifier'
 location = 'models/dna_te.hdf5'
-labels = ['CMC', 'Helitron', 'Novosib', 'Sola', 'Tc1-Mariner', 'Zator']
+labels = ['CMC', 'Helitron', 'Novosib', 'Sola', 'Tc1-Mariner', 'Zator', 'hAT']
 
 [ltr_model]
 name = 'LTR classifier'
