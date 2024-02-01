@@ -26,8 +26,8 @@ ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 
-RUN ["/root/.pyenv/bin/pyenv","install","3.7.12"]
-RUN ["/root/.pyenv/bin/pyenv","global","3.7.12"]
+RUN ["/root/.pyenv/bin/pyenv","install","3.10.12"]
+RUN ["/root/.pyenv/bin/pyenv","global","3.10.12"]
 
 RUN ["python3","-m","pip","install","-r","/HAMLETE/hamlete/requirements.txt"]
 
