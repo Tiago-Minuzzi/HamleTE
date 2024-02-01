@@ -30,8 +30,8 @@ parser.add_argument('-c',       '--cutoff',
 
 parser.add_argument('-k',       '--label_cutoff',
                     type        = restricted_float,
-                    default     = None,
-                    help        = "Cutoff value for TE superfamily classification. Value must be between 0 and 1.")
+                    default     = 0.5,
+                    help        = "Cutoff value for TE superfamily classification. Value must be between 0 and 1. Default = 0.5.")
 
 parser.add_argument('-b',       '--batch_value',
                     type        = int,
@@ -45,7 +45,7 @@ parser.add_argument('-o',       '--output_dir',
 
 parser.add_argument('-l',       '--len_kmer',
                     type        = int,
-                    default     = 13,
+                    default     = 14,
                     help        = "Length of k-mer to find repeats in genomes. Default = 13.")
 
 parser.add_argument('--min_len',
