@@ -74,7 +74,7 @@ If you don't have conda installed, you can check how to install on [miniconda's 
 
 Then, you can enter the conda environment with the command:
 
-`conda activate hamlete`
+`conda activate hamleTE`
 
 ### Docker <a name="docker"></a>
 
@@ -86,19 +86,19 @@ To run HamleTE using a docker container, first build the image using the Dockerf
 
 If want a conda-free installation, it can be done manually by installing the depencies below:
 
-- Python=3.7
-- biopython=1.79
-- h5py=2.10.0
-- Keras=2.3.1
-- numpy=1.19.5
+- Python=3.10.12
+- biopython=1.81
+- h5py=3.9.0
+- Keras=2.13.1
+- numpy=1.24.3
 - pandas=1.3.4
-- scikit-learn=1.0.1
-- scipy=1.4.1
-- tensorflow=2.1.0
+- scikit-learn=1.2.2
+- scipy=1.10.1
+- tensorflow=2.13.0
 - cd-hit-est=4.8.1
 - tomli=2.0.1
 - tqdm=4.64.1
-- protobuf=3.20.0
+- protobuf=4.24.0
 - Red=2.0
 
 For the manual installation, it's suggest to use a Python version management tool such as [Pyenv](https://github.com/pyenv/pyenv) and use it through a virtual environment to avoid depency conflicts. You can run `pip install -r requirements.txt` to install the Python packages needed.
