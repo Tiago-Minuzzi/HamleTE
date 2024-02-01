@@ -50,7 +50,7 @@ batch_value     = batch_value if batch_value <= MAX_PRED_BATCH else MAX_PRED_BAT
 
 # Other command-line arguments
 progress_bar    = helper.args.nobar  # disable progress bar
-clustering      = helper.args.noclust  # disable clustering
+clustering      = helper.args.clust  # enable clustering
 mode            = helper.args.mode
 
 # Genome/library in fasta format

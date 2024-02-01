@@ -53,9 +53,9 @@ parser.add_argument('--min_len',
                     default     = 200,
                     help        = "Minimum repeat sequence length. Default=200.")
 
-parser.add_argument('--noclust',
-                    action      = 'store_false',
-                    help        = "Do not cluster repeats. Results on more repeats to be classified as TEs.")
+parser.add_argument('--clust',
+                    action      = 'store_true',
+                    help        = "Cluster repeats from Red output to reduce redundancy.")
 
 parser.add_argument('--nobar',
                     action      = 'store_true',
