@@ -3,7 +3,7 @@ from pyfaidx import Fasta
 from typing import TextIO
 
 
-def repeats_to_fasta(masked_fasta: str, repeats_file: str, repeats_fasta: str, min_len: int = 50) -> TextIO:
+def repeats_to_fasta(masked_fasta: str, repeats_file: str, repeats_fasta: str, min_len: int = 200) -> TextIO:
     """ Read repeat coordinates from Red output and save the repeats in a fasta file."""
     masked_fasta = Fasta(masked_fasta, read_long_names=True)
     with open(repeats_file) as rpts, open(repeats_fasta, 'w') as sd:
@@ -14,7 +14,7 @@ def repeats_to_fasta(masked_fasta: str, repeats_file: str, repeats_fasta: str, m
             sstart, send = coords.split('-')
             sstart, send = int(sstart), int(send)
             # get sequence
-            if min_len <= (send - sstart) <= 30_000:  # filter sequences by length
+            if min_len <= (send - sstart) <= 25_000:  # filter sequences by length
                 fsq = masked_fasta[fid][sstart:send].seq
                 sstart = sstart + 1
                 fid = re.split('\s|\t',fid)[0]
