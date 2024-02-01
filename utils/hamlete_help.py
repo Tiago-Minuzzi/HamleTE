@@ -55,7 +55,7 @@ parser.add_argument('--min_len',
 
 parser.add_argument('--clust',
                     action      = 'store_true',
-                    help        = "Cluster repeats from Red output to reduce redundancy.")
+                    help        = "Cluster repeats from Red output to reduce redundancy. This method reduces the speed considerably.")
 
 parser.add_argument('--nobar',
                     action      = 'store_true',
