@@ -32,34 +32,35 @@ class Predictor:
 
     def label_prediction(self, in_fasta: str, out_table: str, batch_size_value: int = 32, no_bar: bool = False) -> None:
         '''Run model to predict classes and return the predictions as a tsv file.'''
-        modelo = self.location
-        colunas = self.labels
-        PADVALUE = 30_000
+        modelo      = self.location
+        colunas     = self.labels
+        PADVALUE    = 25_000
         try:
-            modelo = load_model(modelo)
+            modelo      = load_model(modelo)
             predictions = []
-            nt_to_token = { 'a' : 1, 't' : 2, 'g' : 3, 'c' : 4 }
+            nt_to_token = { 'a' : 1, 'c' : 2, 'g' : 3, 't' : 4 }
             if in_fasta.exists():
-                n_seqs = len([ i for i in open(in_fasta) if i.startswith('>') ])
-                total_batches = ceil(n_seqs / batch_size_value)
+                n_seqs          = len([ i for i in open(in_fasta) if i.startswith('>') ])
+                total_batches   = ceil(n_seqs / batch_size_value)
                 print(f'    - Predicting on {n_seqs} sequences divided in {total_batches} batch(es).')
                 with open(in_fasta) as fa:
                     for record in tqdm(batch_iterator(SimpleFastaParser(fa), batch_size_value), desc="    - Status", total=total_batches, unit='', ascii=' =',disable=no_bar):
                         identifiers = []
-                        sequences = []
+                        sequences   = []
                         for fid, fsq in record:
                             identifiers.append(fid)
                             # Tokenize sequences
                             sequences.append([ nt_to_token.get(nt,5) for nt in fsq.lower() ])
                         # Pad sequences
-                        padded_seqs = pad_sequences(sequences, padding='post',
-                                                    maxlen = PADVALUE, 
-                                                    truncating='post', 
-                                                    dtype='uint8')
+                        padded_seqs = pad_sequences(sequences,
+                                                    maxlen      = PADVALUE,
+                                                    padding     = 'post',
+                                                    truncating  = 'post',
+                                                    dtype       = 'uint8')
                         # Predict labels
                         pred_values = modelo.predict(padded_seqs,
-                                                    batch_size = batch_size_value,
-                                                    verbose = 0)
+                                                    batch_size  = batch_size_value,
+                                                    verbose     = 0)
                         identifiers = pd.Series(identifiers, name='id')
                         results_df = label_pred_dataframe(identifiers, pred_values, colunas)
                         predictions.append(results_df)
@@ -78,16 +79,16 @@ class Predictor:
             filter_table['prediction'] = np.where(filter_table.select_dtypes('float').max(axis=1) < cut_value,
                                                   'Unknown',
                                                   filter_table.select_dtypes('float').idxmax(axis=1))
-        filter_table.to_csv(pred_table,index=False,sep='\t')
+        filter_table.to_csv(pred_table, index=False, sep='\t')
 
 
 def table_filter(df: pd.DataFrame) -> pd.DataFrame:
     """Filter columns of full prediction table resulting on id,
     prediction and accuracy columns only."""
 
-    df['accuracy'] = df.select_dtypes('float').max(axis=1)
-    df = df[['id', 'prediction', 'accuracy']]
-    df['id'] = df['id'].str.split('|').str[0]
+    df['accuracy']  = df.select_dtypes('float').max(axis=1)
+    df              = df[['id', 'prediction', 'accuracy']]
+    df['id']        = df['id'].str.split('|').str[0]
     return df
 
 
@@ -95,14 +96,14 @@ def get_TE_table(te_pred_table, class_pred_table, ret_table, out_table, cut_valu
     """Get TE predicted sequences and class predictions
     and merge to further create final table."""
 
-    df = table_filter(pd.read_table(te_pred_table))
-    df = df.loc[df['prediction'] == 'TE']
-    te_class = table_filter(pd.read_table(class_pred_table))
-    ret = table_filter(pd.read_table(ret_table))
-    merged = df.merge(te_class, on='id', suffixes=['_1', '_2']).merge(ret, on='id', how='outer').fillna(te_class)
+    df          = table_filter(pd.read_table(te_pred_table))
+    df          = df.loc[df['prediction'] == 'TE']
+    te_class    = table_filter(pd.read_table(class_pred_table))
+    ret         = table_filter(pd.read_table(ret_table))
+    merged      = df.merge(te_class, on='id', suffixes=['_1', '_2']).merge(ret, on='id', how='outer').fillna(te_class)
 
     if cut_value:
-        merged = merged.loc[merged['accuracy'] >= cut_value]
+        merged  = merged.loc[merged['accuracy'] >= cut_value]
 
     merged.to_csv(out_table, sep='\t', index=False)
 
@@ -113,7 +114,7 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
         df = pd.read_table(pred_table)
         if cut_value:
             df = df.loc[df[label] >= cut_value]
-        label_ids = df.loc[df['prediction'] == label]['id'].to_list()
+        label_ids       = df.loc[df['prediction'] == label]['id'].to_list()
         reference_fasta = Path(reference_fasta)
         fd = pd.DataFrame({ fid:fsq for fid,fsq in SimpleFastaParser(open(reference_fasta)) },index=[0]).T.rename_axis('id').reset_index()
         fd = fd.loc[fd['id'].isin(label_ids)].to_records(index=False)
@@ -127,24 +128,24 @@ def get_seq_from_pred(pred_table: str, label: str, reference_fasta: str, out_fas
 
 def te_count(dataframe: pd.DataFrame, mod: str) -> pd.DataFrame:
     '''Return dataframe with counts for each label.'''
-    df = pd.read_table(dataframe)
-    counts = df[['prediction_3', 'prediction_final']].value_counts().reset_index(name='count')
+    df      = pd.read_table(dataframe)
+    counts  = df[['prediction_3', 'prediction_final']].value_counts().reset_index(name='count')
     if mod == "a":
-        bases = df.groupby('prediction_final')['length'].sum().reset_index(name='base_count')
-        counts = pd.merge(counts, bases, on='prediction_final')
-        counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
-        counts = counts.loc[:, ['id', 'count', 'base_count']]
+        bases           = df.groupby('prediction_final')['length'].sum().reset_index(name='base_count')
+        counts          = pd.merge(counts, bases, on='prediction_final')
+        counts['id']    = counts['prediction_3'] + '|' + counts['prediction_final']
+        counts          = counts.loc[:, ['id', 'count', 'base_count']]
     else:
-        counts['id'] = counts['prediction_3'] + '|' + counts['prediction_final']
-        counts = counts.loc[:, ['id', 'count']]
+        counts['id']    = counts['prediction_3'] + '|' + counts['prediction_final']
+        counts          = counts.loc[:, ['id', 'count']]
 
     return counts
 
 
 def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod) -> None:
     """Concatenate final prediction tables in one"""
-    final_dfs = []
-    merg = pd.read_table(merged_0102)
+    final_dfs   = []
+    merg        = pd.read_table(merged_0102)
     for ft in [stp05, stp06, stp04]:
         if ft.exists():
             df = table_filter(pd.read_table(ft))
@@ -153,8 +154,8 @@ def concat_pred_tables(dfs, merged_0102, stp05, stp06, stp04, mod) -> None:
     final_dfs = merg.merge(final_dfs, on='id', suffixes=['_3', '_final'])
 
     if mod == "a":
-        fids = final_dfs['id'].str.rsplit(':', n=1).str[0]
-        start_end_col = final_dfs['id'].str.rsplit(':', n=1).str[1]
+        fids            = final_dfs['id'].str.rsplit(':', n=1).str[0]
+        start_end_col   = final_dfs['id'].str.rsplit(':', n=1).str[1]
         final_dfs['id'] = fids
         final_dfs.insert(1, 'start-end', start_end_col)
         final_dfs.insert(2, 'length', -(final_dfs['start-end'].map(eval)-1))
