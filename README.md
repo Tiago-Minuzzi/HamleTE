@@ -1,8 +1,3 @@
-### \*\*\*Attention***
-HamleTE is going through a retraining to reduce biases and false positives.
-
-We hope to release an improved version soon.
-
 # HamleTE: a deep learning powered tool to annotate and classify transposable elements
 
 ## Table of contents
@@ -34,6 +29,14 @@ We hope to release an improved version soon.
 ## Latest updates
 
 ```
+- 2024-02-13: New ClassI/ClassII model.
+
+- 2024-02-07: New TE/non-TE model.
+
+- 2024-02-02: Clustering software changed to vsearch from cd-hit-est;no cluster by default.
+
+- 2024-02-01: Python version to 3.10.12; Tensorflow to 2.13; Models update; k-mer length to 14.
+
 - 2023-10-24: Total base counts by TE group added to CNT table.
 
 - 2023-10-24: Function to replace non "ACTGN" bases optimized.
@@ -95,15 +98,13 @@ If want a conda-free installation, it can be done manually by installing the dep
 - scikit-learn=1.2.2
 - scipy=1.10.1
 - tensorflow=2.13.0
-- cd-hit-est=4.8.1
+- vsearch=2.27.0
 - tomli=2.0.1
 - tqdm=4.64.1
 - protobuf=4.24.0
 - Red=2.0
 
 For the manual installation, it's suggest to use a Python version management tool such as [Pyenv](https://github.com/pyenv/pyenv) and use it through a virtual environment to avoid depency conflicts. You can run `pip install -r requirements.txt` to install the Python packages needed.
-
-To install cd-hit, you need to [download it](https://github.com/weizhongli/cdhit/releases/download/V4.8.1/cd-hit-v4.8.1-2019-0228.tar.gz) and add the cd-hit directory [to your path](https://linuxize.com/post/how-to-add-directory-to-path-in-linux/).
 
 To install Red, clone [Red's github repository](https://github.com/BioinformaticsToolsmith/Red), change the name of your `C++` compiler inside Red's makefile and [compile the program](https://github.com/BioinformaticsToolsmith/Red/blob/master/src_2.0/HowToCompile.txt).
 
@@ -126,20 +127,20 @@ optional arguments:
                         'c' for classifier mode. Default = a.
   -c CUTOFF, --cutoff CUTOFF
                         Cutoff value for TE identification. Value must be
-                        between 0 and 1. Default = 0.5.
+                        between 0 and 1. Default = 0.9.
   -k LABEL_CUTOFF, --label_cutoff LABEL_CUTOFF
                         Cutoff value for TE superfamily classification. Value
-                        must be between 0 and 1.
+                        must be between 0 and 1. Default = 0.5.
   -b BATCH_VALUE, --batch_value BATCH_VALUE
                         Set batch size. Default = 32, max = 250.
   -o OUTPUT_DIR, --output_dir OUTPUT_DIR
                         Set output directory to save results.
   -l LEN_KMER, --len_kmer LEN_KMER
                         Length of k-mer to find repeats in genomes. Default =
-                        13.
-  --min_len MIN_LEN     Minimum repeat sequence length. Default = 50.
-  --noclust             Do not cluster repeats. Results on more repeats to be
-                        classified as TEs.
+                        14.
+  --min_len MIN_LEN     Minimum repeat sequence length. Default = 200.
+  --clust               Cluster repeats. Slows down analysis cosiderably,
+                        but reduces redundancy.
   --nobar               Disable progress bar.
 ```
 
@@ -207,10 +208,6 @@ If you don't have the latest features, run the following command from the comman
 ---
 
 ## To-do
-
-- [x] Return non-TE table
-
-- [x] Return the probability value for the Class/Order
 
 - [ ] Add Docker install and usage tutorial
 
