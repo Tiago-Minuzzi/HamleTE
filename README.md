@@ -152,6 +152,10 @@ After activating HamleTE's conda environment (using `conda activate hamlete`), f
 
 Video tutorial: [Running annotation mode](https://youtu.be/Ubl5oaI-HBw).
 
+Clustering of repeats is disabled by default. If you would like to cluster the repeats to reduce redundancy, please, use the flag `--clust`. Example:
+
+`python3 hamleTE.py -f genome.fasta --clust`
+
 To use the classifier mode change the mode flag as follows:
 
 `python3 hamleTE.py -m c -f my_TE_set.fasta`
