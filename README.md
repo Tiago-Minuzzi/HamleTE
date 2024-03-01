@@ -79,6 +79,8 @@ Then, you can enter the conda environment with the command:
 
 `conda activate hamleTE`
 
+Download conda for linux [clicking here](https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh).
+
 ### Docker <a name="docker"></a>
 
 To run HamleTE using a docker container, first build the image using the Dockerfile. Inside HamleTE's directory run:
@@ -87,7 +89,7 @@ To run HamleTE using a docker container, first build the image using the Dockerf
 
 ### Manually <a name="depends"></a>
 
-If want a conda-free installation, it can be done manually by installing the depencies below:
+If you prefer a conda-free installation, it can be done manually by installing the depencies below:
 
 - Python=3.10.12
 - biopython=1.81
