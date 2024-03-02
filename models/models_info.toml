@@ -26,4 +26,4 @@ labels = ['Copia', 'ERV', 'Gypsy', 'Bel-Pao']
 [nonltr_model]
 name = 'non-LTR classifier'
 location = 'models/nonLTR.hdf5'
-labels = ['L1', 'CRE', 'DIRS', 'SINE']
+labels = ['LINE', 'SINE']
