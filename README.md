@@ -29,6 +29,8 @@
 ## Latest updates
 
 ```
+- 2024-03-02: New non-LTR model - classification between LINE and SINE"
+
 - 2024-02-13: New ClassI/ClassII model.
 
 - 2024-02-07: New TE/non-TE model.
@@ -215,10 +217,14 @@ If you don't have the latest features, run the following command from the comman
 
 ## To-do
 
-- [ ] Add Docker install and usage tutorial
+- [ ] Option to use `RepeatScount` instead of `Red`.
 
-- [ ] Add model for Class II subclass classification
+- [ ] Add Docker install and usage tutorial.
 
-- [ ] Return log file
+- [ ] Model for classifying LINEs in superfamilies.
 
-- [ ] Add GPU support
+- [ ] Add model for Class II subclass classification.
+
+- [ ] Return log file.
+
+- [ ] Add GPU support.
