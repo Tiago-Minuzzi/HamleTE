@@ -29,6 +29,8 @@
 ## Latest updates
 
 ```
+- 2024-03-04: New mode 'r' - Use RepeatScout to find repeats."
+
 - 2024-03-02: New non-LTR model - classification between LINE and SINE"
 
 - 2024-02-13: New ClassI/ClassII model.
@@ -114,7 +116,7 @@ To install Red, clone [Red's github repository](https://github.com/Bioinformatic
 
 ## Usage <a name="usage"></a>
 
-The `annotation` mode is the default, which is used to find TE's in genomes or transcriptomes. If you have a set of sequences/TE library that you just want to classify, you can use the `classifier` mode by changing the mode flag. Below are the available options.
+The `annotation` mode is the default, which is used to find TE's in genomes or transcriptomes. There is also a `repeats` mode, which uses `RepeatScout` to find repeats instead of `Red`. If you have a set of sequences/TE library that you just want to classify, you can use the `classifier` mode by changing the mode flag. Below are the available options.
 
 ```
 usage: hamleTE.py [-h] -f FASTA [-m MODE] [-c CUTOFF] [-k LABEL_CUTOFF]
@@ -127,7 +129,8 @@ optional arguments:
   -h, --help            show this help message and exit
   -f FASTA, --fasta FASTA
                         Genome or repeats/TEs fasta file.
-  -m MODE, --mode MODE  Type (without quotation marks) 'a' for annotation mode or
+  -m MODE, --mode MODE  Type (without quotation marks) 'a' for annotation mode,
+                        'r' for 'repeats' mode using RepeatScout or
                         'c' for classifier mode. Default = a.
   -c CUTOFF, --cutoff CUTOFF
                         Cutoff value for TE identification. Value must be
@@ -159,6 +162,10 @@ Video tutorial: [Running annotation mode](https://youtu.be/Ubl5oaI-HBw).
 Clustering of repeats is disabled by default. If you would like to cluster the repeats to reduce redundancy, please, use the flag `--clust`. Example:
 
 `python3 hamleTE.py -f genome.fasta --clust`
+
+To use the repeats mode change the mode flag as follows:
+
+`python3 hamleTE.py -m r -f genome.fasta`
 
 To use the classifier mode change the mode flag as follows:
 
@@ -217,7 +224,7 @@ If you don't have the latest features, run the following command from the comman
 
 ## To-do
 
-- [ ] Option to use `RepeatScount` instead of `Red`.
+- [x] Option to use `RepeatScout` instead of `Red`.
 
 - [ ] Add Docker install and usage tutorial.
 
