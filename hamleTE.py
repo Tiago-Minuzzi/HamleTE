@@ -9,6 +9,7 @@ from pathlib import Path
 from utils.find_repeats import red_repeat_finder
 from utils.get_repeats import repeats_to_fasta
 from utils.clustering import cluster_sequences
+from utils.run_rscout import repeat_scout_runner
 from utils.te_predict import Predictor, get_seq_from_pred, te_count
 from utils.te_predict import get_TE_table, concat_pred_tables, concat_fastas
 from utils.get_fasta import get_selected_sequences
@@ -79,6 +80,10 @@ repeats_location    = temp_dir / repeats
 repeats_fasta           = 'tmp_repeats.fasta'
 repeats_fasta_location  = temp_dir / repeats_fasta
 
+# RepeatScout files
+repeats_rscout          = 'tmp_rscout.fasta'
+repeats_rscout_location = temp_dir / repeats_rscout
+
 # Clustered fasta
 clustered_fasta             = 'tmp_clustered.fasta'
 clustered_fasta_location    = temp_dir / clustered_fasta
@@ -144,6 +149,11 @@ if mode == 'a':
                           clustered_fasta_location)
     else:
         clustered_fasta_location = repeats_fasta_location
+elif mode == 'r':
+    print("\n### Starting repeat detector using RepeatScout ###")
+    temp_dir.mkdir(exist_ok     = True)
+    repeat_scout_runner(input_fasta, temp_dir, repeats_rscout_location)
+    clustered_fasta_location = repeats_rscout_location
 elif mode == 'c':
     clustered_fasta_location    = input_fasta
     temp_dir.mkdir(exist_ok     = True)

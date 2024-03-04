@@ -21,7 +21,7 @@ parser.add_argument('-f',       '--fasta',
 parser.add_argument('-m',       '--mode',
                     type        = str,
                     default     = 'a',
-                    help        = "Type (without quotation marks) 'a' for annotation mode or 'c' for classifier mode. Default = a.")
+                    help        = "Type (without quotation marks) 'a' for annotation mode, 'r' for 'repeats' mode using RepeatScout or 'c' for classifier mode. Default = a.")
 
 parser.add_argument('-c',       '--cutoff',
                     type        = restricted_float,
