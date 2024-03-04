@@ -7,7 +7,7 @@ dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
   - bzip2=1.0.8=hd590300_5
-  - ca-certificates=2023.11.17=hbcca054_0
+  - ca-certificates=2024.2.2=hbcca054_0
   - cd-hit=4.8.1=h43eeafb_9
   - ld_impl_linux-64=2.40=h41732ed_0
   - libffi=3.4.2=h7f98852_5
@@ -17,16 +17,30 @@ dependencies:
   - libsqlite=3.44.2=h2797004_0
   - libstdcxx-ng=13.2.0=h7e041cc_4
   - libuuid=2.38.1=h0b41bf4_0
+  - libxcrypt=4.4.36=hd590300_1
   - libzlib=1.2.13=hd590300_5
   - ncurses=6.4=h59595ed_2
+  - nseg=1.0.1=h031d066_4
   - openssl=3.2.1=hd590300_0
+  - perl=5.32.1=7_hd590300_perl5
+  - perl-carp=1.50=pl5321hd8ed1ab_0
+  - perl-constant=1.33=pl5321hd8ed1ab_0
+  - perl-exporter=5.74=pl5321hd8ed1ab_0
+  - perl-extutils-makemaker=7.70=pl5321hd8ed1ab_0
+  - perl-file-path=2.18=pl5321hd8ed1ab_0
+  - perl-file-temp=0.2304=pl5321hd8ed1ab_0
+  - perl-file-which=1.24=pl5321hd8ed1ab_0
+  - perl-parent=0.241=pl5321hd8ed1ab_0
   - pip=23.3.2=pyhd8ed1ab_0
   - python=3.10.12=hd12c33a_0_cpython
   - readline=8.2=h8228510_1
   - red=2018.09.10=h4ac6f70_2
+  - repeatscout=1.0.6=hec16e2b_3
   - setuptools=69.0.3=pyhd8ed1ab_0
   - tk=8.6.13=noxft_h4845f30_101
+  - trf=4.09.1=h031d066_4
   - tzdata=2023d=h0c530f3_0
+  - vsearch=2.27.0=h6a68c12_0
   - wheel=0.42.0=pyhd8ed1ab_0
   - xz=5.2.6=h166bdaf_0
   - zlib=1.2.13=hd590300_5
