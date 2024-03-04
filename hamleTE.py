@@ -13,6 +13,7 @@ from utils.run_rscout import repeat_scout_runner
 from utils.te_predict import Predictor, get_seq_from_pred, te_count
 from utils.te_predict import get_TE_table, concat_pred_tables, concat_fastas
 from utils.get_fasta import get_selected_sequences
+from utils.prediction_utils import filter_by_len
 
 # Get HamleTE directory
 hamlete_dir     = Path(__file__).parent
@@ -77,8 +78,10 @@ repeats             = f'{base_name}.rpt'
 repeats_location    = temp_dir / repeats
 
 # Repeats to fasta file
-repeats_fasta           = 'tmp_repeats.fasta'
-repeats_fasta_location  = temp_dir / repeats_fasta
+repeats_fasta               = 'tmp_repeats.fasta'
+repeats_fasta_location      = temp_dir / repeats_fasta
+filtered_rscout             = 'tmp_filtered.fasta'
+filtered_rscout_location    = temp_dir / filtered_rscout
 
 # RepeatScout files
 repeats_rscout          = 'tmp_rscout.fasta'
@@ -153,7 +156,9 @@ elif mode == 'r':
     print("\n### Starting repeat detector using RepeatScout ###")
     temp_dir.mkdir(exist_ok     = True)
     repeat_scout_runner(input_fasta, temp_dir, repeats_rscout_location)
-    clustered_fasta_location = repeats_rscout_location
+    if repeats_rscout_location.exists():
+        filter_by_len(repeats_rscout_location, temp_dir, filtered_rscout_location)
+    clustered_fasta_location = filtered_rscout_location
 elif mode == 'c':
     clustered_fasta_location    = input_fasta
     temp_dir.mkdir(exist_ok     = True)

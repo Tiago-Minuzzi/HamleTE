@@ -47,3 +47,9 @@ def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame
     label_pred_df['prediction'] = label_pred_df[colunas].idxmax(axis=1)
     return label_pred_df
 
+
+def filter_by_len(fasta: str, temp_dir: str, filtered: str) -> None:
+    with open(fasta) as fa, open(filtered, "w") as sd:
+        for fid, fsq in SimpleFastaParser(fa):
+            if 200 <= len(fsq) <= 25_000:
+                sd.write(f">{fid}\n{fsq}\n")
