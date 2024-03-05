@@ -21,5 +21,3 @@ def repeat_scout_runner(fasta: str, tmp_dir: str, outfasta: str) -> None:
                                       "-freq",      frequence_file,
                                       "-output",    output_fasta,
                                       "-v"])
-    if output_fasta.exists():
-        Path.unlink(frequence_file)
