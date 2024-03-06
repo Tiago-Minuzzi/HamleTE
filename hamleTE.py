@@ -160,8 +160,9 @@ elif mode == 'r':
         filter_by_len(repeats_rscout_location, temp_dir, filtered_rscout_location)
     clustered_fasta_location = filtered_rscout_location
 elif mode == 'c':
-    clustered_fasta_location    = input_fasta
     temp_dir.mkdir(exist_ok     = True)
+    filter_by_len(input_fasta, temp_dir, clustered_fasta_location)
+
 # Predict TEs from clustered repeats
 print(f'\n### Running model {model_01["name"]} ###')
 pred_01 = Predictor(hamlete_dir / model_01['location'], model_01['labels'])
