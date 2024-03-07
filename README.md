@@ -154,6 +154,7 @@ optional arguments:
   --min_len MIN_LEN     Minimum repeat sequence length. Default = 200.
   --clust               Cluster repeats. Slows down analysis cosiderably,
                         but reduces redundancy.
+  --orf                 Check for sequences containing open reading frames (ORFs).
   --nobar               Disable progress bar.
 ```
 
