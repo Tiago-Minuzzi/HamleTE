@@ -50,7 +50,7 @@ def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame
 
 
 def filter_by_len(fasta: str, temp_dir: str, filtered: str) -> None:
-    '''Filter sequences by lenght. Keeps only sequences between 200 and 25_000 bp.'''
+    '''Filter sequences by length. Keeps only sequences between 200 and 25_000 bp.'''
     with open(fasta) as fa, open(filtered, "w") as sd:
         for fid, fsq in SimpleFastaParser(fa):
             if 200 <= len(fsq) <= 25_000:
