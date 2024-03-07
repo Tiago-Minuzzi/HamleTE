@@ -4,6 +4,7 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
+from seqshannon import shannon_entropy
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 # Hide warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -49,7 +50,17 @@ def label_pred_dataframe(fasta_ids, prediction_results, colunas) -> pd.DataFrame
 
 
 def filter_by_len(fasta: str, temp_dir: str, filtered: str) -> None:
+    '''Filter sequences by lenght. Keeps only sequences between 200 and 25_000 bp.'''
     with open(fasta) as fa, open(filtered, "w") as sd:
         for fid, fsq in SimpleFastaParser(fa):
             if 200 <= len(fsq) <= 25_000:
+                sd.write(f">{fid}\n{fsq}\n")
+
+
+def calc_entropy(fasta: str, outfasta: str) -> None:
+    '''Calculates sequence entropy to filter out low complexity sequences.'''
+    with open(fasta) as fa, open(outfasta, "w") as sd:
+        for fid, fsq in SimpleFastaParser(fa):
+            entropia: float = shannon_entropy(fsq)
+            if entropia >= 1.9:
                 sd.write(f">{fid}\n{fsq}\n")

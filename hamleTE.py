@@ -13,6 +13,7 @@ from utils.run_rscout import repeat_scout_runner
 from utils.te_predict import Predictor, get_seq_from_pred, te_count
 from utils.te_predict import get_TE_table, concat_pred_tables, concat_fastas
 from utils.get_fasta import get_selected_sequences
+from utils.prediction_utils import calc_entropy
 from utils.prediction_utils import filter_by_len
 
 # Get HamleTE directory
@@ -39,7 +40,7 @@ model_06    = models_info['nonltr_model']
 kmer_length = helper.args.len_kmer
 
 # minimum repeat sequence length
-repeat_length   = helper.args.min_len
+repeat_length = helper.args.min_len
 
 # cutoff values
 te_cutoff   = helper.args.cutoff
@@ -86,6 +87,9 @@ filtered_rscout_location    = temp_dir / filtered_rscout
 # RepeatScout files
 repeats_rscout          = 'tmp_rscout.fasta'
 repeats_rscout_location = temp_dir / repeats_rscout
+
+# Entropy filtered
+entropy_filtered = temp_dir / 'tmp_entropy.fasta'
 
 # Clustered fasta
 clustered_fasta             = 'tmp_clustered.fasta'
@@ -163,17 +167,21 @@ elif mode == 'c':
     temp_dir.mkdir(exist_ok     = True)
     filter_by_len(input_fasta, temp_dir, clustered_fasta_location)
 
+# Calculate sequence entropy
+print("### Calculating sequence entropy ###")
+calc_entropy(clustered_fasta_location, entropy_filtered)
+
 # Predict TEs from clustered repeats
 print(f'\n### Running model {model_01["name"]} ###')
 pred_01 = Predictor(hamlete_dir / model_01['location'], model_01['labels'])
-pred_01.label_prediction(clustered_fasta_location,
+pred_01.label_prediction(entropy_filtered,
                          step01_te_pred_df,
                          batch_size_value   = batch_value,
                          no_bar             = progress_bar)
 
 get_seq_from_pred(step01_te_pred_df,
                   'TE',
-                  clustered_fasta_location,
+                  entropy_filtered,
                   step01_te_fasta,
                   cut_value = te_cutoff)
 
