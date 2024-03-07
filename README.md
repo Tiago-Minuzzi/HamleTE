@@ -29,13 +29,13 @@
 ## Latest updates
 
 ```
-- 2024-03-07: Improved LTR/non-LTR model."
+- 2024-03-07: Improved LTR/non-LTR model.
 
-- 2024-03-06: Calculate sequence entropy to filter out low complexity sequences."
+- 2024-03-06: Calculate sequence entropy to filter out low complexity sequences.
 
-- 2024-03-04: New mode 'r' - Use RepeatScout to find repeats."
+- 2024-03-04: New mode 'r' - Use RepeatScout to find repeats.
 
-- 2024-03-02: New non-LTR model - classification between LINE and SINE"
+- 2024-03-02: New non-LTR model - classification between LINE and SINE.
 
 - 2024-02-13: New ClassI/ClassII model.
 
