@@ -163,6 +163,10 @@ elif mode == 'r':
 elif mode == 'c':
     temp_dir.mkdir(exist_ok     = True)
     filter_by_len(input_fasta, temp_dir, clustered_fasta_location)
+    if clustering:
+        print(">>> Warning:")
+        print(">>> Running in 'classifier' mode.")
+        print(">>> Ignoring '--clust'.")
 
 # Check for ORFs
 if orfs:
