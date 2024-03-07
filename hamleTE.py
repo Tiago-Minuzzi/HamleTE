@@ -13,8 +13,7 @@ from utils.run_rscout import repeat_scout_runner
 from utils.te_predict import Predictor, get_seq_from_pred, te_count
 from utils.te_predict import get_TE_table, concat_pred_tables, concat_fastas
 from utils.get_fasta import get_selected_sequences
-from utils.prediction_utils import calc_entropy
-from utils.prediction_utils import filter_by_len
+from utils.prediction_utils import calc_entropy, orf_checker, filter_by_len
 
 # Get HamleTE directory
 hamlete_dir     = Path(__file__).parent
@@ -55,6 +54,7 @@ batch_value     = batch_value if batch_value <= MAX_PRED_BATCH else MAX_PRED_BAT
 progress_bar    = helper.args.nobar  # disable progress bar
 clustering      = helper.args.clust  # enable clustering
 mode            = helper.args.mode
+orfs            = helper.args.orf
 
 # Genome/library in fasta format
 input_fasta     = Path(helper.args.fasta)
@@ -83,11 +83,14 @@ filtered_rscout_location    = temp_dir / 'tmp_filtered.fasta'
 # RepeatScout files
 repeats_rscout_location = temp_dir / 'tmp_rscout.fasta'
 
+# ORF filtered file
+orf_filtered = temp_dir / 'tmp_ORFs.fasta'
+
 # Entropy filtered
 entropy_filtered = temp_dir / 'tmp_entropy.fasta'
 
 # Clustered fasta
-clustered_fasta_location    = temp_dir / 'tmp_clustered.fasta'
+clustered_fasta_location = temp_dir / 'tmp_clustered.fasta'
 
 # TE prediction dataframe
 step01_te_pred_df   = temp_dir / 'tmp_TE.tsv'
@@ -161,8 +164,16 @@ elif mode == 'c':
     temp_dir.mkdir(exist_ok     = True)
     filter_by_len(input_fasta, temp_dir, clustered_fasta_location)
 
+# Check for ORFs
+if orfs:
+    print("\n### Checking for ORFs ###")
+    orf_checker(clustered_fasta_location, orf_filtered)
+    if orf_filtered.exists():
+        clustered_fasta_location = orf_filtered
+        print(">>> Done.")
+
 # Calculate sequence entropy
-print("### Calculating sequence entropy ###")
+print("\n### Calculating sequence entropy ###")
 calc_entropy(clustered_fasta_location, entropy_filtered)
 if entropy_filtered.exists():
     print(">>> Done.")

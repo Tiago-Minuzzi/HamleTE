@@ -57,6 +57,10 @@ parser.add_argument('--clust',
                     action      = 'store_true',
                     help        = "Cluster repeats from Red output to reduce redundancy. This method reduces the speed considerably.")
 
+parser.add_argument('--orf',
+                    action      = 'store_true',
+                    help        = "Check for sequences containing open reading frames (ORFs).")
+
 parser.add_argument('--nobar',
                     action      = 'store_true',
                     help        = "Disable progress bar.")

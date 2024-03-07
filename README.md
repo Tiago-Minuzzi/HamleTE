@@ -29,6 +29,8 @@
 ## Latest updates
 
 ```
+- 2024-03-07: Check for ORFs in sequences option added.
+
 - 2024-03-07: Improved LTR/non-LTR model.
 
 - 2024-03-06: Calculate sequence entropy to filter out low complexity sequences.

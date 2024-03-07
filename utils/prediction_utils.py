@@ -4,7 +4,9 @@ import sys
 import pathlib
 import numpy as np
 import pandas as pd
+from orffinder import orffinder
 from seqshannon import shannon_entropy
+from Bio import SeqIO
 from Bio.SeqIO.FastaIO import SimpleFastaParser
 # Hide warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -64,3 +66,13 @@ def calc_entropy(fasta: str, outfasta: str) -> None:
             entropia: float = shannon_entropy(fsq)
             if entropia >= 1.9:
                 sd.write(f">{fid}\n{fsq}\n")
+
+
+def orf_checker(fasta: str, outfasta: str) -> None:
+    fasta       = pathlib.Path(fasta)
+    basename    = fasta.stem
+    with open(fasta) as fa, open(outfasta, "w") as sd:
+        for record in SeqIO.parse(fa, 'fasta'):
+            res: list = orffinder.getORFs(record)
+            if res:
+                SeqIO.write(record, sd, 'fasta')
