@@ -67,6 +67,7 @@ dependencies:
       - numpy==1.24.3
       - oauthlib==3.2.2
       - opt-einsum==3.3.0
+      - orffinder==1.8
       - packaging==23.2
       - pandas==1.3.4
       - protobuf==4.24.0
@@ -80,6 +81,7 @@ dependencies:
       - rsa==4.9
       - scikit-learn==1.2.2
       - scipy==1.10.1
+      - seqshannon==1.0.0
       - six==1.16.0
       - tensorboard==2.13.0
       - tensorboard-data-server==0.7.2
@@ -94,3 +96,4 @@ dependencies:
       - urllib3==2.2.0
       - werkzeug==3.0.1
       - wrapt==1.16.0
+prefix: /home/tiago/sftw/miniconda3/envs/hamleTE
