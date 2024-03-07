@@ -71,29 +71,23 @@ output_directory    = Path(helper.args.output_dir)
 hamlete_prefix  = f'HamleTE_{base_name}_{time_label}'
 
 # Red masked genome
-masked_fasta            = f'{base_name}.msk'
-masked_fasta_location   = temp_dir / masked_fasta
+masked_fasta_location   = temp_dir / f'{base_name}.msk'
 
 # Red repeat coordinates
-repeats             = f'{base_name}.rpt'
-repeats_location    = temp_dir / repeats
+repeats_location    = temp_dir / f'{base_name}.rpt'
 
 # Repeats to fasta file
-repeats_fasta               = 'tmp_repeats.fasta'
-repeats_fasta_location      = temp_dir / repeats_fasta
-filtered_rscout             = 'tmp_filtered.fasta'
-filtered_rscout_location    = temp_dir / filtered_rscout
+repeats_fasta_location      = temp_dir / 'tmp_repeats.fasta'
+filtered_rscout_location    = temp_dir / 'tmp_filtered.fasta'
 
 # RepeatScout files
-repeats_rscout          = 'tmp_rscout.fasta'
-repeats_rscout_location = temp_dir / repeats_rscout
+repeats_rscout_location = temp_dir / 'tmp_rscout.fasta'
 
 # Entropy filtered
 entropy_filtered = temp_dir / 'tmp_entropy.fasta'
 
 # Clustered fasta
-clustered_fasta             = 'tmp_clustered.fasta'
-clustered_fasta_location    = temp_dir / clustered_fasta
+clustered_fasta_location    = temp_dir / 'tmp_clustered.fasta'
 
 # TE prediction dataframe
 step01_te_pred_df   = temp_dir / 'tmp_TE.tsv'
@@ -170,6 +164,8 @@ elif mode == 'c':
 # Calculate sequence entropy
 print("### Calculating sequence entropy ###")
 calc_entropy(clustered_fasta_location, entropy_filtered)
+if entropy_filtered.exists():
+    print(">>> Done.")
 
 # Predict TEs from clustered repeats
 print(f'\n### Running model {model_01["name"]} ###')
