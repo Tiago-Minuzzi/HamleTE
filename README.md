@@ -29,6 +29,8 @@
 ## Latest updates
 
 ```
+- 2024-03-18: Improved LTR superfamily model.
+
 - 2024-03-09: Improved class I/class II model.
 
 - 2024-03-07: Check for ORFs in sequences option added.
