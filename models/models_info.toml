@@ -20,7 +20,7 @@ labels = ['CMC', 'Helitron', 'Novosib', 'Sola', 'Tc1-Mariner', 'Zator', 'hAT']
 
 [ltr_model]
 name = 'LTR classifier'
-location = 'models/model_embedded_model_05_20240318-120350.hdf5'
+location = 'models/LTR.hdf5'
 labels = ['Bel-Pao', 'Copia', 'ERV', 'Gypsy']
 
 [nonltr_model]
