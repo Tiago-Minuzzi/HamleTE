@@ -68,7 +68,7 @@ output_directory    = Path(helper.args.output_dir)
 
 # Output files
 # Output prefix
-hamlete_prefix  = f'HamleTE_{base_name}_{mode}_{time_label}'
+hamlete_prefix  = f'HamleTE_{base_name}_mode_{mode}_{time_label}'
 
 # Red masked genome
 masked_fasta_location   = temp_dir / f'{base_name}.msk'
