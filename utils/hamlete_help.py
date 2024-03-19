@@ -31,7 +31,7 @@ parser.add_argument('-c',       '--cutoff',
 parser.add_argument('-k',       '--label_cutoff',
                     type        = restricted_float,
                     default     = 0.5,
-                    help        = "Cutoff value for TE superfamily classification. Value must be between 0 and 1. Default = 0.5.")
+                    help        = "Cutoff value for TE classification. Value must be between 0 and 1. Default = 0.5.")
 
 parser.add_argument('-b',       '--batch_value',
                     type        = int,

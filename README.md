@@ -146,7 +146,7 @@ optional arguments:
                         Cutoff value for TE identification. Value must be
                         between 0 and 1. Default = 0.9.
   -k LABEL_CUTOFF, --label_cutoff LABEL_CUTOFF
-                        Cutoff value for TE superfamily classification. Value
+                        Cutoff value for TE classification. Value
                         must be between 0 and 1. Default = 0.5.
   -b BATCH_VALUE, --batch_value BATCH_VALUE
                         Set batch size. Default = 32, max = 250.

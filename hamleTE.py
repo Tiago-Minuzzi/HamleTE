@@ -209,13 +209,13 @@ if step01_te_fasta.exists():
                       'Retro',
                       step01_te_fasta,
                       pred_retro_fasta,
-                      cut_value = te_cutoff)
+                      cut_value = sfam_cutoff)
 
     get_seq_from_pred(step02_te_pred_df,
                       'DNA',
                       step01_te_fasta,
                       pred_dna_fasta,
-                      cut_value = te_cutoff)
+                      cut_value = sfam_cutoff)
 
     # Predict LTR/non-LTR
     print(f'\n### Running model {model_03["name"]} ###')
@@ -229,13 +229,13 @@ if step01_te_fasta.exists():
                       'LTR',
                       pred_retro_fasta,
                       pred_ltr_fasta,
-                      cut_value = te_cutoff)
+                      cut_value = sfam_cutoff)
 
     get_seq_from_pred(step03_te_pred_df,
                       'nonLTR',
                       pred_retro_fasta,
                       pred_nonltr_fasta,
-                      cut_value = te_cutoff)
+                      cut_value = sfam_cutoff)
 
     # Predict DNA TE label
     print(f'\n### Running model {model_04["name"]} ###')
