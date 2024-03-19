@@ -135,6 +135,9 @@ def te_count(dataframe: pd.DataFrame, mod: str) -> pd.DataFrame:
         counts          = pd.merge(counts, bases, on='prediction_final')
         counts['id']    = counts['prediction_3'] + '|' + counts['prediction_final']
         counts          = counts.loc[:, ['id', 'count', 'base_count']]
+        counts.sort_values(['base_count', 'count'],
+                           ascending=False,
+                           inplace=True)
     else:
         counts['id']    = counts['prediction_3'] + '|' + counts['prediction_final']
         counts          = counts.loc[:, ['id', 'count']]
