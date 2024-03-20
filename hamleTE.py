@@ -303,7 +303,7 @@ if step01_te_fasta.exists():
 
     hamlete_end     = time.perf_counter()
     hamlete_total   = hamlete_end - hamlete_start  # compute total run time
-    print(f'\n>>> HamleTE {"classifier" if mode=="c" else "annotation"} mode finished in {hamlete_total:.2f} seconds.')
+    print(f'\n>>> HamleTE finished in {hamlete_total:.2f} seconds.')
 else:
     print('>>> No TEs found.')
 models_toml.close()
